@@ -10,10 +10,8 @@ Texture2D:
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 3eb422a44b812e16b34078a6083bea48
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
   m_IsAlphaChannelOptional: 1
-  serializedVersion: 2
+  serializedVersion: 4
   m_Width: 1068
   m_Height: 615
   m_CompleteImageSize: 1970460
@@ -22,7 +20,8 @@ Texture2D:
   m_MipCount: 1
   m_IsReadable: 1
   m_IsPreProcessed: 0
-  m_IgnoreMasterTextureLimit: 0
+  m_IgnoreMipmapLimit: 0
+  m_MipmapLimitGroupName: 
   m_StreamingMipmaps: 0
   m_StreamingMipmapsPriority: 0
   m_VTOnly: 0
@@ -65,7 +64,18 @@ MonoBehaviour:
     the 2D Renderer in Universal RP.
   preview: {fileID: -3604256930052969394}
   dependencies:
-  - dependency: {fileID: 2800000, guid: b3ab972b21db85d48ade9657efdd4771, type: 3}
+  - dependency: {fileID: 11400000, guid: 03930014e3f63fb46beddebfb46f1cab, type: 2}
+    instantiationMode: 1
+  - dependency: {fileID: 7433441132597879392, guid: 68f6065fad30b2641925b9649beda68b, type: 3}
+    instantiationMode: 1
+  - dependency: {fileID: 9197481963319205126, guid: 87e78926ed8d4ca4b9e522158f1af03a, type: 3}
+    instantiationMode: 1
+  - dependency: {fileID: 7433441132597879392, guid: ed738a260974f5845ad8ffce498572f9, type: 3}
+    instantiationMode: 1
+  - dependency: {fileID: 9197481963319205126, guid: 7c27249f4bc9dc94d90cc33776c48d74, type: 3}
+    instantiationMode: 1
+  - dependency: {fileID: -4733365628477956816, guid: 917e291afd83a684ba1d5e10f5ed0a8b, type: 3}
     instantiationMode: 1
   templatePipeline: {fileID: 0}
+  badge: {fileID: 0}
   addToDefaults: 1

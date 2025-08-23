@@ -97,3 +97,9 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+/.idea
+/Assets/Packages/_dontpush
+/Assets/Project/_dontpush
+/Assets/ML-Agents/Timers
+/Assets/ML-Agents
+*.unity
