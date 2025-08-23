@@ -5,10 +5,10 @@ using UnityEngine.Serialization;
 namespace TCS.MLAgents._Damon.TCS.MLAgents.Runtime.Unity {
     [CreateAssetMenu( menuName = "Create MLBrain", fileName = "MLBrain", order = 0 )] 
     public class MlBrain : NNModel {
-        [SerializeField] MlBrainData m_modelData;
+        [SerializeField] public MlBrainData m_modelData;
         
         public string ModelPath => m_modelData != null ? m_modelData.name : "No Model Assigned";
-        public bool HasValidModel => m_modelData != null && m_modelData.Value != null && m_modelData.Value.Length > 0;
+        public bool HasValidModel => m_modelData != null && m_modelData.Value is { Length: > 0 };
         
         public override string ToString() {
             return ModelPath;

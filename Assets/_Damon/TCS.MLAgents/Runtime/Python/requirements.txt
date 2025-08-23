@@ -1,0 +1,5 @@
+# ML-Agents Python requirements
+mlagents==1.0.0
+torch>=1.13.0
+numpy>=1.21.2
+protobuf>=3.20.3
