@@ -1,23 +1,52 @@
+using UnityEngine;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Policies;
 
 namespace TCS.MLAgents._Damon.TCS.MLAgents.Runtime.Unity {
-    /// <summary>
-    ///     Configures BehaviorParameters for the predator agent. Sets the behavior name and a 2D continuous action space.
-    /// </summary>
-    [RequireComponent( typeof(BehaviorParameters) )]
+    [RequireComponent(typeof(BehaviorParameters))]
     public class BehaviorSetup : MonoBehaviour {
-        public string m_behaviorName = "PredatorBehavior";
-        public BehaviorType m_behaviorType = BehaviorType.Default;
+        [SerializeField] string behaviorName = "PredatorBehavior";
+        [SerializeField] BehaviorType behaviorType = BehaviorType.Default;
+        [SerializeField] int continuousActionCount = 2;
+        [SerializeField] int discreteActionBranches = 0;
+        [SerializeField] bool useChildSensors = true;
+        [SerializeField] MlBrain customBrain;
 
         void Awake() {
+            SetupBehaviorParameters();
+        }
+
+        void SetupBehaviorParameters() {
             var behaviorParameters = GetComponent<BehaviorParameters>();
-            if ( behaviorParameters != null ) {
-                behaviorParameters.BehaviorName = m_behaviorName;
-                behaviorParameters.BehaviorType = m_behaviorType;
-                behaviorParameters.BrainParameters.ActionSpec = ActionSpec.MakeContinuous( 2 );
-                behaviorParameters.UseChildSensors = true;
+            if (behaviorParameters == null) return;
+
+            behaviorParameters.BehaviorName = behaviorName;
+            behaviorParameters.BehaviorType = behaviorType;
+            behaviorParameters.UseChildSensors = useChildSensors;
+
+            if (discreteActionBranches > 0) {
+                int[] branchSizes = new int[discreteActionBranches];
+                for (int i = 0; i < discreteActionBranches; i++) {
+                    branchSizes[i] = 2;
+                }
+                behaviorParameters.BrainParameters.ActionSpec = ActionSpec.MakeDiscrete(branchSizes);
+            } else {
+                behaviorParameters.BrainParameters.ActionSpec = ActionSpec.MakeContinuous(continuousActionCount);
             }
+
+            if (customBrain != null && customBrain.HasValidModel) {
+                behaviorParameters.Model = customBrain;
+            }
+        }
+
+        public void SetBehaviorName(string name) {
+            behaviorName = name;
+            SetupBehaviorParameters();
+        }
+
+        public void SetBehaviorType(BehaviorType type) {
+            behaviorType = type;
+            SetupBehaviorParameters();
         }
     }
 }
