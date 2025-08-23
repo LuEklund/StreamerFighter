@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d79c29710d41cc8ad774d93b706d36, type: 3}
   m_Name: MLBrain
   m_EditorClassIdentifier: TCS.MLAgents::TCS.MLAgents._Damon.TCS.MLAgents.Runtime.Unity.MLBrain
-  modelData: {fileID: 11400000, guid: a604b66f0e0dcba4ca053fee1ecd3e28, type: 2}
+  modelData: {fileID: 0}
   m_modelData: {fileID: 11400000, guid: a604b66f0e0dcba4ca053fee1ecd3e28, type: 2}
