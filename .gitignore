@@ -102,3 +102,4 @@ InitTestScene*.unity*
 /Assets/Project/_dontpush
 /Assets/ML-Agents/Timers
 /Assets/ML-Agents
+*.unity
