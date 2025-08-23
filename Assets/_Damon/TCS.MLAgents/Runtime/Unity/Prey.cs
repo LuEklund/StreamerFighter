@@ -13,7 +13,7 @@ namespace TCS.MLAgents._Damon.TCS.MLAgents.Runtime.Unity {
         void Start() {
             m_rb = GetComponent<Rigidbody>();
             m_rb.useGravity = false;
-            m_rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
+            m_rb.constraints = RigidbodyConstraints.FreezeRotation;
             SetRandomDirection();
         }
 
