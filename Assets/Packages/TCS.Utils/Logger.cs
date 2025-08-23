@@ -3,7 +3,7 @@ using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
 namespace TCS.Utils {
-    internal static class Logger {
+    public static class Logger {
         const string CLASS_COLOR = "cyan";
         const string CONTEXT_COLOR = "white";
 
