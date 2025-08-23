@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
-namespace OverlayCore.Window
-{
-    public class TransparentWindowTwo : MonoBehaviour
-    {
+namespace OverlayCore.Window {
+    public class TransparentWindowTwo : MonoBehaviour {
         // =============================
         // WINDOWS (user32 + dwmapi)
         // =============================
@@ -109,23 +105,21 @@ namespace OverlayCore.Window
         void ForceNotClickthrough() => m_clickthrough = false;
         void ForceClickthrough() => m_clickthrough = true;
 
-        IntPtr hWndOrXWindow;      // Windows: HWND; Linux: X11 Window (XID)
+        IntPtr m_hWndOrXWindow; // Windows: HWND; Linux: X11 Window (XID)
         Camera m_camera;
 
         #if UNITY_STANDALONE_LINUX && !UNITY_EDITOR
         IntPtr xDisplay = IntPtr.Zero;
         #endif
 
-        void Awake()
-        {
+        void Awake() {
             m_camera = Camera.main;
 
             TransparentWindowEvents.OnForceClickThrough += ForceClickthrough;
             TransparentWindowEvents.OnForceNotClickThrough += ForceNotClickthrough;
         }
 
-        void Start()
-        {
+        void Start() {
             #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
             hWndOrXWindow = GetActiveWindow();
 
@@ -165,14 +159,12 @@ namespace OverlayCore.Window
             Application.runInBackground = true;
         }
 
-        void Update()
-        {
+        void Update() {
             // Click-through when the pointer is NOT over UI/3D; capture input when it IS.
-            SetClickthrough(!IsPointerOverUIOr3DObject());
+            SetClickthrough( !IsPointerOverUIOr3DObject() );
         }
 
-        void OnDestroy()
-        {
+        void OnDestroy() {
             TransparentWindowEvents.OnForceClickThrough -= ForceClickthrough;
             TransparentWindowEvents.OnForceNotClickThrough -= ForceNotClickthrough;
 
@@ -185,36 +177,32 @@ namespace OverlayCore.Window
             #endif
         }
 
-        public bool IsPointerOverUIOr3DObject()
-        {
-            if (!m_clickthrough)
+        public bool IsPointerOverUIOr3DObject() {
+            if ( !m_clickthrough )
                 return false;
 
             // UI first
-            if (EventSystem.current != null)
-            {
-                if (EventSystem.current.IsPointerOverGameObject())
+            if ( EventSystem.current != null ) {
+                if ( EventSystem.current.IsPointerOverGameObject() )
                     return true;
 
-                var pe = new PointerEventData(EventSystem.current) { position = Input.mousePosition };
+                var pe = new PointerEventData( EventSystem.current ) { position = Input.mousePosition };
                 List<RaycastResult> hits = new();
-                EventSystem.current.RaycastAll(pe, hits);
-                if (hits.Count > 0)
+                EventSystem.current.RaycastAll( pe, hits );
+                if ( hits.Count > 0 )
                     return true;
             }
 
             // Then 3D
-            if (m_camera != null)
-            {
-                var ray = m_camera.ScreenPointToRay(Input.mousePosition);
-                return Physics.Raycast(ray, out _);
+            if ( m_camera != null ) {
+                var ray = m_camera.ScreenPointToRay( Input.mousePosition );
+                return Physics.Raycast( ray, out _ );
             }
 
             return false;
         }
 
-        void SetClickthrough(bool clickthrough)
-        {
+        void SetClickthrough(bool clickthrough) {
             #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
             if (hWndOrXWindow != IntPtr.Zero)
             {

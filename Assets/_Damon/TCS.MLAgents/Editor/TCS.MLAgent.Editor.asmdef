@@ -1,8 +1,10 @@
 {
-  "name": "TCS.AppOverlay",
-  "rootNamespace": "",
+  "name": "TCS.MLAgent.Editor",
+  "rootNamespace": "TCS.MLAgent.Editor",
   "references": [],
-  "includePlatforms": [],
+  "includePlatforms": [
+    "Editor"
+  ],
   "excludePlatforms": [],
   "allowUnsafeCode": true,
   "overrideReferences": false,
