@@ -1,20 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+[Serializable]
+public class MovementKeys {
+    [SerializeField] private KeyCode m_jumpKey = KeyCode.Space;
+    [SerializeField] public KeyCode m_leftKey = KeyCode.A;
+    [SerializeField] public KeyCode m_rightKey = KeyCode.D;
+} 
 
 public class Movement : MonoBehaviour
 {
-    
     public GameObject leftLeg;
     public GameObject rightLeg;
     Rigidbody2D leftLegRB;
     Rigidbody2D rightLegRB;
 
     
-    Animator anim;
+    [SerializeField] Animator anim;
     [SerializeField] float speed = 2f;
     [SerializeField] float jumpHeight = 2f;
     [SerializeField] float legWait = .5f;
+    
+    
+    [SerializeField] Rigidbody2D rb;
+    [SerializeField] float jumpForce = 10f;
+    private bool isGrounded = false;
+    public float positionRadius;
+    public LayerMask groundLayer;
+    public Transform playerPos;
+    
+    public MovementKeys keys = new();
+    
     void Start()
     {
         leftLegRB = leftLeg.GetComponent<Rigidbody2D>();
@@ -45,10 +62,11 @@ public class Movement : MonoBehaviour
         {
             anim.Play("idle");
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        
+        isGrounded = Physics2D.OverlapCircle(playerPos.position, positionRadius, groundLayer);
+        if (isGrounded == true && Input.GetKeyDown(KeyCode.Space))
         {
-            leftLegRB.AddForce(Vector2.up * (jumpHeight*1000));
-            rightLegRB.AddForce(Vector2.up * (jumpHeight * 1000));
+            rb.AddForce(Vector2.up * jumpForce);
         }
        
     }

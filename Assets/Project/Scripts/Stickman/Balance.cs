@@ -5,8 +5,9 @@ using UnityEngine;
 public class Balance : MonoBehaviour
 {
     public float targetRotation;
-    public Rigidbody2D rb;
+    Rigidbody2D rb;
     public float force;
+    public float targetMultiplier = 10;
 
     private void Start()
     {
@@ -15,7 +16,7 @@ public class Balance : MonoBehaviour
 
     void Update()
     {
-        rb.MoveRotation(Mathf.LerpAngle(rb.rotation, targetRotation, force * Time.deltaTime));
+        rb.MoveRotation(Mathf.LerpAngle(rb.rotation, targetRotation * targetMultiplier, (force) * Time.deltaTime));
     }
 
 }
