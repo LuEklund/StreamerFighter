@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [Serializable]
-public class MovementKeys {
+public class AI_MovementKeys {
     [SerializeField] private KeyCode m_jumpKey = KeyCode.Space;
     [SerializeField] public KeyCode m_leftKey = KeyCode.A;
     [SerializeField] public KeyCode m_rightKey = KeyCode.D;
 } 
 
-public class Movement : MonoBehaviour
+public class AI_Movement : MonoBehaviour
 {
     public GameObject leftLeg;
     public GameObject rightLeg;
