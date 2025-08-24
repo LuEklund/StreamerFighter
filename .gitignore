@@ -103,3 +103,7 @@ InitTestScene*.unity*
 /Assets/ML-Agents/Timers
 /Assets/ML-Agents
 *.unity
+Assets/_Recovery.meta
+Assets/_Recovery/0 (1).unity.meta
+Assets/_Recovery/0.unity.meta
+Assets/Scenes/SampleScene.unity
