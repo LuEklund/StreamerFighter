@@ -6,14 +6,11 @@ public class IgnoreCollision : MonoBehaviour
 {
     void Start()
     {
-        return;
         var colliders = GetComponentsInChildren<Collider2D>();
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].CompareTag("Weapon")) continue;
             for(int k = i + 1; k < colliders.Length; k++)
             {
-                if (colliders[k].CompareTag("Weapon")) continue;
                 Physics2D.IgnoreCollision(colliders[i], colliders[k]);
             }
         }
