@@ -13,12 +13,17 @@ public class Movement : MonoBehaviour
 {
     public GameObject leftLeg;
     public GameObject rightLeg;
+    public GameObject lowerLeftLeg;
+    public GameObject lowerRightLeg;
     Rigidbody2D leftLegRB;
+    Rigidbody2D lowerLeftLegRB;
     Rigidbody2D rightLegRB;
+    Rigidbody2D lowerRightLegRB;
 
     
     [SerializeField] Animator anim;
     [SerializeField] float speed = 2f;
+    [SerializeField] float lowerSpeed = 2f;
     [SerializeField] float jumpHeight = 2f;
     [SerializeField] float legWait = .5f;
     
@@ -36,6 +41,8 @@ public class Movement : MonoBehaviour
     {
         leftLegRB = leftLeg.GetComponent<Rigidbody2D>();
         rightLegRB = rightLeg.GetComponent<Rigidbody2D>();
+        lowerLeftLegRB = lowerLeftLeg.GetComponent<Rigidbody2D>();
+        lowerRightLegRB = lowerRightLeg.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         
     }
@@ -71,17 +78,22 @@ public class Movement : MonoBehaviour
     }
 
 
+    
     IEnumerator MoveRight(float seconds)
     {
         leftLegRB.AddForce(Vector2.right * (speed*1000) * Time.deltaTime);
+        lowerLeftLegRB.AddForce(Vector2.right * (lowerSpeed*1000) * Time.deltaTime);
         yield return new WaitForSeconds(seconds);
         rightLegRB.AddForce(Vector2.right * (speed * 1000) * Time.deltaTime);
+        lowerRightLegRB.AddForce(Vector2.right * (lowerSpeed * 1000) * Time.deltaTime);
     }
 
     IEnumerator MoveLeft(float seconds)
     {
         rightLegRB.AddForce(Vector2.left * (speed * 1000) * Time.deltaTime);
+        lowerRightLegRB.AddForce(Vector2.left * (lowerSpeed * 1000) * Time.deltaTime);
         yield return new WaitForSeconds(seconds);
+        lowerLeftLegRB.AddForce(Vector2.left * (lowerSpeed * 1000) * Time.deltaTime);
         leftLegRB.AddForce(Vector2.left * (speed * 1000) * Time.deltaTime);
     }
 }

@@ -383,7 +383,7 @@ HingeJoint2D:
   m_UseLimits: 1
   m_AngleLimits:
     m_LowerAngle: 0
-    m_UpperAngle: 359
+    m_UpperAngle: -359
 --- !u!1 &969680199829580149
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,7 +815,7 @@ HingeJoint2D:
   m_UseLimits: 1
   m_AngleLimits:
     m_LowerAngle: 0
-    m_UpperAngle: 359
+    m_UpperAngle: -359
 --- !u!1 &3061197081149262562
 GameObject:
   m_ObjectHideFlags: 0
@@ -1496,10 +1496,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbde585255932528db90e7b1ba28a255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement
-  leftLeg: {fileID: 6844374896580085034}
-  rightLeg: {fileID: 9194017938738849359}
+  leftLeg: {fileID: 617624244505229471}
+  rightLeg: {fileID: 7963114557442503310}
+  lowerLeftLeg: {fileID: 6844374896580085034}
+  lowerRightLeg: {fileID: 9194017938738849359}
   anim: {fileID: 4385174660353553401}
-  speed: 4
+  speed: 1
+  lowerSpeed: 2
   jumpHeight: 2
   legWait: 0.5
   rb: {fileID: 4257126135123602219}
@@ -1968,8 +1971,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: -48.9
-    m_UpperAngle: -161.5
+    m_LowerAngle: 23
+    m_UpperAngle: -61
 --- !u!114 &7301582200496374592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2672,8 +2675,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 57.3
-    m_UpperAngle: -110.2
+    m_LowerAngle: 35.8
+    m_UpperAngle: -65.4
 --- !u!114 &4206525402220722040
 MonoBehaviour:
   m_ObjectHideFlags: 0
