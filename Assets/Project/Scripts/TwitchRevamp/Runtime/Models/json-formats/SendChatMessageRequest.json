@@ -1,0 +1,7 @@
+{
+  "broadcaster_id": "123456",
+  "sender_id": "789012",
+  "message": "Hello world!",
+  "reply_parent_message_id": "abc123def456",
+  "for_source_only": false
+}
