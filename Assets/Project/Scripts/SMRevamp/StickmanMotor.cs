@@ -162,6 +162,7 @@ namespace SMRevamp {
             }
         }
 
+        // TODO: Figure out foot movement.
         IEnumerator MoveLeft(float seconds) {
             m_leftLegRb.AddForce( Vector2.right * (m_speed * 1000 * Time.deltaTime) );
             m_lowerLeftLegRb.AddForce( Vector2.right * (m_lowerSpeed * 1000 * Time.deltaTime) );
