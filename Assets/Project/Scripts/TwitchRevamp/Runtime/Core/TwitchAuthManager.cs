@@ -26,6 +26,7 @@ namespace TwitchRevamp {
         public static TwitchOAuthScope Subscriptions => new( "channel:read:subscriptions" );
         public static TwitchOAuthScope UserReadChat => new( "moderator:read:chat_messages" );
         public static TwitchOAuthScope ChannelBot => new( "channel:bot" );
+        public static TwitchOAuthScope UserBot => new( "user:bot" );
         public static TwitchOAuthScope WriteChat => new( "user:write:chat" );
         public static TwitchOAuthScope ReadChat => new( "user:read:chat" );
     }
@@ -44,7 +45,8 @@ namespace TwitchRevamp {
                 TwitchOAuthScope.Channel.ReadHypeTrain.Scope,
                 TwitchScopes.Followers.Scope,
                 TwitchScopes.Subscriptions.Scope,
-                TwitchScopes.ChannelBot.Scope,
+                //TwitchScopes.ChannelBot.Scope,
+                TwitchScopes.UserBot.Scope,
                 TwitchScopes.UserReadChat.Scope
             )
         );
