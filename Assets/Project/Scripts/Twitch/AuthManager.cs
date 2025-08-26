@@ -61,7 +61,15 @@ public class AuthManager : MonoBehaviour
     {
         if (authInfoTask == null)
         {
-            var scopes = TwitchOAuthScope.Bits.Read.Scope + " " + TwitchOAuthScope.Channel.ManageBroadcast.Scope + " " + TwitchOAuthScope.Channel.ManagePolls.Scope + " " + TwitchOAuthScope.Channel.ManagePredictions.Scope + " " + TwitchOAuthScope.Channel.ManageRedemptions.Scope + " " + TwitchOAuthScope.Channel.ReadHypeTrain.Scope + " " + TwitchOAuthScope.Clips.Edit.Scope + " " + TwitchOAuthScope.User.ReadSubscriptions.Scope + " " + TwitchOAuthScope.Channel.ManageBroadcast;
+            var scopes = TwitchOAuthScope.Bits.Read.Scope 
+                         + " " + TwitchOAuthScope.Channel.ManageBroadcast.Scope 
+                         + " " + TwitchOAuthScope.Channel.ManagePolls.Scope 
+                         + " " + TwitchOAuthScope.Channel.ManagePredictions.Scope 
+                         + " " + TwitchOAuthScope.Channel.ManageRedemptions.Scope 
+                         + " " + TwitchOAuthScope.Channel.ReadHypeTrain.Scope 
+                         + " " + TwitchOAuthScope.Clips.Edit.Scope 
+                         + " " + TwitchOAuthScope.User.ReadSubscriptions.Scope 
+                         + " " + TwitchOAuthScope.Channel.ManageBroadcast;
             TwitchOAuthScope tscopes = new TwitchOAuthScope(scopes);
             authInfoTask = Twitch.API.GetAuthenticationInfo(tscopes);
             Debug.Log("DONE");

@@ -1,27 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class IgnoreCollision : MonoBehaviour
-{
-    void Start()
+namespace Stickman {
+    public class IgnoreCollision : MonoBehaviour
     {
-        var colliders = GetComponentsInChildren<Collider2D>();
-        for (int i = 0; i < colliders.Length; i++)
+        void Start()
         {
-            for(int k = i + 1; k < colliders.Length; k++)
+            var colliders = GetComponentsInChildren<Collider2D>();
+            for (int i = 0; i < colliders.Length; i++)
             {
-                Physics2D.IgnoreCollision(colliders[i], colliders[k]);
+                for(int k = i + 1; k < colliders.Length; k++)
+                {
+                    Physics2D.IgnoreCollision(colliders[i], colliders[k]);
+                }
             }
         }
-    }
 
-    private void OnCollisionEnter2D(Collision2D coll)
-    {
-        return;
-        if (coll.gameObject.tag == "Player")
+        private void OnCollisionEnter2D(Collision2D coll)
         {
-            Physics2D.IgnoreCollision(this.gameObject.GetComponent<Collider2D>(), coll.gameObject.GetComponent<Collider2D>());
+            return;
+            if (coll.gameObject.tag == "Player")
+            {
+                Physics2D.IgnoreCollision(this.gameObject.GetComponent<Collider2D>(), coll.gameObject.GetComponent<Collider2D>());
+            }
         }
     }
 }
