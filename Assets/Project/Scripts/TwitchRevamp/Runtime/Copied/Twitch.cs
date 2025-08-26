@@ -1,8 +1,7 @@
 ﻿using System;
 using TwitchSDK;
 using UnityEngine;
-
-namespace Plugins {
+namespace TwitchRevamp {
     public class Twitch : MonoBehaviour {
         protected static object Lock = new object();
 

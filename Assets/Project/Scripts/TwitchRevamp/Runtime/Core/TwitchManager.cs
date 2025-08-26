@@ -1,4 +1,5 @@
-﻿using Plugins;
+﻿using TCS.Utils;
+using TwitchRevamp.Utils;
 using UnityEngine;
 using Logger = TCS.Utils.Logger;
 namespace TwitchRevamp {
@@ -26,7 +27,9 @@ namespace TwitchRevamp {
         }
 
         void CreateSettings() {
-            if ( !m_settings ) return;
+            if ( !m_settings ) {
+                return;
+            }
 
             TwitchSDKSettings.Instance = m_settings;
 
@@ -35,14 +38,8 @@ namespace TwitchRevamp {
             ((UnityTwitch)Instance).InitializeInternally();
         }
         
-        [ContextMenu("Authenticate")] // if you right-click the component in the inspector, you can select "Authenticate" to open the browser for auth
-        public void Authenticate() {
-            var userAuthInfo = API.GetAuthenticationInfo().MaybeResult;
-            if ( userAuthInfo != null ) {
-                Application.OpenURL( $"{userAuthInfo.Uri}?user_code={userAuthInfo.UserCode}" );
-                return;
-            }
-            
+        [Button] public void Authenticate() {
+            if ( TwitchAPIUtils.GetTwitchAuthUrl() ) return;
             Logger.Log("Twitch: Unable to get authentication info");
         }
     }

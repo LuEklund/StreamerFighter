@@ -1,6 +1,5 @@
 using UnityEngine;
-
-namespace Plugins {
+namespace TwitchRevamp {
     public class TwitchSDKSettings : ScriptableObject
     {
         public const string InitialClientId = "Go to dev.twitch.tv to get a client-id";

@@ -8,8 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
-
-namespace Plugins {
+namespace TwitchRevamp {
     [InitializeOnLoad]
     [CustomEditor(typeof(TwitchSDKSettings))]
     public class TwitchSDKSettingsEditor : Editor

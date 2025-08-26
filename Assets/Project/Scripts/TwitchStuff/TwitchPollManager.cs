@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
-using Plugins;
 using TwitchSDK;
 using TwitchSDK.Interop;
 using UnityEngine;
+using Twitch = TwitchRevamp.Twitch;
 
 namespace TwitchStuff {
     [Obsolete("Use TwitchRevamp instead")]

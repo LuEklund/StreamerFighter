@@ -1,5 +1,4 @@
-﻿using Plugins;
-using TwitchSDK;
+﻿using TwitchSDK;
 using TwitchSDK.Interop;
 using UnityEngine;
 using Logger = TCS.Utils.Logger;

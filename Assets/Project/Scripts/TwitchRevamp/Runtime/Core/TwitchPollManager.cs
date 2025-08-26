@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Plugins;
 using TwitchSDK;
 using TwitchSDK.Interop;
 using UnityEngine;
@@ -10,26 +9,41 @@ namespace TwitchRevamp {
         bool m_ended;
 
         void Update() {
-            if ( m_ended ) return;
+            if ( m_ended ) {
+                return;
+            }
 
             var poll = m_activePoll?.MaybeResult;
-            if ( poll == null ) return;
+            if ( poll == null ) {
+                return;
+            }
 
-            if ( poll.Info.Status == PollStatus.Active ) return;
+            if ( poll.Info.Status == PollStatus.Active ) {
+                return;
+            }
 
             m_ended = true;
-            if ( poll.Info.Status != PollStatus.Completed ) return;
+            if ( poll.Info.Status != PollStatus.Completed ) {
+                return;
+            }
 
             var winner = poll.Info.Choices.OrderByDescending( c => c.Votes ).First();
             Logger.Log( $"Poll finished. Winner: {winner.Title} ({winner.Votes})" );
         }
 
         public void StartPoll(string title, string[] choices, int durationSeconds = 20) {
-            if ( m_activePoll != null ) return;
+            if ( m_activePoll != null ) {
+                return;
+            }
 
             var st = Twitch.API.GetAuthState()?.MaybeResult;
-            if ( st?.Status != AuthStatus.LoggedIn ) return;
-            if ( st.Scopes.All( s => s != TwitchOAuthScope.Channel.ManagePolls.Scope ) ) return;
+            if ( st?.Status != AuthStatus.LoggedIn ) {
+                return;
+            }
+
+            if ( st.Scopes.All( s => s != TwitchOAuthScope.Channel.ManagePolls.Scope ) ) {
+                return;
+            }
 
             m_activePoll = Twitch.API.NewPoll(
                 new PollDefinition {

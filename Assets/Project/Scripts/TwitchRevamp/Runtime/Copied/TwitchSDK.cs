@@ -5,7 +5,7 @@ using TwitchSDK.Interop;
 using UnityEngine;
 
 #region Twitch API Singleton
-namespace Plugins {
+namespace TwitchRevamp {
     public class UnityTwitch : TwitchSDKApi {
         UnityPAL PAL;
         public UnityTwitch(string clientId, bool useESProxy) : base( clientId, useESProxy ) { }
