@@ -57,12 +57,12 @@ namespace SMRevamp {
 
         [Header( "Limb Settings" )]
         public bool m_updateChanges;
-        public LimbSettings m_leftArmSettings;
-        public LimbSettings m_rightArmSettings;
         public LimbSettings m_headSettings;
         public LimbSettings m_torsoSettings;
         public LimbSettings m_leftLegSettings;
+        public LimbSettings m_lowerLeftLegSettings;
         public LimbSettings m_rightLegSettings;
+        public LimbSettings m_lowerRightLegSettings;
 
         public void Awake() {
             if ( !m_movement.Init( m_movementKeys ) ) {
@@ -89,12 +89,12 @@ namespace SMRevamp {
 
         LimbSettings[] LimbSettingsArray() {
             LimbSettings[] settingsArray = {
-                m_leftArmSettings,
-                m_rightArmSettings,
                 m_headSettings,
                 m_torsoSettings,
                 m_leftLegSettings,
-                m_rightLegSettings
+                m_lowerLeftLegSettings,
+                m_rightLegSettings,
+                m_lowerRightLegSettings
             };
             return settingsArray;
         }
