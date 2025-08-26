@@ -13,20 +13,17 @@ namespace TwitchRevamp {
         // EventSub-specific scopes not in SDK enums
         public static TwitchOAuthScope Followers => new( "moderator:read:followers" );
         public static TwitchOAuthScope Subscriptions => new( "channel:read:subscriptions" );
-        public static TwitchOAuthScope ChannelBot => new( "channel:bot" );
         public static TwitchOAuthScope UserReadChat => new( "moderator:read:chat_messages" );
+        public static TwitchOAuthScope ChannelBot => new( "channel:bot" );
+        public static TwitchOAuthScope WriteChat => new( "user:write:chat" );
+        public static TwitchOAuthScope ReadChat => new( "user:read:chat" );
     }
 
     public class TwitchAuthManager : MonoBehaviour {
         // Ask ONLY for scopes you need. Apparently asking for too many can get you into trouble.
         // TODO: review these scopes and remove any you don't need,
         // TODO: figure out how to add scopes to our Http requests
-        // Current Scopes i get when i ask the https://id.twitch.tv/oauth2/authorize
-        // channel:manage:polls,
-        // channel:manage:predictions,
-        // channel:manage:redemptions,
-        // clips:edit,
-        // user:read:subscriptions
+        // Current Scopes to get i ask the https://id.twitch.tv/oauth2/authorize
         static readonly TwitchOAuthScope RequiredScopes = new(
             string.Join(
                 " ", 
@@ -69,6 +66,7 @@ namespace TwitchRevamp {
             switch (state.Status) {
                 case AuthStatus.LoggedIn:
                     Logger.Log( "Twitch: logged in" );
+                    LogTokenInfo();
                     break;
 
                 case AuthStatus.LoggedOut:
@@ -84,8 +82,7 @@ namespace TwitchRevamp {
                     }
 
                     Logger.Log( $"Authorize at: {info.Uri} with code: {info.UserCode}" );
-                    // The SDK samples concatenate the code; if your SDK expects a query param, adapt accordingly.
-                    Application.OpenURL( $"{info.Uri}{info.UserCode}" );
+                    TwitchAPIUtils.GetTwitchAuthUrl();
                     break;
                 
                 case AuthStatus.Loading:
