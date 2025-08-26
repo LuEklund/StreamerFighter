@@ -1,42 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
-class TwitchSDKSettings : ScriptableObject
-{
-    public const string InitialClientId = "Go to dev.twitch.tv to get a client-id";
-
-    public const string SettingsPath = "Project/TwitchSDKSettings";
-
-    [SerializeField]
-    public string ClientId = "";
-    [SerializeField]
-    public bool UseEventSubProxy = false;
-
-    private static TwitchSDKSettings _Instance;
-
-    public static TwitchSDKSettings Instance
+namespace Plugins {
+    public class TwitchSDKSettings : ScriptableObject
     {
-        get
+        public const string InitialClientId = "Go to dev.twitch.tv to get a client-id";
+
+        public const string SettingsPath = "Project/TwitchSDKSettings";
+
+        [SerializeField]
+        public string ClientId = "";
+        [SerializeField]
+        public bool UseEventSubProxy = false;
+
+        private static TwitchSDKSettings _Instance;
+
+        public static TwitchSDKSettings Instance
         {
-            _Instance = NullableInstance;
-            if (_Instance == null)
+            get
             {
-                _Instance = CreateInstance<TwitchSDKSettings>();
+                _Instance = NullableInstance;
+                if (_Instance == null)
+                {
+                    _Instance = CreateInstance<TwitchSDKSettings>();
+                }
+                return _Instance;
             }
-            return _Instance;
+            
+            set => _Instance = value;
         }
-    }
-    public static TwitchSDKSettings NullableInstance
-    {
-        get
+        public static TwitchSDKSettings NullableInstance
         {
-            if (_Instance == null)
+            get
             {
-                _Instance = Resources.Load(nameof(TwitchSDKSettings)) as TwitchSDKSettings;
+                if (_Instance == null)
+                {
+                    _Instance = Resources.Load(nameof(TwitchSDKSettings)) as TwitchSDKSettings;
+                }
+                return _Instance;
             }
-            return _Instance;
         }
     }
 }

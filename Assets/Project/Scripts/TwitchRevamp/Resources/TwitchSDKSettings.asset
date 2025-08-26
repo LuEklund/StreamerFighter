@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85144040320b1fd4d91c6ed90008fa2b, type: 3}
   m_Name: TwitchSDKSettings
   m_EditorClassIdentifier: 
-  ClientId: mr07mftpw0qff38f4uc8zhiwtc818u
+  ClientId: n3lqisnie9npe3vwdrfu8v2a5o63lr
   UseEventSubProxy: 0

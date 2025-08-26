@@ -129,11 +129,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2496311941706388059, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.512
       objectReference: {fileID: 0}
     - target: {fileID: 2496311941706388059, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2747627113175555588, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -178,6 +178,10 @@ PrefabInstance:
     - target: {fileID: 5329934197555083364, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
       propertyPath: m_Name
       value: Stickman2D (rooted)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5329934197555083364, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6598824021698809370, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
       propertyPath: m_Camera
@@ -682,6 +686,129 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1360228930
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1360228932}
+  - component: {fileID: 1360228940}
+  - component: {fileID: 1360228939}
+  - component: {fileID: 1360228938}
+  - component: {fileID: 1360228937}
+  - component: {fileID: 1360228936}
+  - component: {fileID: 1360228934}
+  - component: {fileID: 1360228933}
+  m_Layer: 0
+  m_Name: TwitchManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1360228932
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360228930}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1360228933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360228930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd66a9bc2d4e43e3b22768e7c11084a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TwitchRevamp.TwitchPredictionManager
+--- !u!114 &1360228934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360228930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7356fb68df3a4cb78221a1702a67fc51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TwitchRevamp.TwitchPollManager
+--- !u!114 &1360228936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360228930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81912593ddbc443295bcd523ef35cc68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TwitchRevamp.TwitchInfoHelpers
+--- !u!114 &1360228937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360228930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c86dbba8cb394eeaaada71e3a3e7994a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TwitchRevamp.TwitchEventExamples
+--- !u!114 &1360228938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360228930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48fa996f8848405bab53da35ddbd1a32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TwitchRevamp.TwitchChannelPointManager
+--- !u!114 &1360228939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360228930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ac5d6140f494880a3dc69cb1adcbb93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TwitchRevamp.TwitchAuthManager
+--- !u!114 &1360228940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360228930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48d42d570c1f42de8cde4d093ef1d832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TwitchRevamp.TwitchManager
+  m_settings: {fileID: 11400000, guid: 7a4bc65ec68597443abd26fb487f65b7, type: 2}
 --- !u!1 &1624441636
 GameObject:
   m_ObjectHideFlags: 0
@@ -846,7 +973,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1949006573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1019,3 +1146,4 @@ SceneRoots:
   - {fileID: 233431803}
   - {fileID: 2138024847}
   - {fileID: 1949006576}
+  - {fileID: 1360228932}
