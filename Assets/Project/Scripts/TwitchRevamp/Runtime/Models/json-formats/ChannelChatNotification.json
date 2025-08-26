@@ -1,9 +1,9 @@
 {
-  "type": "channel.chat.clear",
+  "type": "channel.chat.notification",
   "version": "1",
   "condition": {
-    "broadcaster_user_id": "1337",
-    "user_id": "9001"
+    "broadcaster_user_id": "1971641",
+    "user_id": "2914196"
   },
   "transport": {
     "method": "webhook",
