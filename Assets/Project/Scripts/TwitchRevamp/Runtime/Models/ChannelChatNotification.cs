@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 namespace TwitchRevamp.Models {
     [Serializable] public class Condition {
-        [JsonProperty("broadcaster_user_id")] public string BroadcasterUserID { get; set; }
-        [JsonProperty("moderator_user_id")] public string ModeratorUserID { get; set; }
+        [JsonProperty( "broadcaster_user_id" )] public string BroadcasterUserID { get; set; }
+        [JsonProperty( "moderator_user_id" )] public string ModeratorUserID { get; set; }
     }
 
     [Serializable] public class Transport {
-        [JsonProperty("method")] public string Method { get; set; }
-        [JsonProperty("callback")] public string Callback { get; set; }
-        [JsonProperty("secret")] public string Secret { get; set; }
-        [JsonProperty("session_id")] public string SessionID { get; set; }
-        [JsonProperty("connected_at")] public string ConnectedAt { get; set; }
-        [JsonProperty("disconnected_at")] public string DisconnectedAt { get; set; }
+        [JsonProperty( "method" )] public string Method { get; set; }
+        [JsonProperty( "callback" )] public string Callback { get; set; }
+        [JsonProperty( "secret" )] public string Secret { get; set; }
+        [JsonProperty( "session_id" )] public string SessionID { get; set; }
+        [JsonProperty( "connected_at" )] public string ConnectedAt { get; set; }
+        [JsonProperty( "disconnected_at" )] public string DisconnectedAt { get; set; }
     }
-    
+
     [Serializable] public class ChannelChatNotificationRequest {
         [JsonProperty( "type" )] public string Type { get; set; }
         [JsonProperty( "version" )] public string Version { get; set; }
@@ -91,6 +91,26 @@ namespace TwitchRevamp.Models {
         [JsonProperty( "source_broadcaster_user_name" )] public string SourceBroadcasterUserName { get; set; }
         [JsonProperty( "source_message_id" )] public string SourceMessageID { get; set; }
         [JsonProperty( "source_badges" )] public List<Badge> SourceBadges { get; set; }
+
+        // Automod Message Hold V1 Properties
+        [JsonProperty( "user_id" )] public string UserId { get; set; }
+        [JsonProperty( "user_login" )] public string UserLogin { get; set; }
+        [JsonProperty( "user_name" )] public string UserName { get; set; }
+        [JsonProperty( "level" )] public int? Level { get; set; }
+        [JsonProperty( "category" )] public string Category { get; set; }
+        [JsonProperty( "held_at" )] public string HeldAt { get; set; }
+        [JsonProperty( "fragments" )] public AutomodFragments Fragments { get; set; }
+
+        // Automod Message Hold V2 Properties
+        [JsonProperty( "reason" )] public string Reason { get; set; }
+        [JsonProperty( "automod" )] public AutomodData Automod { get; set; }
+        [JsonProperty( "blocked_term" )] public object BlockedTerm { get; set; }
+
+        // Automod Message Update Properties
+        [JsonProperty( "moderator_user_id" )] public string ModeratorUserId { get; set; }
+        [JsonProperty( "moderator_user_login" )] public string ModeratorUserLogin { get; set; }
+        [JsonProperty( "moderator_user_name" )] public string ModeratorUserName { get; set; }
+        [JsonProperty( "status" )] public string Status { get; set; }
     }
 
     [Serializable] public class Badge {
@@ -110,6 +130,14 @@ namespace TwitchRevamp.Models {
         [JsonProperty( "cheer" )] public string? Cheer { get; set; }
         [JsonProperty( "emote" )] public Emote? Emote { get; set; }
         [JsonProperty( "mention" )] public Mention? Mention { get; set; }
+        // V2 properties
+        [JsonProperty( "cheermote" )] public Cheermote? Cheermote { get; set; }
+    }
+
+    [Serializable] public class Cheermote {
+        [JsonProperty( "prefix" )] public string Prefix { get; set; }
+        [JsonProperty( "bits" )] public int Bits { get; set; }
+        [JsonProperty( "tier" )] public int Tier { get; set; }
     }
 
     [Serializable] public class Emote {
@@ -285,5 +313,35 @@ namespace TwitchRevamp.Models {
     [Serializable] public class SharedChatCharityDonation {
         [JsonProperty( "charity_name" )] public string CharityName { get; set; }
         [JsonProperty( "donated_amount" )] public int DonatedAmount { get; set; }
+    }
+
+    // Automod Classes
+    [Serializable] public class AutomodFragments {
+        [JsonProperty( "emotes" )] public List<AutomodEmote> Emotes { get; set; }
+        [JsonProperty( "cheermotes" )] public List<AutomodCheermote> Cheermotes { get; set; }
+    }
+
+    [Serializable] public class AutomodEmote {
+        [JsonProperty( "text" )] public string Text { get; set; }
+        [JsonProperty( "id" )] public string Id { get; set; }
+        [JsonProperty( "set-id" )] public string SetId { get; set; }
+    }
+
+    [Serializable] public class AutomodCheermote {
+        [JsonProperty( "text" )] public string Text { get; set; }
+        [JsonProperty( "amount" )] public int Amount { get; set; }
+        [JsonProperty( "prefix" )] public string Prefix { get; set; }
+        [JsonProperty( "tier" )] public int Tier { get; set; }
+    }
+
+    [Serializable] public class AutomodData {
+        [JsonProperty( "category" )] public string Category { get; set; }
+        [JsonProperty( "level" )] public int Level { get; set; }
+        [JsonProperty( "boundaries" )] public List<AutomodBoundary> Boundaries { get; set; }
+    }
+
+    [Serializable] public class AutomodBoundary {
+        [JsonProperty( "start_pos" )] public int StartPos { get; set; }
+        [JsonProperty( "end_pos" )] public int EndPos { get; set; }
     }
 }
