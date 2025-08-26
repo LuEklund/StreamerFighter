@@ -1,8 +1,9 @@
 using System;
+using TwitchRevamp;
+using TwitchRevamp.API;
 using TwitchSDK;
 using TwitchSDK.Interop;
 using UnityEngine;
-using Twitch = TwitchRevamp.Twitch;
 
 namespace TwitchStuff {
     [Obsolete("Use TwitchRevamp instead")]
@@ -27,7 +28,7 @@ namespace TwitchStuff {
         void Update() { }
 
         public void UpdateAuthState() {
-            curAuthState = Twitch.API.GetAuthState();
+            curAuthState = TwitchAPI.API.GetAuthState();
             switch (curAuthState.MaybeResult.Status) {
 
                 case AuthStatus.LoggedIn:
@@ -40,7 +41,7 @@ namespace TwitchStuff {
                     break;
 
                 case AuthStatus.WaitingForCode:
-                    var userAuthInfo = Twitch.API.GetAuthenticationInfo().MaybeResult;
+                    var userAuthInfo = TwitchAPI.API.GetAuthenticationInfo().MaybeResult;
                     if ( userAuthInfo != null ) {
                         Debug.Log( "🔑 Asking user to log in..." );
                         Application.OpenURL( $"{userAuthInfo.Uri}?user_code={userAuthInfo.UserCode}" );
@@ -63,7 +64,7 @@ namespace TwitchStuff {
                              + " " + TwitchOAuthScope.User.ReadSubscriptions.Scope
                              + " " + TwitchOAuthScope.Channel.ManageBroadcast;
                 TwitchOAuthScope tscopes = new TwitchOAuthScope( scopes );
-                authInfoTask = Twitch.API.GetAuthenticationInfo( tscopes );
+                authInfoTask = TwitchAPI.API.GetAuthenticationInfo( tscopes );
                 Debug.Log( "DONE" );
                 GetStreamInformation();
             }
@@ -71,7 +72,7 @@ namespace TwitchStuff {
                 UpdateAuthState();
             }
 
-            ourPoll = Twitch.API.NewPoll( new PollDefinition { Title = "some title", Choices = new string[] { "a", "b", "c" }, Duration = 20 } );
+            ourPoll = TwitchAPI.API.NewPoll( new PollDefinition { Title = "some title", Choices = new string[] { "a", "b", "c" }, Duration = 20 } );
             var PollResult = ourPoll?.MaybeResult;
         }
 
@@ -83,7 +84,7 @@ namespace TwitchStuff {
             Debug.Log( "0" );
             if ( StreamInfoTask == null ) {
                 Debug.Log( "1" );
-                StreamInfoTask = Twitch.API.GetMyStreamInfo();
+                StreamInfoTask = TwitchAPI.API.GetMyStreamInfo();
                 if ( StreamInfoTask?.IsCompleted == true ) {
                     Debug.Log( "2" );
                     if ( StreamInfoTask.MaybeResult != null ) {

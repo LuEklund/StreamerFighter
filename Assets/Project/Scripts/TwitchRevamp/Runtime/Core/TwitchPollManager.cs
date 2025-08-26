@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using TwitchRevamp.API;
 using TwitchSDK;
 using TwitchSDK.Interop;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace TwitchRevamp {
                 return;
             }
 
-            var st = Twitch.API.GetAuthState()?.MaybeResult;
+            var st = TwitchAPI.API.GetAuthState()?.MaybeResult;
             if ( st?.Status != AuthStatus.LoggedIn ) {
                 return;
             }
@@ -45,7 +46,7 @@ namespace TwitchRevamp {
                 return;
             }
 
-            m_activePoll = Twitch.API.NewPoll(
+            m_activePoll = TwitchAPI.API.NewPoll(
                 new PollDefinition {
                     Title = title,
                     Choices = choices,

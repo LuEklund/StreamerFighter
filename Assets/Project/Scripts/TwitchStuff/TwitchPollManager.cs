@@ -1,9 +1,10 @@
 using System;
 using System.Linq;
+using TwitchRevamp;
+using TwitchRevamp.API;
 using TwitchSDK;
 using TwitchSDK.Interop;
 using UnityEngine;
-using Twitch = TwitchRevamp.Twitch;
 
 namespace TwitchStuff {
     [Obsolete("Use TwitchRevamp instead")]
@@ -18,14 +19,14 @@ namespace TwitchStuff {
             // We already polled something, so we don't do anything.
             if ( ActivePoll != null )
                 return;
-            var authStatus = Twitch.API?.GetAuthState().MaybeResult;
+            var authStatus = TwitchAPI.API?.GetAuthState().MaybeResult;
             // Not logged in
             if ( authStatus?.Status != AuthStatus.LoggedIn )
                 return;
             // If we don't have the "Manage Polls" permission, we also give up.
             if ( !authStatus.Scopes.Any( a => a == TwitchOAuthScope.Channel.ManagePolls.Scope ) )
                 return;
-            ActivePoll = Twitch.API.NewPoll(
+            ActivePoll = TwitchAPI.API.NewPoll(
                 new PollDefinition {
                     Title = pollTitle,
                     Choices = pollChoices,

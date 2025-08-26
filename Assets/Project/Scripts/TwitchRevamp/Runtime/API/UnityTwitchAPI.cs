@@ -4,34 +4,34 @@ using TwitchSDK;
 using TwitchSDK.Interop;
 using UnityEngine;
 
-#region Twitch API Singleton
-namespace TwitchRevamp {
-    public class UnityTwitch : TwitchSDKApi {
-        UnityPAL PAL;
-        public UnityTwitch(string clientId, bool useESProxy) : base( clientId, useESProxy ) { }
+#region TwitchAPI API Singleton
+namespace TwitchRevamp.API {
+    public class UnityTwitchAPI : TwitchSDKApi {
+        UnityPal m_pal;
+        public UnityTwitchAPI(string clientId, bool useESProxy) : base( clientId, useESProxy ) { }
 
         public void InitializeInternally() {
-            PAL.Start();
+            m_pal.Start();
         }
 
         protected override PlatformAbstractionLayer CreatePAL() {
             // We need to save this in a variable, so we can call InitializeInternally later.
-            return (PAL = new UnityPAL());
+            return (m_pal = new UnityPal());
         }
 
-        class UnityPAL : ManagedPAL {
-            TaskCompletionSource<string> FileIOBasePathTCS = new TaskCompletionSource<string>();
+        class UnityPal : ManagedPAL {
+            TaskCompletionSource<string> m_fileIOBasePathTcs = new();
 
-            static UnityPAL() {
+            static UnityPal() {
                 TaskScheduler.UnobservedTaskException += (a, exc) => {
-                    if ( exc.Exception.InnerException.GetType() == typeof(CoreLibraryException) ) {
-                        Debug.LogWarning( "Unhandled Twitch Exception: " + exc.Exception.InnerException );
+                    if ( exc.Exception.InnerException?.GetType() == typeof(CoreLibraryException) ) {
+                        Debug.LogWarning( "Unhandled TwitchAPI Exception: " + exc.Exception.InnerException );
                     }
                 };
             }
 
             public void Start() {
-                FileIOBasePathTCS.SetResult( Application.persistentDataPath );
+                m_fileIOBasePathTcs.SetResult( Application.persistentDataPath );
             }
 
             protected override Task Log(LogRequest req) {
@@ -54,7 +54,8 @@ namespace TwitchRevamp {
             }
 
             // replace FALSE with TRUE to debug / inspect the HTTP requests of the plugin.
-#if FALSE
+            // TODO: log requests with this method
+#if TRUE
         protected override async Task<WebRequestResult> WebRequest(WebRequestRequest request)
         {
             var isAuthRequest = request.Uri.IndexOf("https://id.twitch.tv/") == 0;
@@ -71,10 +72,10 @@ namespace TwitchRevamp {
 #endif
 
             protected override Task<string> GetFileIOBasePath(CancellationToken _) {
-                return FileIOBasePathTCS.Task;
+                return m_fileIOBasePathTcs.Task;
             }
 
-            protected override string HttpUserAgent => "Twitch-Route-66-Unity";
+            protected override string HttpUserAgent => "TwitchAPI-Route-66-Unity";
         }
     }
 }

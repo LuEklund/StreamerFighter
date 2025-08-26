@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using TwitchRevamp.API;
 using TwitchSDK;
 using TwitchSDK.Interop;
 using UnityEngine;
@@ -39,7 +40,7 @@ namespace TwitchRevamp {
                 return;
             }
 
-            var st = Twitch.API.GetAuthState()?.MaybeResult;
+            var st = TwitchAPI.API.GetAuthState()?.MaybeResult;
             if ( st?.Status != AuthStatus.LoggedIn ) {
                 return;
             }
@@ -48,7 +49,7 @@ namespace TwitchRevamp {
                 return;
             }
 
-            m_active = Twitch.API.NewPrediction(
+            m_active = TwitchAPI.API.NewPrediction(
                 new PredictionDefinition {
                     Title = title,
                     Outcomes = outcomes,

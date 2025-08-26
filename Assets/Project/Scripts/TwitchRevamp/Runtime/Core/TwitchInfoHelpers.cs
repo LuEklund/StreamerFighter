@@ -1,4 +1,5 @@
-﻿using TwitchSDK;
+﻿using TwitchRevamp.API;
+using TwitchSDK;
 using TwitchSDK.Interop;
 using UnityEngine;
 using Logger = TCS.Utils.Logger;
@@ -12,7 +13,7 @@ namespace TwitchRevamp {
                 return;
             }
 
-            m_userInfoTask = Twitch.API.GetMyUserInfo();
+            m_userInfoTask = TwitchAPI.API.GetMyUserInfo();
 
             if ( m_userInfoTask?.IsCompleted == true && m_userInfoTask.MaybeResult != null ) {
                 var u = m_userInfoTask.MaybeResult;
@@ -25,7 +26,7 @@ namespace TwitchRevamp {
                 return;
             }
 
-            m_streamInfoTask = Twitch.API.GetMyStreamInfo();
+            m_streamInfoTask = TwitchAPI.API.GetMyStreamInfo();
 
             if ( m_streamInfoTask?.IsCompleted == true && m_streamInfoTask.MaybeResult != null ) {
                 var s = m_streamInfoTask.MaybeResult;

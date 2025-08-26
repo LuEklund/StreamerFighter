@@ -8,12 +8,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
-namespace TwitchRevamp {
+namespace TwitchRevamp.API {
     [InitializeOnLoad]
-    [CustomEditor(typeof(TwitchSDKSettings))]
-    public class TwitchSDKSettingsEditor : Editor
+    [CustomEditor(typeof(TwitchAPISettings))]
+    public class TwitchAPISettingsEditor : Editor
     {
-        private void SetDirtyIfNeeded<T>(ref T field, T value)
+        void SetDirtyIfNeeded<T>(ref T field, T value)
         {
             if (!System.Object.Equals(field, value))
             {
@@ -25,25 +25,25 @@ namespace TwitchRevamp {
 
         public override void OnInspectorGUI()
         {
-            var inst = TwitchSDKSettings.Instance;
+            var inst = TwitchAPISettings.Instance;
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Twitch Client ID:");
-            SetDirtyIfNeeded(ref inst.ClientId, EditorGUILayout.TextField(inst.ClientId));
+            EditorGUILayout.LabelField("TwitchAPI Client ID:");
+            SetDirtyIfNeeded(ref inst.m_clientId, EditorGUILayout.TextField(inst.m_clientId));
             EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.LabelField("Status: " + this.CredentialStatus);
+            EditorGUILayout.LabelField("Status: " + this.m_credentialStatus);
             if (GUILayout.Button("Go to dev.twitch.tv", EditorStyles.linkLabel))
             {
                 System.Diagnostics.Process.Start("https://dev.twitch.tv");
             }
 
-            UpdateCredentialStatus(inst.ClientId);
+            UpdateCredentialStatus(inst.m_clientId);
 
             EditorGUILayout.Separator();
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(new GUIContent("Use EventSubProxy:", "Do not enable this in releases. This option instructs the plugin to connect to a local EventSubProxy instead of directly to Twitch."));
-            SetDirtyIfNeeded(ref inst.UseEventSubProxy, EditorGUILayout.Toggle(inst.UseEventSubProxy));
+            EditorGUILayout.LabelField(new GUIContent("Use EventSubProxy:", "Do not enable this in releases. This option instructs the plugin to connect to a local EventSubProxy instead of directly to TwitchAPI."));
+            SetDirtyIfNeeded(ref inst.m_useEventSubProxy, EditorGUILayout.Toggle(inst.m_useEventSubProxy));
             EditorGUILayout.EndHorizontal();
 
 
@@ -54,50 +54,52 @@ namespace TwitchRevamp {
             EditorGUILayout.EndHorizontal();
         }
 
-        [MenuItem("Twitch/Edit Settings")]
+        [MenuItem("TwitchAPI/Edit Settings")]
         public static void Edit()
         {
-            if (TwitchSDKSettings.NullableInstance == null)
+            if (TwitchAPISettings.NullableInstance == null)
             {
-                var instance = ScriptableObject.CreateInstance<TwitchSDKSettings>();
+                var instance = ScriptableObject.CreateInstance<TwitchAPISettings>();
                 string path = Path.Combine(Application.dataPath, "Plugins", "Resources");
-                if (!Directory.Exists(path))
+                if (!Directory.Exists(path)) {
                     Directory.CreateDirectory(path);
-                string str = Path.Combine(Path.Combine("Assets", "Plugins", "Resources"), $"{nameof(TwitchSDKSettings)}.asset");
+                }
+
+                string str = Path.Combine(Path.Combine("Assets", "Plugins", "Resources"), $"{nameof(TwitchAPISettings)}.asset");
                 AssetDatabase.CreateAsset(instance, str);
             }
-            Selection.activeObject = TwitchSDKSettings.Instance;
+            Selection.activeObject = TwitchAPISettings.Instance;
         }
 
 
-        HttpClient Http = new HttpClient();
-        string CredentialStatus = "";
-        CancellationTokenSource CurrentCts = null;
-        string LastCheckedClientId = "";
+        HttpClient m_http = new();
+        string m_credentialStatus = "";
+        CancellationTokenSource m_currentCts = null;
+        string m_lastCheckedClientId = "";
 
-        public TwitchSDKSettingsEditor()
+        public TwitchAPISettingsEditor()
         {
-            Http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Twitch-Route-66", "0.1"));
-            Http.Timeout = TimeSpan.FromSeconds(5);
+            m_http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("TwitchAPI-Route-66", "0.1"));
+            m_http.Timeout = TimeSpan.FromSeconds(5);
         }
 
         public async void UpdateCredentialStatus(string clientId)
         {
             try
             {
-                if (clientId == LastCheckedClientId)
+                if (clientId == m_lastCheckedClientId)
                 {
                     return;
                 }
 
-                LastCheckedClientId = clientId;
+                m_lastCheckedClientId = clientId;
 
-                CurrentCts?.Cancel();
-                CurrentCts = new CancellationTokenSource();
-                this.CredentialStatus = "Checking ClientId ...";
+                m_currentCts?.Cancel();
+                m_currentCts = new CancellationTokenSource();
+                this.m_credentialStatus = "Checking ClientId ...";
                 try
                 {
-                    this.CredentialStatus = await GetCredentialStatus(clientId);
+                    this.m_credentialStatus = await GetCredentialStatus(clientId);
                 }
                 catch (TaskCanceledException)
                 {
@@ -113,24 +115,27 @@ namespace TwitchRevamp {
 
         public async Task<string> GetCredentialStatus(string clientId)
         {
-            if (clientId.Length == 0 || clientId == TwitchSDKSettings.InitialClientId)
+            if (clientId.Length == 0 || clientId == TwitchAPISettings.INITIAL_CLIENT_ID) {
                 return "Please enter a valid ClientId!";
+            }
 
             clientId = Uri.EscapeDataString(clientId);
 
             try
             {
-                var res = await Http.PostAsync(
+                var res = await m_http.PostAsync(
                     $"https://id.twitch.tv/oauth2/device?client_id={clientId}",
                     new StringContent(""),
-                    CurrentCts.Token);
+                    m_currentCts.Token);
                 var text = await res.Content.ReadAsStringAsync();
 
-                if (res.IsSuccessStatusCode)
+                if (res.IsSuccessStatusCode) {
                     return "ClientId is valid!";
+                }
 
-                if (res.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                if (res.StatusCode == System.Net.HttpStatusCode.BadRequest) {
                     return "Please enter a valid ClientId!";
+                }
             }
             catch (TaskCanceledException)
             {

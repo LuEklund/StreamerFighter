@@ -1,4 +1,5 @@
-﻿using TwitchSDK;
+﻿using TwitchRevamp.API;
+using TwitchSDK;
 using TwitchSDK.Interop;
 using UnityEngine;
 using Logger = TCS.Utils.Logger;
@@ -11,16 +12,16 @@ namespace TwitchRevamp {
         GameTask<EventStream<ChannelSubscribeEvent>> m_subEvents;
 
         void Start() {
-            if (Twitch.API == null) {
-                Logger.Log("Twitch API is not available");
+            if (TwitchAPI.API == null) {
+                Logger.Log("TwitchAPI API is not available");
                 return;
             }
             
-            m_rewardEvents = Twitch.API.SubscribeToCustomRewardEvents();
-            m_followEvents = Twitch.API.SubscribeToChannelFollowEvents();
-            m_subEvents = Twitch.API.SubscribeToChannelSubscribeEvents();
-            m_hypeEvents = Twitch.API.SubscribeToHypeTrainEvents();
-            m_raidEvents = Twitch.API.SubscribeToChannelRaidEvents();
+            m_rewardEvents = TwitchAPI.API.SubscribeToCustomRewardEvents();
+            m_followEvents = TwitchAPI.API.SubscribeToChannelFollowEvents();
+            m_subEvents = TwitchAPI.API.SubscribeToChannelSubscribeEvents();
+            m_hypeEvents = TwitchAPI.API.SubscribeToHypeTrainEvents();
+            m_raidEvents = TwitchAPI.API.SubscribeToChannelRaidEvents();
         }
 
         void Update() {

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using TCS.Utils;
+using TwitchRevamp.API;
 using TwitchRevamp.Utils;
 using TwitchSDK;
 using TwitchSDK.Interop;
@@ -48,16 +49,16 @@ namespace TwitchRevamp {
         void PromptLogin() {
             if ( TwitchAPIUtils.GetTwitchAuthUrl() ) return;
 
-            Logger.Log("Twitch: Unable to get authentication info");
+            Logger.Log("TwitchAPI: Unable to get authentication info");
         }
 
         public void UpdateAuthState() {
-            if (Twitch.API == null) {
-                Logger.Log("Twitch API is not available");
+            if (TwitchAPI.API == null) {
+                Logger.Log("TwitchAPI API is not available");
                 return;
             }
             
-            m_authStateTask = Twitch.API.GetAuthState();
+            m_authStateTask = TwitchAPI.API.GetAuthState();
             var state = m_authStateTask?.MaybeResult;
             if ( state == null ) {
                 return;
@@ -65,13 +66,13 @@ namespace TwitchRevamp {
 
             switch (state.Status) {
                 case AuthStatus.LoggedIn:
-                    Logger.Log( "Twitch: logged in" );
+                    Logger.Log( "TwitchAPI: logged in" );
                     LogTokenInfo();
                     break;
 
                 case AuthStatus.LoggedOut:
                     PromptLogin();
-                    Logger.Log( "Twitch: logged out" );
+                    Logger.Log( "TwitchAPI: logged out" );
                     // Optionally call PromptLogin() here
                     break;
 

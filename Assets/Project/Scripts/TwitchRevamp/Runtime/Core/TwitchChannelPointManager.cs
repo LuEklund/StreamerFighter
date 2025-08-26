@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TwitchRevamp.API;
 using TwitchSDK.Interop;
 using UnityEngine;
 namespace TwitchRevamp {
@@ -9,9 +10,9 @@ namespace TwitchRevamp {
                 new CustomRewardDefinition { Title = "Blue!", Cost = 25 },
                 new CustomRewardDefinition { Title = "Octarine!", Cost = 750 },
             };
-            Twitch.API.ReplaceCustomRewards( list.ToArray() );
+            TwitchAPI.API.ReplaceCustomRewards( list.ToArray() );
         }
 
-        public void ClearRewards() => Twitch.API.ReplaceCustomRewards();
+        public void ClearRewards() => TwitchAPI.API.ReplaceCustomRewards();
     }
 }
