@@ -16,7 +16,7 @@ namespace TwitchRevamp.Models {
     }
     
     [Serializable]
-    public class Chatter {
+    public record Chatter {
         [JsonProperty("user_id")]
         public string UserId { get; set; }
         

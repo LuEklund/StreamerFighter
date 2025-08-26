@@ -1,0 +1,316 @@
+using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace TwitchRevamp.Models {
+    [Serializable]
+ public class ChannelChatNotificationEvent {
+        [JsonProperty("broadcaster_user_id")]
+        public string BroadcasterUserID { get; set; }
+        
+        [JsonProperty("broadcaster_user_login")]
+        public string BroadcasterUserLogin { get; set; }
+        
+        [JsonProperty("broadcaster_user_name")]
+        public string BroadcasterUserName { get; set; }
+        
+        [JsonProperty("chatter_user_id")]
+        public string ChatterUserID { get; set; }
+        
+        [JsonProperty("chatter_user_login")]
+        public string ChatterUserLogin { get; set; }
+        
+        [JsonProperty("chatter_user_name")]
+        public string ChatterUserName { get; set; }
+        
+        [JsonProperty("chatter_is_anonymous")]
+        public bool ChatterIsAnonymous { get; set; }
+        
+        [JsonProperty("color")]
+        public string Color { get; set; }
+        
+        [JsonProperty("badges")]
+        public List<Badge> Badges { get; set; }
+        
+        [JsonProperty("system_message")]
+        public string SystemMessage { get; set; }
+        
+        [JsonProperty("message_id")]
+        public string MessageID { get; set; }
+        
+        [JsonProperty("message")]
+        public Message Message { get; set; }
+        
+        [JsonProperty("notice_type")]
+        public string NoticeType { get; set; }
+        
+        [JsonProperty("sub")]
+        public Sub Sub { get; set; }
+        
+        [JsonProperty("resub")]
+        public Resub Resub { get; set; }
+        
+        [JsonProperty("sub_gift")]
+        public SubGift SubGift { get; set; }
+        
+        [JsonProperty("community_sub_gift")]
+        public CommunitySubGift CommunitySubGift { get; set; }
+        
+        [JsonProperty("gift_paid_upgrade")]
+        public GiftPaidUpgrade GiftPaidUpgrade { get; set; }
+        
+        [JsonProperty("prime_paid_upgrade")]
+        public PrimePaidUpgrade PrimePaidUpgrade { get; set; }
+        
+        [JsonProperty("pay_it_forward")]
+        public PayItForward PayItForward { get; set; }
+        
+        [JsonProperty("raid")]
+        public Raid Raid { get; set; }
+        
+        [JsonProperty("unraid")]
+        public Unraid Unraid { get; set; }
+        
+        [JsonProperty("announcement")]
+        public Announcement Announcement { get; set; }
+        
+        [JsonProperty("bits_badge_tier")]
+        public BitsBadgeTier BitsBadgeTier { get; set; }
+        
+        [JsonProperty("charity_donation")]
+        public CharityDonation CharityDonation { get; set; }
+        
+        // Shared chat properties
+        [JsonProperty("shared_chat_sub")]
+        public SharedChatSub SharedChatSub { get; set; }
+        
+        [JsonProperty("shared_chat_resub")]
+        public SharedChatResub SharedChatResub { get; set; }
+        
+        [JsonProperty("shared_chat_sub_gift")]
+        public SharedChatSubGift SharedChatSubGift { get; set; }
+        
+        [JsonProperty("shared_chat_community_sub_gift")]
+        public SharedChatCommunitySubGift SharedChatCommunitySubGift { get; set; }
+        
+        [JsonProperty("shared_chat_gift_paid_upgrade")]
+        public SharedChatGiftPaidUpgrade SharedChatGiftPaidUpgrade { get; set; }
+        
+        [JsonProperty("shared_chat_prime_paid_upgrade")]
+        public SharedChatPrimePaidUpgrade SharedChatPrimePaidUpgrade { get; set; }
+        
+        [JsonProperty("shared_chat_pay_it_forward")]
+        public SharedChatPayItForward SharedChatPayItForward { get; set; }
+        
+        [JsonProperty("shared_chat_raid")]
+        public SharedChatRaid SharedChatRaid { get; set; }
+        
+        [JsonProperty("shared_chat_unraid")]
+        public SharedChatUnraid SharedChatUnraid { get; set; }
+        
+        [JsonProperty("shared_chat_announcement")]
+        public SharedChatAnnouncement SharedChatAnnouncement { get; set; }
+        
+        [JsonProperty("shared_chat_bits_badge_tier")]
+        public SharedChatBitsBadgeTier SharedChatBitsBadgeTier { get; set; }
+        
+        [JsonProperty("shared_chat_charity_donation")]
+        public SharedChatCharityDonation SharedChatCharityDonation { get; set; }
+        
+        // Source properties for shared chat
+        [JsonProperty("source_broadcaster_user_id")]
+        public string SourceBroadcasterUserID { get; set; }
+        
+        [JsonProperty("source_broadcaster_user_login")]
+        public string SourceBroadcasterUserLogin { get; set; }
+        
+        [JsonProperty("source_broadcaster_user_name")]
+        public string SourceBroadcasterUserName { get; set; }
+        
+        [JsonProperty("source_message_id")]
+        public string SourceMessageID { get; set; }
+        
+        [JsonProperty("source_badges")]
+        public List<Badge> SourceBadges { get; set; }
+    }
+    
+    // These classes are already defined in Event.cs, but we'll include them here for completeness
+    [Serializable] public class Badge {
+        [JsonProperty("set_id")] public string SetID { get; set; }
+        [JsonProperty("id")] public string ID { get; set; }
+        [JsonProperty("info")] public string Info { get; set; }
+    }
+
+    [Serializable] public class Message {
+        [JsonProperty("text")] public string Text { get; set; }
+        [JsonProperty("fragments")] public List<Fragment> Fragments { get; set; }
+    }
+
+    [Serializable] public class Fragment {
+        [JsonProperty("type")] public string Type { get; set; }
+        [JsonProperty("text")] public string Text { get; set; }
+    }
+
+    [Serializable] public class Sub {
+        [JsonProperty("sub_plan")] public string SubPlan { get; set; }
+        [JsonProperty("cumulative_months")] public int CumulativeMonths { get; set; }
+        [JsonProperty("streak_months")] public int? StreakMonths { get; set; }
+        [JsonProperty("is_gift")] public bool IsGift { get; set; }
+        [JsonProperty("gifter_is_anonymous")] public bool? GifterIsAnonymous { get; set; }
+        [JsonProperty("gifter_user_id")] public string GifterUserID { get; set; }
+        [JsonProperty("gifter_user_name")] public string GifterUserName { get; set; }
+        [JsonProperty("gifter_user_login")] public string GifterUserLogin { get; set; }
+    }
+
+    [Serializable] public class Resub {
+        [JsonProperty("cumulative_months")] public int CumulativeMonths { get; set; }
+        [JsonProperty("duration_months")] public int DurationMonths { get; set; }
+        [JsonProperty("streak_months")] public int? StreakMonths { get; set; }
+        [JsonProperty("sub_plan")] public string SubPlan { get; set; }
+        [JsonProperty("is_gift")] public bool IsGift { get; set; }
+        [JsonProperty("gifter_is_anonymous")] public bool? GifterIsAnonymous { get; set; }
+        [JsonProperty("gifter_user_id")] public string GifterUserID { get; set; }
+        [JsonProperty("gifter_user_name")] public string GifterUserName { get; set; }
+        [JsonProperty("gifter_user_login")] public string GifterUserLogin { get; set; }
+    }
+
+    [Serializable] public class SubGift {
+        [JsonProperty("cumulative_months")] public int CumulativeMonths { get; set; }
+        [JsonProperty("duration_months")] public int DurationMonths { get; set; }
+        [JsonProperty("streak_months")] public int? StreakMonths { get; set; }
+        [JsonProperty("sub_plan")] public string SubPlan { get; set; }
+        [JsonProperty("gifter_user_id")] public string GifterUserID { get; set; }
+        [JsonProperty("gifter_user_name")] public string GifterUserName { get; set; }
+        [JsonProperty("gifter_user_login")] public string GifterUserLogin { get; set; }
+    }
+
+    [Serializable] public class CommunitySubGift {
+        [JsonProperty("count")] public int Count { get; set; }
+        [JsonProperty("sub_plan")] public string SubPlan { get; set; }
+        [JsonProperty("gifter_user_id")] public string GifterUserID { get; set; }
+        [JsonProperty("gifter_user_name")] public string GifterUserName { get; set; }
+        [JsonProperty("gifter_user_login")] public string GifterUserLogin { get; set; }
+    }
+
+    [Serializable] public class GiftPaidUpgrade {
+        [JsonProperty("gifter_user_id")] public string GifterUserID { get; set; }
+        [JsonProperty("gifter_user_name")] public string GifterUserName { get; set; }
+        [JsonProperty("gifter_user_login")] public string GifterUserLogin { get; set; }
+    }
+
+    [Serializable] public class PrimePaidUpgrade {
+        [JsonProperty("sub_plan")] public string SubPlan { get; set; }
+    }
+
+    [Serializable] public class PayItForward {
+        [JsonProperty("gifter_is_anonymous")] public bool GifterIsAnonymous { get; set; }
+        [JsonProperty("gifter_user_id")] public string GifterUserID { get; set; }
+        [JsonProperty("gifter_user_name")] public string GifterUserName { get; set; }
+        [JsonProperty("gifter_user_login")] public string GifterUserLogin { get; set; }
+    }
+
+    [Serializable] public class Raid {
+        [JsonProperty("user_id")] public string UserID { get; set; }
+        [JsonProperty("user_name")] public string UserName { get; set; }
+        [JsonProperty("user_login")] public string UserLogin { get; set; }
+        [JsonProperty("viewer_count")] public int ViewerCount { get; set; }
+        [JsonProperty("profile_image_url")] public string ProfileImageURL { get; set; }
+    }
+
+    [Serializable] public class Unraid { }
+
+    [Serializable] public class Announcement {
+        [JsonProperty("color")] public string Color { get; set; }
+    }
+
+    [Serializable] public class BitsBadgeTier {
+        [JsonProperty("tier")] public int Tier { get; set; }
+    }
+
+    [Serializable] public class CharityDonation {
+        [JsonProperty("charity_name")] public string CharityName { get; set; }
+        [JsonProperty("donated_amount")] public int DonatedAmount { get; set; }
+    }
+
+    // Shared chat classes
+    [Serializable] public class SharedChatSub {
+        [JsonProperty("sub_plan")] public string SubPlan { get; set; }
+        [JsonProperty("cumulative_months")] public int CumulativeMonths { get; set; }
+        [JsonProperty("streak_months")] public int? StreakMonths { get; set; }
+        [JsonProperty("is_gift")] public bool IsGift { get; set; }
+        [JsonProperty("gifter_is_anonymous")] public bool? GifterIsAnonymous { get; set; }
+        [JsonProperty("gifter_user_id")] public string GifterUserID { get; set; }
+        [JsonProperty("gifter_user_name")] public string GifterUserName { get; set; }
+        [JsonProperty("gifter_user_login")] public string GifterUserLogin { get; set; }
+    }
+
+    [Serializable] public class SharedChatResub {
+        [JsonProperty("cumulative_months")] public int CumulativeMonths { get; set; }
+        [JsonProperty("duration_months")] public int DurationMonths { get; set; }
+        [JsonProperty("streak_months")] public int? StreakMonths { get; set; }
+        [JsonProperty("sub_plan")] public string SubPlan { get; set; }
+        [JsonProperty("is_gift")] public bool IsGift { get; set; }
+        [JsonProperty("gifter_is_anonymous")] public bool? GifterIsAnonymous { get; set; }
+        [JsonProperty("gifter_user_id")] public string GifterUserID { get; set; }
+        [JsonProperty("gifter_user_name")] public string GifterUserName { get; set; }
+        [JsonProperty("gifter_user_login")] public string GifterUserLogin { get; set; }
+    }
+
+    [Serializable] public class SharedChatSubGift {
+        [JsonProperty("cumulative_months")] public int CumulativeMonths { get; set; }
+        [JsonProperty("duration_months")] public int DurationMonths { get; set; }
+        [JsonProperty("streak_months")] public int? StreakMonths { get; set; }
+        [JsonProperty("sub_plan")] public string SubPlan { get; set; }
+        [JsonProperty("gifter_user_id")] public string GifterUserID { get; set; }
+        [JsonProperty("gifter_user_name")] public string GifterUserName { get; set; }
+        [JsonProperty("gifter_user_login")] public string GifterUserLogin { get; set; }
+    }
+
+    [Serializable] public class SharedChatCommunitySubGift {
+        [JsonProperty("count")] public int Count { get; set; }
+        [JsonProperty("sub_plan")] public string SubPlan { get; set; }
+        [JsonProperty("gifter_user_id")] public string GifterUserID { get; set; }
+        [JsonProperty("gifter_user_name")] public string GifterUserName { get; set; }
+        [JsonProperty("gifter_user_login")] public string GifterUserLogin { get; set; }
+    }
+
+    [Serializable] public class SharedChatGiftPaidUpgrade {
+        [JsonProperty("gifter_user_id")] public string GifterUserID { get; set; }
+        [JsonProperty("gifter_user_name")] public string GifterUserName { get; set; }
+        [JsonProperty("gifter_user_login")] public string GifterUserLogin { get; set; }
+    }
+
+    [Serializable] public class SharedChatPrimePaidUpgrade {
+        [JsonProperty("sub_plan")] public string SubPlan { get; set; }
+    }
+
+    [Serializable] public class SharedChatPayItForward {
+        [JsonProperty("gifter_is_anonymous")] public bool GifterIsAnonymous { get; set; }
+        [JsonProperty("gifter_user_id")] public string GifterUserID { get; set; }
+        [JsonProperty("gifter_user_name")] public string GifterUserName { get; set; }
+        [JsonProperty("gifter_user_login")] public string GifterUserLogin { get; set; }
+    }
+
+    [Serializable] public class SharedChatRaid {
+        [JsonProperty("user_id")] public string UserID { get; set; }
+        [JsonProperty("user_name")] public string UserName { get; set; }
+        [JsonProperty("user_login")] public string UserLogin { get; set; }
+        [JsonProperty("viewer_count")] public int ViewerCount { get; set; }
+        [JsonProperty("profile_image_url")] public string ProfileImageURL { get; set; }
+    }
+
+    [Serializable] public class SharedChatUnraid { }
+
+    [Serializable] public class SharedChatAnnouncement {
+        [JsonProperty("color")] public string Color { get; set; }
+    }
+
+    [Serializable] public class SharedChatBitsBadgeTier {
+        [JsonProperty("tier")] public int Tier { get; set; }
+    }
+
+    [Serializable] public class SharedChatCharityDonation {
+        [JsonProperty("charity_name")] public string CharityName { get; set; }
+        [JsonProperty("donated_amount")] public int DonatedAmount { get; set; }
+    }
+}
