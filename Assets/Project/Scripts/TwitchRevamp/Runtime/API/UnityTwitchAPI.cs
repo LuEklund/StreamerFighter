@@ -55,7 +55,7 @@ namespace TwitchRevamp.API {
 
             // replace FALSE with TRUE to debug / inspect the HTTP requests of the plugin.
             // TODO: log requests with this method
-#if TRUE
+#if FALSE
         protected override async Task<WebRequestResult> WebRequest(WebRequestRequest request)
         {
             var isAuthRequest = request.Uri.IndexOf("https://id.twitch.tv/") == 0;
