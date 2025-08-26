@@ -1257,7 +1257,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4248466185133112302}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1518,6 +1518,79 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 8
     m_playerPos: {fileID: 5115480647578509269}
+  m_updateChanges: 0
+  m_headSettings:
+    m_balance: {fileID: 1275976289985504738}
+    m_targetRotation: 0
+    m_force: 0
+    m_targetMultiplier: 10
+    m_hingeJoint: {fileID: 8255059794675475876}
+    m_useMotor: 0
+    m_motorSpeed: 1000
+    m_motorForce: 1000
+    m_useLimits: 0
+    m_limitMin: -45
+    m_limitMax: 45
+  m_torsoSettings:
+    m_balance: {fileID: 164103871761236808}
+    m_targetRotation: 0
+    m_force: 0
+    m_targetMultiplier: 10
+    m_hingeJoint: {fileID: 657812654582391454}
+    m_useMotor: 0
+    m_motorSpeed: 1000
+    m_motorForce: 1000
+    m_useLimits: 0
+    m_limitMin: -45
+    m_limitMax: 45
+  m_leftLegSettings:
+    m_balance: {fileID: 6057587544231322016}
+    m_targetRotation: 0
+    m_force: 0
+    m_targetMultiplier: 10
+    m_hingeJoint: {fileID: 1816578421764694898}
+    m_useMotor: 0
+    m_motorSpeed: 1000
+    m_motorForce: 1000
+    m_useLimits: 0
+    m_limitMin: -45
+    m_limitMax: 45
+  m_lowerLeftLegSettings:
+    m_balance: {fileID: 7301582200496374592}
+    m_targetRotation: 0
+    m_force: 0
+    m_targetMultiplier: 10
+    m_hingeJoint: {fileID: 7935173758679970283}
+    m_useMotor: 0
+    m_motorSpeed: 1000
+    m_motorForce: 1000
+    m_useLimits: 0
+    m_limitMin: -45
+    m_limitMax: 45
+  m_rightLegSettings:
+    m_balance: {fileID: 6338173985218176015}
+    m_targetRotation: 0
+    m_force: 0
+    m_targetMultiplier: 10
+    m_hingeJoint: {fileID: 8742319004099141432}
+    m_useMotor: 0
+    m_motorSpeed: 1000
+    m_motorForce: 1000
+    m_useLimits: 0
+    m_limitMin: -45
+    m_limitMax: 45
+  m_lowerRightLegSettings:
+    m_balance: {fileID: 4206525402220722040}
+    m_targetRotation: 0
+    m_force: 0
+    m_targetMultiplier: 10
+    m_hingeJoint: {fileID: 7918139566467640188}
+    m_useMotor: 0
+    m_motorSpeed: 1000
+    m_motorForce: 1000
+    m_useLimits: 0
+    m_limitMin: -45
+    m_limitMax: 45
 --- !u!1 &5570368430999363226
 GameObject:
   m_ObjectHideFlags: 0

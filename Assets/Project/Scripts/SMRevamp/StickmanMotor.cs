@@ -15,7 +15,9 @@ namespace SMRevamp {
         public float m_motorSpeed = 1000;
         public float m_motorForce = 1000;
         public bool m_useLimits;
-        public JointAngleLimits2D Limits = new() { min = -45, max = 45 };
+        public float m_limitMin = -45;
+        public float m_limitMax = 45;
+        JointAngleLimits2D m_limits;
 
         public void Init() {
             m_balance.targetRotation = m_targetRotation;
@@ -35,7 +37,11 @@ namespace SMRevamp {
                 }
 
                 if ( m_useLimits ) {
-                    m_hingeJoint.limits = Limits;
+                    m_limits = new JointAngleLimits2D {
+                        min = m_limitMin,
+                        max = m_limitMax,
+                    };
+                    m_hingeJoint.limits = m_limits;
                     m_hingeJoint.useLimits = true;
                 }
                 else {
@@ -57,12 +63,12 @@ namespace SMRevamp {
 
         [Header( "Limb Settings" )]
         public bool m_updateChanges;
-        public LimbSettings m_leftArmSettings;
-        public LimbSettings m_rightArmSettings;
         public LimbSettings m_headSettings;
         public LimbSettings m_torsoSettings;
         public LimbSettings m_leftLegSettings;
+        public LimbSettings m_lowerLeftLegSettings;
         public LimbSettings m_rightLegSettings;
+        public LimbSettings m_lowerRightLegSettings;
 
         public void Awake() {
             if ( !m_movement.Init( m_movementKeys ) ) {
@@ -89,12 +95,12 @@ namespace SMRevamp {
 
         LimbSettings[] LimbSettingsArray() {
             LimbSettings[] settingsArray = {
-                m_leftArmSettings,
-                m_rightArmSettings,
                 m_headSettings,
                 m_torsoSettings,
                 m_leftLegSettings,
-                m_rightLegSettings
+                m_lowerLeftLegSettings,
+                m_rightLegSettings,
+                m_lowerRightLegSettings
             };
             return settingsArray;
         }
@@ -156,6 +162,7 @@ namespace SMRevamp {
             }
         }
 
+        // TODO: Figure out foot movement.
         IEnumerator MoveLeft(float seconds) {
             m_leftLegRb.AddForce( Vector2.right * (m_speed * 1000 * Time.deltaTime) );
             m_lowerLeftLegRb.AddForce( Vector2.right * (m_lowerSpeed * 1000 * Time.deltaTime) );
