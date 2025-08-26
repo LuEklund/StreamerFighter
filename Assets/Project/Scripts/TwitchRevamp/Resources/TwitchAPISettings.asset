@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98a66223b613f7f45ad320214c2aef0d, type: 3}
   m_Name: TwitchAPISettings
   m_EditorClassIdentifier: Assembly-CSharp::TwitchRevamp.API.TwitchAPISettings
-  m_clientId: mr07mftpw0qff38f4uc8zhiwtc818u
+  m_clientId: f4k6o7penrck8aouogc2q7lu8jv829
   m_useEventSubProxy: 1
