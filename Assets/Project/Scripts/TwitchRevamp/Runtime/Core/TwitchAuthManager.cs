@@ -13,6 +13,16 @@ namespace TwitchRevamp {
     public static class TwitchScopes {
         // EventSub-specific scopes not in SDK enums
         public static TwitchOAuthScope Followers => new( "moderator:read:followers" );
+        /// <summary>
+        /// View a list of all subscribers to a channel and check if a user is subscribed to a channel.
+        /// API
+        /// Get Broadcaster Subscriptions
+        /// EventSub
+        /// Channel Subscribe
+        /// Channel Subscription End
+        /// Channel Subscription Gift
+        /// Channel Subscription Message
+        /// </summary>
         public static TwitchOAuthScope Subscriptions => new( "channel:read:subscriptions" );
         public static TwitchOAuthScope UserReadChat => new( "moderator:read:chat_messages" );
         public static TwitchOAuthScope ChannelBot => new( "channel:bot" );

@@ -1,54 +1,9 @@
-using System;
+/*using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 namespace TwitchRevamp.Models {
-    [Serializable] public class Condition {
-        [JsonProperty( "broadcaster_user_id" )] public string BroadcasterUserID { get; set; }
-        [JsonProperty( "moderator_user_id" )] public string ModeratorUserID { get; set; }
-    }
-
-    [Serializable] public class Transport {
-        [JsonProperty( "method" )] public string Method { get; set; }
-        [JsonProperty( "callback" )] public string Callback { get; set; }
-        [JsonProperty( "secret" )] public string Secret { get; set; }
-        [JsonProperty( "session_id" )] public string SessionID { get; set; }
-        [JsonProperty( "connected_at" )] public string ConnectedAt { get; set; }
-        [JsonProperty( "disconnected_at" )] public string DisconnectedAt { get; set; }
-    }
-
-    [Serializable] public class ChannelChatNotificationRequest {
-        [JsonProperty( "type" )] public string Type { get; set; }
-        [JsonProperty( "version" )] public string Version { get; set; }
-        [JsonProperty( "condition" )] public Condition Condition { get; set; }
-        [JsonProperty( "transport" )] public Transport Transport { get; set; }
-    }
-
-    [Serializable] public class ChannelChatNotificationResponse {
-        [JsonProperty( "subscription" )] public Subscription Subscription { get; set; }
-        [JsonProperty( "event" )] public Event Event { get; set; }
-    }
-
-    // Subscription
-    // Name | Type | Description
-    // id | string | Your client ID.
-    //     type | string | The notification’s subscription type.
-    //     version | string | The version of the subscription.
-    //     status | string | The status of the subscription.
-    //     cost | integer | How much the subscription counts against your limit. See Subscription Limits for more information.
-    //     condition | condition | Subscription-specific parameters.
-    //     created_at | string | The time the notification was created.
-    [Serializable] public class Subscription {
-        [JsonProperty( "id" )] public string ID { get; set; }
-        [JsonProperty( "status" )] public string Status { get; set; }
-        [JsonProperty( "type" )] public string Type { get; set; }
-        [JsonProperty( "version" )] public string Version { get; set; }
-        [JsonProperty( "condition" )] public Condition Condition { get; set; }
-        [JsonProperty( "transport" )] public Transport Transport { get; set; }
-        [JsonProperty( "created_at" )] public string CreatedAt { get; set; }
-        [JsonProperty( "cost" )] public int Cost { get; set; }
-    }
-
-    [Serializable] public class Event {
+    [JsonObject("event")]
+    [Serializable] public class TwitchEvent {
         [JsonProperty( "broadcaster_user_id" )] public string BroadcasterUserID { get; set; }
         [JsonProperty( "broadcaster_user_login" )] public string BroadcasterUserLogin { get; set; }
         [JsonProperty( "broadcaster_user_name" )] public string BroadcasterUserName { get; set; }
@@ -111,15 +66,20 @@ namespace TwitchRevamp.Models {
         [JsonProperty( "moderator_user_login" )] public string ModeratorUserLogin { get; set; }
         [JsonProperty( "moderator_user_name" )] public string ModeratorUserName { get; set; }
         [JsonProperty( "status" )] public string Status { get; set; }
+        
+        // Automod Terms Update Properties
+        [JsonProperty( "action" )] public string Action { get; set; }
+        [JsonProperty( "from_automod" )] public bool FromAutomod { get; set; }
+        [JsonProperty( "terms" )] public List<string> Terms { get; set; }
     }
 
-    [Serializable] public class Badge {
-        [JsonProperty( "set_id" )] public string SetIDNum { get; set; }
-        [JsonProperty( "id" )] public string ID { get; set; }
-        [JsonProperty( "info" )] public string Info { get; set; }
-    }
+    // [Serializable] public class Badge {
+    //     [JsonProperty( "set_id" )] public string SetIDNum { get; set; }
+    //     [JsonProperty( "id" )] public string ID { get; set; }
+    //     [JsonProperty( "info" )] public string Info { get; set; }
+    // }
 
-    [Serializable] public class Message {
+    /*[Serializable] public class Message {
         [JsonProperty( "text" )] public string Text { get; set; }
         [JsonProperty( "fragments" )] public List<Fragment> Fragments { get; set; }
     }
@@ -132,9 +92,9 @@ namespace TwitchRevamp.Models {
         [JsonProperty( "mention" )] public Mention? Mention { get; set; }
         // V2 properties
         [JsonProperty( "cheermote" )] public Cheermote? Cheermote { get; set; }
-    }
+    }#1#
 
-    [Serializable] public class Cheermote {
+    /*[Serializable] public class Cheermote {
         [JsonProperty( "prefix" )] public string Prefix { get; set; }
         [JsonProperty( "bits" )] public int Bits { get; set; }
         [JsonProperty( "tier" )] public int Tier { get; set; }
@@ -151,7 +111,7 @@ namespace TwitchRevamp.Models {
         [JsonProperty( "user_id" )] public string UserID { get; set; }
         [JsonProperty( "user_name" )] public string UserName { get; set; }
         [JsonProperty( "user_login" )] public string UserLogin { get; set; }
-    }
+    }#1#
 
     [Serializable] public class Sub {
         [JsonProperty( "sub_plan" )] public int SubPlan { get; set; }
@@ -344,4 +304,4 @@ namespace TwitchRevamp.Models {
         [JsonProperty( "start_pos" )] public int StartPos { get; set; }
         [JsonProperty( "end_pos" )] public int EndPos { get; set; }
     }
-}
+}*/
