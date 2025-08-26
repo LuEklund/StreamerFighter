@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "followed_at": "2023-01-15T18:16:11.17106713Z",
+      "user_id": "123456789",
+      "user_login": "user1",
+      "user_name": "User1"
+    },
+    {
+      "followed_at": "2023-01-14T15:23:45.12345678Z",
+      "user_id": "987654321",
+      "user_login": "user2",
+      "user_name": "User2"
+    }
+  ],
+  "pagination": {
+    "cursor": "eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6Mn19"
+  },
+  "total": 2
+}
