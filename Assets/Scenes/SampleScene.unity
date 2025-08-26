@@ -808,7 +808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48d42d570c1f42de8cde4d093ef1d832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TwitchRevamp.TwitchManager
-  m_settings: {fileID: 11400000, guid: 7a4bc65ec68597443abd26fb487f65b7, type: 2}
+  m_settings: {fileID: 11400000, guid: 8d6d624e7de848449b2eac7d8fdd1889, type: 2}
 --- !u!1 &1624441636
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,18 +31,16 @@ namespace TwitchRevamp {
     }
 
     public class TwitchAuthManager : MonoBehaviour {
-        // Ask ONLY for scopes you need. Apparently asking for too many can get you into trouble.
+        // IMPORTANT: ONLY for scopes you need. Apparently asking for the wrong ones can get you into trouble.
         // TODO: review these scopes and remove any you don't need,
         // TODO: figure out how to add scopes to our Http requests
         // Current Scopes to get i ask the https://id.twitch.tv/oauth2/authorize
+        // you need to Re-authorize if you change these Any Scope (Add or Remove)
+        // find all scopes here https://dev.twitch.tv/docs/authentication/scopes/#twitch-access-token-scopes
         static readonly TwitchOAuthScope RequiredScopes = new(
             string.Join(
                 " ", 
                 TwitchOAuthScope.Channel.ManagePolls.Scope,
-                TwitchOAuthScope.Channel.ManagePredictions.Scope, 
-                TwitchOAuthScope.Channel.ManageRedemptions.Scope, 
-                TwitchOAuthScope.Clips.Edit.Scope, 
-                TwitchOAuthScope.User.ReadSubscriptions.Scope,
                 TwitchOAuthScope.Channel.ReadHypeTrain.Scope,
                 TwitchScopes.Followers.Scope,
                 TwitchScopes.Subscriptions.Scope,
@@ -57,9 +55,10 @@ namespace TwitchRevamp {
         void Start() => UpdateAuthState();
 
         void PromptLogin() {
-            if ( TwitchAPIUtils.GetTwitchAuthUrl() ) return;
-
-            Logger.Log("TwitchAPI: Unable to get authentication info");
+            // Set scopes before calling GetAuthenticationInfo
+            // so the auth info is generated with the correct scopes
+            m_authInfoTask ??= TwitchAPI.API.GetAuthenticationInfo( RequiredScopes );
+            TwitchAPIUtils.GetTwitchAuthUrl();
         }
 
         public void UpdateAuthState() {
@@ -67,7 +66,6 @@ namespace TwitchRevamp {
                 Logger.Log("TwitchAPI API is not available");
                 return;
             }
-            
             m_authStateTask = TwitchAPI.API.GetAuthState();
             var state = m_authStateTask?.MaybeResult;
             if ( state == null ) {
@@ -93,7 +91,7 @@ namespace TwitchRevamp {
                     }
 
                     Logger.Log( $"Authorize at: {info.Uri} with code: {info.UserCode}" );
-                    TwitchAPIUtils.GetTwitchAuthUrl();
+                    PromptLogin();
                     break;
                 
                 case AuthStatus.Loading:

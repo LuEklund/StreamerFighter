@@ -6,10 +6,9 @@ using Logger = TCS.Utils.Logger;
 namespace TwitchRevamp {
     [DefaultExecutionOrder( -1000 )]
     public class TwitchManager : TwitchAPI {
-        [SerializeField]
-        TwitchAPISettings m_settings;
+        [SerializeField] TwitchAPISettings m_settings;
 
-        UnityTwitchAPI m_twitchAPIAPI;
+        UnityTwitchAPI m_twitchAPI;
         TwitchManager() { }
         void Awake() => Init();
 
@@ -34,14 +33,14 @@ namespace TwitchRevamp {
 
             TwitchAPISettings.Instance = m_settings;
 
-            m_twitchAPIAPI = new UnityTwitchAPI( m_settings.m_clientId, m_settings.m_useEventSubProxy );
-            APIInstance = m_twitchAPIAPI;
+            m_twitchAPI = new UnityTwitchAPI( m_settings.m_clientId, m_settings.m_useEventSubProxy );
+            APIInstance = m_twitchAPI;
             ((UnityTwitchAPI)APIInstance).InitializeInternally();
         }
         
         [Button] public void Authenticate() {
             if ( TwitchAPIUtils.GetTwitchAuthUrl() ) return;
-            Logger.Log("m_twitchAPIAPI: Unable to get authentication info");
+            Logger.Log("m_twitchAPI: Unable to get authentication info");
         }
     }
 }
