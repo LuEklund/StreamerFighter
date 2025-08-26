@@ -15,7 +15,9 @@ namespace SMRevamp {
         public float m_motorSpeed = 1000;
         public float m_motorForce = 1000;
         public bool m_useLimits;
-        public JointAngleLimits2D Limits = new() { min = -45, max = 45 };
+        public float m_limitMin = -45;
+        public float m_limitMax = 45;
+        JointAngleLimits2D m_limits;
 
         public void Init() {
             m_balance.targetRotation = m_targetRotation;
@@ -35,7 +37,11 @@ namespace SMRevamp {
                 }
 
                 if ( m_useLimits ) {
-                    m_hingeJoint.limits = Limits;
+                    m_limits = new JointAngleLimits2D {
+                        min = m_limitMin,
+                        max = m_limitMax,
+                    };
+                    m_hingeJoint.limits = m_limits;
                     m_hingeJoint.useLimits = true;
                 }
                 else {

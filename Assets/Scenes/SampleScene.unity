@@ -119,38 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &143187633 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 164103871761236808, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-  m_PrefabInstance: {fileID: 233431803}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5cf7ea499528db71b569f071b4ef622, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Balance
---- !u!233 &143187634 stripped
-HingeJoint2D:
-  m_CorrespondingSourceObject: {fileID: 657812654582391454, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-  m_PrefabInstance: {fileID: 233431803}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &220543272 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7301582200496374592, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-  m_PrefabInstance: {fileID: 233431803}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5cf7ea499528db71b569f071b4ef622, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Balance
---- !u!233 &220543273 stripped
-HingeJoint2D:
-  m_CorrespondingSourceObject: {fileID: 7935173758679970283, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-  m_PrefabInstance: {fileID: 233431803}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &233431803
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -159,10 +127,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2468887660416594738, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2496311941706388059, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -215,62 +179,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stickman2D (rooted)
       objectReference: {fileID: 0}
-    - target: {fileID: 5329934197555083364, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6598824021698809370, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
-    - target: {fileID: 8712163281674680890, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_headSettings.m_balance
-      value: 
-      objectReference: {fileID: 1123158854}
-    - target: {fileID: 8712163281674680890, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_torsoSettings.m_balance
-      value: 
-      objectReference: {fileID: 143187633}
-    - target: {fileID: 8712163281674680890, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_headSettings.m_hingeJoint
-      value: 
-      objectReference: {fileID: 1123158855}
-    - target: {fileID: 8712163281674680890, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_leftLegSettings.m_balance
-      value: 
-      objectReference: {fileID: 2025195573}
-    - target: {fileID: 8712163281674680890, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_rightLegSettings.m_balance
-      value: 
-      objectReference: {fileID: 1697041856}
-    - target: {fileID: 8712163281674680890, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_torsoSettings.m_hingeJoint
-      value: 
-      objectReference: {fileID: 143187634}
-    - target: {fileID: 8712163281674680890, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_leftLegSettings.m_hingeJoint
-      value: 
-      objectReference: {fileID: 2025195574}
-    - target: {fileID: 8712163281674680890, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_rightLegSettings.m_hingeJoint
-      value: 
-      objectReference: {fileID: 1697041857}
-    - target: {fileID: 8712163281674680890, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_lowerLeftLegSettings.m_balance
-      value: 
-      objectReference: {fileID: 220543272}
-    - target: {fileID: 8712163281674680890, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_lowerRightLegSettings.m_balance
-      value: 
-      objectReference: {fileID: 1415506794}
-    - target: {fileID: 8712163281674680890, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_lowerLeftLegSettings.m_hingeJoint
-      value: 
-      objectReference: {fileID: 220543273}
-    - target: {fileID: 8712163281674680890, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_lowerRightLegSettings.m_hingeJoint
-      value: 
-      objectReference: {fileID: 1415506795}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -633,22 +545,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1123158854 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1275976289985504738, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-  m_PrefabInstance: {fileID: 233431803}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5cf7ea499528db71b569f071b4ef622, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Balance
---- !u!233 &1123158855 stripped
-HingeJoint2D:
-  m_CorrespondingSourceObject: {fileID: 8255059794675475876, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-  m_PrefabInstance: {fileID: 233431803}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1178122873
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,22 +682,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1415506794 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4206525402220722040, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-  m_PrefabInstance: {fileID: 233431803}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5cf7ea499528db71b569f071b4ef622, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Balance
---- !u!233 &1415506795 stripped
-HingeJoint2D:
-  m_CorrespondingSourceObject: {fileID: 7918139566467640188, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-  m_PrefabInstance: {fileID: 233431803}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1624441636
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,22 +828,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624441636}
   m_CullTransparentMesh: 1
---- !u!114 &1697041856 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6338173985218176015, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-  m_PrefabInstance: {fileID: 233431803}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5cf7ea499528db71b569f071b4ef622, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Balance
---- !u!233 &1697041857 stripped
-HingeJoint2D:
-  m_CorrespondingSourceObject: {fileID: 8742319004099141432, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-  m_PrefabInstance: {fileID: 233431803}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1949006572
 GameObject:
   m_ObjectHideFlags: 0
@@ -1066,22 +930,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &2025195573 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6057587544231322016, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-  m_PrefabInstance: {fileID: 233431803}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5cf7ea499528db71b569f071b4ef622, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Balance
---- !u!233 &2025195574 stripped
-HingeJoint2D:
-  m_CorrespondingSourceObject: {fileID: 1816578421764694898, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-  m_PrefabInstance: {fileID: 233431803}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2138024844
 GameObject:
   m_ObjectHideFlags: 0
