@@ -9,9 +9,11 @@ namespace SMRevamp {
         [Header( "Components" )]
         public MovementKeys m_movementKeys = new();
         public Movement m_movement = new();
-        public ProceduralWalker2D m_proceduralWalker = new(); // gpt example
         public ControlledKnees m_controlledKnees = new();
         public ControlledLegs m_controlledLegs = new();
+        public ControlledLean m_controlledLean = new();
+        [Header( "Obsolete" )]
+        public ProceduralWalker2D m_proceduralWalker = new(); // gpt example
         public LegMovements m_legMovements;
 
         [Header( "Limb Settings" )] // most likely going to remove this
@@ -40,6 +42,7 @@ namespace SMRevamp {
             
             m_controlledKnees.Init( m_movementKeys );
             m_controlledLegs.Init( m_movementKeys );
+            m_controlledLean.Init();
         }
 
         void Update() {
@@ -55,13 +58,16 @@ namespace SMRevamp {
             m_movement.HandleMovement();
             m_controlledKnees.HandleKnees();
             m_controlledLegs.HandleLegs();
+            m_controlledLean.HandleLean();
             
             // TODO: Holding both left and right stops kick routines, until all keys are released
             if ( Input.GetKeyDown( m_movementKeys.m_leftKey ) ) {
                 StartCoroutine( m_controlledLegs.MoveLeft() );
+                m_controlledLean.LeanLeft();
             }
             else if ( Input.GetKeyDown( m_movementKeys.m_rightKey ) ) {
                 StartCoroutine( m_controlledLegs.MoveRight() );
+                m_controlledLean.LeanRight();
             }
         }
 
@@ -69,17 +75,17 @@ namespace SMRevamp {
         //     m_proceduralWalker.FixedUpdate();
         // }
 
-        LimbSettings[] LimbSettingsArray() {
-            LimbSettings[] settingsArray = {
-                m_headSettings,
-                //m_torsoSettings,
-                m_leftLegSettings,
-                m_lowerLeftLegSettings,
-                m_rightLegSettings,
-                m_lowerRightLegSettings
-            };
-            return settingsArray;
-        }
+        // LimbSettings[] LimbSettingsArray() {
+        //     LimbSettings[] settingsArray = {
+        //         m_headSettings,
+        //         //m_torsoSettings,
+        //         m_leftLegSettings,
+        //         m_lowerLeftLegSettings,
+        //         m_rightLegSettings,
+        //         m_lowerRightLegSettings
+        //     };
+        //     return settingsArray;
+        // }
         
         // [Button] public void TestLegForce() {
         //     m_controlledLegs.AddWalkForce();
@@ -93,6 +99,63 @@ namespace SMRevamp {
             if ( m_movement != null ) {
                 m_movement.OnDrawGizmosSelected();
             }
+        }
+    }
+
+    [Serializable] public class ControlledLean {
+        [SerializeField] Balance m_lowerTorso;
+        [SerializeField] Balance m_upperTorso;
+        
+        public float m_lowerTargetRotation;
+        public float m_lowerForce = 25000f;
+        public float m_upperTargetRotation;
+        public float m_upperForce = 25000f;
+        public float m_lerpSpeed = 5f;
+        
+        public void Init() {
+            if ( m_lowerTorso ) {
+                m_lowerTorso.targetRotation = m_lowerTargetRotation;
+                m_lowerTorso.force = m_lowerForce;
+            }
+
+            if ( m_upperTorso ) {
+                m_upperTorso.targetRotation = m_upperTargetRotation;
+                m_upperTorso.force = m_upperForce;
+            }
+        }
+        
+        // public void HandleLean() {
+        //     if ( m_lowerTorso ) {
+        //         m_lowerTorso.targetRotation = m_lowerTargetRotation;
+        //         m_lowerTorso.force = m_lowerForce;
+        //     }
+        //
+        //     if ( m_upperTorso ) {
+        //         m_upperTorso.targetRotation = m_upperTargetRotation;
+        //         m_upperTorso.force = m_upperForce;
+        //     }
+        // }
+        
+        public void HandleLean() {
+            if ( m_lowerTorso ) {
+                m_lowerTorso.targetRotation = Mathf.Lerp( m_lowerTorso.targetRotation, m_lowerTargetRotation, Time.deltaTime * m_lerpSpeed );
+                m_lowerTorso.force = Mathf.Lerp( m_lowerTorso.force, m_lowerForce, Time.deltaTime * m_lerpSpeed );
+            }
+
+            if ( m_upperTorso ) {
+                m_upperTorso.targetRotation = Mathf.Lerp( m_upperTorso.targetRotation, m_upperTargetRotation, Time.deltaTime * m_lerpSpeed );
+                m_upperTorso.force = Mathf.Lerp( m_upperTorso.force, m_upperForce, Time.deltaTime * m_lerpSpeed );
+            }
+        }
+
+        public void LeanLeft() {
+            m_lowerTargetRotation = 20f;
+            m_upperTargetRotation = 10f;
+        }
+        
+        public void LeanRight() {
+            m_lowerTargetRotation = -20f;
+            m_upperTargetRotation = -10f;
         }
     }
 
@@ -273,6 +336,7 @@ namespace SMRevamp {
         }
     }
     
+    [Obsolete]
     [Serializable] public class LimbSettings {
         [Header( "Balance Component" )]
         public Balance m_balance;
@@ -324,7 +388,8 @@ namespace SMRevamp {
         public KeyCode m_leftKey = KeyCode.A;
         public KeyCode m_rightKey = KeyCode.D;
     }
-
+    
+    [Obsolete]
     [Serializable] public class LegMovements {
         [Header( "Rigidbody2D References" )]
         public Rigidbody2D m_leftLegRb;
@@ -385,7 +450,7 @@ namespace SMRevamp {
         bool AreRBsNull() => !m_leftLegRb || !m_lowerLeftLegRb || !m_rightLegRb || !m_lowerRightLegRb;
     }
 
-    // Procedural 2D Walker by ChatGPT
+    // Procedural 2D Walker by ChatGPT, Ideas?
     [Serializable] public class ProceduralWalker2D {
         [Header( "Rigidbodies" )]
         [SerializeField] Rigidbody2D pelvis;
