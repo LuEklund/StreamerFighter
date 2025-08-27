@@ -67,7 +67,7 @@
             <para>Required scope: analytics:read:extensions</para>
             </summary> 
             <param name="extensionId">
-            Client ID value assigned to the extension when it is created. If this is specified, the returned URL points to an analytics report for just the specified extension.
+            TwitchSharpClient ID value assigned to the extension when it is created. If this is specified, the returned URL points to an analytics report for just the specified extension.
             <para>If this is not specified, the response includes multiple URLs (paginated), pointing to separate analytics reports for each of the authenticated user’s Extensions.</para>
             </param>
             <param name="startedAt">
@@ -660,7 +660,7 @@
             <param name="websocketSessionId">The session Id of a websocket connection that you want to subscribe to an event for. Only needed if method is Websocket</param>
             <param name="webhookCallback">The callback URL where the Webhook notification should be sent. Only needed if method is Webhook</param>
             <param name="webhookSecret">The secret used for verifying a Webhooks signature. Only needed if method is Webhook</param>
-            <param name="clientId">optional Client ID to override the use of the stored one in the TwitchAPI instance</param>
+            <param name="clientId">optional TwitchSharpClient ID to override the use of the stored one in the TwitchAPI instance</param>
             <param name="accessToken">optional access token to override the use of the stored one in the TwitchAPI instance</param>
             <returns cref="T:TwitchLib.Api.Helix.Models.EventSub.CreateEventSubSubscriptionResponse"></returns>
         </member>
@@ -672,7 +672,7 @@
             <param name="type">Filter subscriptions by subscription type (e.g., channel.update).</param>
             <param name="userId">Filter subscriptions by user ID.</param>
             <param name="after">The cursor used to get the next page of results.</param>
-            <param name="clientId">optional Client ID to override the use of the stored one in the TwitchAPI instance</param>
+            <param name="clientId">optional TwitchSharpClient ID to override the use of the stored one in the TwitchAPI instance</param>
             <param name="accessToken">optional access token to override the use of the stored one in the TwitchAPI instance</param>
             <returns cref="T:TwitchLib.Api.Helix.Models.EventSub.GetEventSubSubscriptionsResponse">Returns a list of your EventSub subscriptions.</returns>
         </member>
@@ -681,7 +681,7 @@
             Deletes an EventSub subscription.
             </summary>
             <param name="id">The ID of the subscription to delete.</param>
-            <param name="clientId">optional Client ID to override the use of the stored one in the TwitchAPI instance</param>
+            <param name="clientId">optional TwitchSharpClient ID to override the use of the stored one in the TwitchAPI instance</param>
             <param name="accessToken">optional access token to override the use of the stored one in the TwitchAPI instance</param>
             <returns>True: If successfully deleted; False: If delete failed</returns>
         </member>
@@ -781,7 +781,7 @@
         </member>
         <member name="P:TwitchLib.Api.Helix.Helix.Settings">
             <summary>
-            API Settings like the ClientId, Client Secret and so on
+            API Settings like the ClientId, TwitchSharpClient Secret and so on
             </summary>
         </member>
         <member name="P:TwitchLib.Api.Helix.Helix.Analytics">

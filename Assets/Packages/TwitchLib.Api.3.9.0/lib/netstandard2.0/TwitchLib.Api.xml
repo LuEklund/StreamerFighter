@@ -10,7 +10,7 @@
         <member name="M:TwitchLib.Api.Auth.Auth.RefreshAuthTokenAsync(System.String,System.String,System.String)">
             <summary>
                 <para>[ASYNC] Refreshes an expired auth token</para>
-                <para>ATTENTION: Client Secret required. Never expose it to consumers!</para>
+                <para>ATTENTION: TwitchSharpClient Secret required. Never expose it to consumers!</para>
                 <para>Throws a BadRequest Exception if the request fails due to a bad refresh token</para>
             </summary>
             <returns>A RefreshResponse object that holds your new auth and refresh token and the list of scopes for that token</returns>
@@ -30,7 +30,7 @@
         <member name="M:TwitchLib.Api.Auth.Auth.GetAccessTokenFromCodeAsync(System.String,System.String,System.String,System.String)">
             <summary>
                 <para>[ASYNC] Uses an authorization code to generate an access token</para>
-                <para>ATTENTION: Client Secret required. Never expose it to consumers!</para>
+                <para>ATTENTION: TwitchSharpClient Secret required. Never expose it to consumers!</para>
                 <para>Throws a BadRequest Exception if the request fails due to a bad code token</para>
             </summary>
             <param name="code">The OAuth 2.0 authorization code is a 30-character, randomly generated string. Used in the request made to the token endpoint in exchange for an access token.</param>

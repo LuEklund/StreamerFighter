@@ -120,7 +120,7 @@
             We have valid OAuth credentials.
             </summary>
             <remarks>
-            Note that these credentials may still be rejected if the user revokes your Client-Id from their account.
+            Note that these credentials may still be rejected if the user revokes your TwitchSharpClient-Id from their account.
             </remarks>
         </member>
         <member name="F:TwitchSDK.Interop.CustomRewardRedemptionState.Unknown">
@@ -1772,8 +1772,8 @@
             <summary>
             Initialize the Twitch R66 plugin.
             </summary>
-            <param name="clientId">Your OAuth Client-Id</param>
-            <param name="clientSecret">Your OAuth Client Secret</param>
+            <param name="clientId">Your OAuth TwitchSharpClient-Id</param>
+            <param name="clientSecret">Your OAuth TwitchSharpClient Secret</param>
             <param name="useEventSubProxy">Do not enable this in releases. This option instructs the plugin to connect to a local EventSubProxy instead of directly to Twitch.</param>
         </member>
         <member name="M:TwitchSDK.TwitchSDKApi.CreatePAL">

@@ -28,7 +28,7 @@ namespace TwitchRevamp.API {
             var inst = TwitchAPISettings.Instance;
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("TwitchAPI Client ID:");
+            EditorGUILayout.LabelField("TwitchAPI TwitchSharpClient ID:");
             SetDirtyIfNeeded(ref inst.m_clientId, EditorGUILayout.TextField(inst.m_clientId));
             EditorGUILayout.EndHorizontal();
 
