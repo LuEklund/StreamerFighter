@@ -10,8 +10,8 @@ namespace TwitchRevamp.Models {
        /* "pagination": {
     "cursor": "eyJiIjpudWxsLCJhIjp7Ik9mZnNldCI6Mn19"
   },*/
-        [JsonProperty("pagination")]
-        public Pagination Pagination { get; set; }
+        // [JsonProperty("pagination")]
+        // public Pagination Pagination { get; set; }
         
         [JsonProperty("total")]
         public int Total { get; set; }
@@ -32,9 +32,9 @@ namespace TwitchRevamp.Models {
         public string UserName { get; set; }
     }
 
-    [Serializable]
-    public class Pagination {
-        [JsonProperty("cursor")]
-        public string Cursor { get; set; }
-    }
+    // [Serializable]
+    // public class Pagination {
+    //     [JsonProperty("cursor")]
+    //     public string Cursor { get; set; }
+    // }
 }
