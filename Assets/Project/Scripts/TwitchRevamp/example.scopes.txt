@@ -1,1 +1,0 @@
-﻿Current Scopes: [channel:manage:polls, channel:manage:predictions, channel:manage:redemptions, clips:edit, user:read:subscriptions]
