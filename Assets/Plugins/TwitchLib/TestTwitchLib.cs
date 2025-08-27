@@ -5,30 +5,40 @@ using UnityEngine;
 
 public class TestTwitchLib : MonoBehaviour {
     public string m_userName;
-    public string m_accessToken;
+    public string m_accessToken; // Get this from https://twitchtokengenerator.com/ DONT SHOW TO ANYONE
+    public string m_channelName = ""; // normally your username with a # prefix
+    public bool m_enableLogging = true;
 
     [TextArea]
     public string m_testMessage = "Test Message";
     
-    TwitchUserBot bot;
+    TwitchUserBot m_bot;
 
     void Awake() {
-        bot = TwitchBotFactory.CreateForUnity(
-            //username: "your_twitch_username",
+        m_bot = TwitchBotFactory.CreateForUnity(
             m_userName,
-            //accessToken: "access_token_here", // Get this from https://twitchtokengenerator.com/ DONT SHOW TO ANYONE
             m_accessToken,
-            defaultChannel: "", // normally your username with a # prefix
-            true // turn on logging
+            m_channelName, // normally your username with a # prefix
+            m_enableLogging // turn on logging
         );
     }
 
     void Start() {
-        bot.OnLog += SendLogMessage;
+        Init();
+    }
+    [Button] public void Init() {
+        m_bot.OnLog += SendLogMessage;
+        m_bot.OnMessageReceived += LogMessageReceived;
         SendChatMessage("Crack Cocaine");
     }
+    
+    void LogMessageReceived(object sender, OnMessageReceivedArgs e) {
+        if (sender == null) return;
+        Debug.Log( $"[{e.ChatMessage.Channel}] {e.ChatMessage.Username}: {e.ChatMessage.Message}" );
+    }
+    
     void OnDestroy() {
-        bot.OnLog -= SendLogMessage;
+        m_bot.OnLog -= SendLogMessage;
     }
     
     void SendLogMessage(object sender, OnLogArgs e) {
@@ -37,7 +47,7 @@ public class TestTwitchLib : MonoBehaviour {
     }
     
     void SendChatMessage(string message = "Hello from Unity!") {
-        bot.SendMessageToChannel( message );
+        m_bot.SendMessageToChannel( message );
     }
 
     [Button] public void SendTestMessage() {

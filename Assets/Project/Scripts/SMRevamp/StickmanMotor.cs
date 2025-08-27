@@ -56,6 +56,7 @@ namespace SMRevamp {
             m_controlledKnees.HandleKnees();
             m_controlledLegs.HandleLegs();
             
+            // TODO: Holding both left and right stops kick routines, until all keys are released
             if ( Input.GetKeyDown( m_movementKeys.m_leftKey ) ) {
                 StartCoroutine( m_controlledLegs.MoveLeft() );
             }
@@ -558,6 +559,7 @@ namespace SMRevamp {
             m_canJump = true;
         }
 
+        // TODO: Spamming left and right builds momentum
         public void HandleMovement() {
             if ( !m_rb ) return;
 
@@ -599,6 +601,12 @@ namespace SMRevamp {
                 m_rb.bodyType = RigidbodyType2D.Kinematic;
                 m_rb.linearVelocity = Vector2.zero;
             }
+        }
+        
+        void ZeroX(Rigidbody2D rb) {
+            var v = rb.linearVelocity;
+            v.x = 0f;
+            rb.linearVelocity = v;
         }
 
         public void OnDrawGizmosSelected() {

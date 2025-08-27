@@ -174,7 +174,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_BreakAction: 0
   m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: 0.0017233829, y: 1.0537847}
+  m_Anchor: {x: 0.000000053246815, y: 1.0000002}
   m_ConnectedAnchor: {x: -0.0000009242931, y: -0.5000003}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
@@ -228,7 +228,7 @@ Transform:
   m_GameObject: {fileID: 892491281383925517}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.017275784, y: -2.0709224, z: 0}
+  m_LocalPosition: {x: 0, y: -2.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -660,7 +660,7 @@ Transform:
   m_GameObject: {fileID: 1662027795103842839}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.707107, w: 0.7071066}
-  m_LocalPosition: {x: -1.6851096, y: 0.38332212, z: 0}
+  m_LocalPosition: {x: -1.7, y: 0.375, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -805,7 +805,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0.97}
-  m_ConnectedAnchor: {x: -0.5359635, y: 0.38332173}
+  m_ConnectedAnchor: {x: -0.5763579, y: 0.37658808}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
   m_Motor:
@@ -876,7 +876,7 @@ Transform:
   m_GameObject: {fileID: 3374003436392781914}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.70710707, w: 0.7071066}
-  m_LocalPosition: {x: 1.690392, y: 0.37522933, z: 0}
+  m_LocalPosition: {x: 1.7, y: 0.375, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1183,7 +1183,7 @@ Transform:
   m_GameObject: {fileID: 4248466185133112302}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.034547854, y: -2.0189118, z: 0}
+  m_LocalPosition: {x: 0, y: -2.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1541,7 +1541,7 @@ MonoBehaviour:
   m_controlledLegs:
     m_leftLegRb: {fileID: 8101533210616698672}
     m_rightLegRb: {fileID: 4188743918698960500}
-    m_legForce: 50
+    m_legForce: 75
     m_kickDelay: 0.2
     m_leftHip: {fileID: 1816578421764694898}
     m_rightHip: {fileID: 8742319004099141432}
@@ -1916,7 +1916,7 @@ Transform:
   m_GameObject: {fileID: 6844374896580085034}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.9754134, z: 0}
+  m_LocalPosition: {x: 0, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2059,7 +2059,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: -0.014680764, y: 1.0107887}
+  m_Anchor: {x: -0.0000005427996, y: 0.99999887}
   m_ConnectedAnchor: {x: -0.0000006169903, y: -1.0000002}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
@@ -2113,8 +2113,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7963114557442503310}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.5455577, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2258,7 +2258,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_BreakAction: 0
   m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: 0.017268274, y: 1.0443281}
+  m_Anchor: {x: 0.000000053246815, y: 1.0000002}
   m_ConnectedAnchor: {x: -0.0000009242931, y: -0.5000003}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
@@ -2585,7 +2585,7 @@ Transform:
   m_GameObject: {fileID: 9194017938738849359}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.0283685, z: 0}
+  m_LocalPosition: {x: 0, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2728,7 +2728,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: -0.033679534, y: 1.0283668}
+  m_Anchor: {x: 0.0000004506111, y: 0.9999981}
   m_ConnectedAnchor: {x: 0.00000042852662, y: -1.0000012}
   m_UseConnectedAnchor: 1
   m_UseMotor: 0
@@ -2936,7 +2936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Balance
   targetRotation: 0
-  force: 1000
+  force: 25000
 --- !u!1 &9222843970609545559
 GameObject:
   m_ObjectHideFlags: 0
@@ -3146,4 +3146,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Balance
   targetRotation: 0
-  force: 1000
+  force: 25000

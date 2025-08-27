@@ -183,10 +183,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
-    - target: {fileID: 8712163281674680890, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
-      propertyPath: m_controlledLegs.m_legForce
-      value: 75
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -482,7 +478,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &608704197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,8 +491,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27633440395e9a24da5cf6938ed3b1c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestTwitchLib
-  m_userName: ddemon26
-  m_accessToken: zgrbjee5bp01b4etv1v577og1k34bk
+  m_userName: 
+  m_accessToken: 
+  m_channelName: 
+  m_enableLogging: 1
   m_testMessage: Test Message
 --- !u!4 &608704198
 Transform:
