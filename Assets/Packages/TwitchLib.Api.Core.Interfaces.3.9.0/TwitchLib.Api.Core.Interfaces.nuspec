@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>TwitchLib.Api.Core.Interfaces</id>
+    <version>3.9.0</version>
+    <authors>swiftyspiffy, Prom3theu5, Syzuna, LuckyNoS7evin</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>twitchlib.png</icon>
+    <projectUrl>https://github.com/TwitchLib/TwitchLib.Api</projectUrl>
+    <description>Project containing all of the interfaces used in TwitchLib.Api</description>
+    <releaseNotes>Incremental changes.</releaseNotes>
+    <copyright>Copyright 2022</copyright>
+    <tags>twitch library irc chat c# csharp api events pubsub net standard 2.0</tags>
+    <repository type="Git" url="https://github.com/swiftyspiffy/TwitchLib" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="TwitchLib.Api.Core.Enums" version="3.9.0" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

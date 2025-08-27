@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>TwitchLib.Api</id>
+    <version>3.9.0</version>
+    <authors>swiftyspiffy, Prom3theu5, Syzuna, LuckyNoS7evin</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>twitchlib.png</icon>
+    <projectUrl>https://github.com/TwitchLib/TwitchLib.Api</projectUrl>
+    <description>Api component of TwitchLib. This component allows you to access the Twitch API, as well as undocumented and third party APIs.</description>
+    <releaseNotes>Updated dependencies, Added missing Auth subclass to ITwitchInterface, Added HttpResponse to Http related exceptions for better debugging, Added IgdbId to Games and added support for IgdbId lookup for Games, Added type parameter to GetStreams, Added tags to all related Stream models, Added UserId and UserName to GetChatters, Added GetCharityDonation support, Added Shield Mode support, Added Send Shoutout support, Added new Follower Endpoints support, Switched Follower Service to new Follwer rndpoint, Reason for BanUser now defaults to string.Empty, Fixed wrong Whisper Endpoint, Fixed wrong property name in CreateCustomRewards Request, Fixed issue with force_verify in generated Auth strings by GetAuthorizationCodeUrl, Fixed UpdateUserCall using the wrong HTTP method</releaseNotes>
+    <copyright>Copyright 2022</copyright>
+    <tags>twitch library irc chat c# csharp api events pubsub net standard 2.0</tags>
+    <repository type="Git" url="https://github.com/swiftyspiffy/TwitchLib" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="TwitchLib.Api.Core" version="3.9.0" exclude="Build,Analyzers" />
+        <dependency id="TwitchLib.Api.Helix" version="3.9.0" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers" />
+        <dependency id="System.Net.Http" version="4.3.4" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
