@@ -1,13 +1,26 @@
 using TCS.Utils;
 using TwitchLib.Client.Events;
 using TwitchSharp;
+using TwitchSharp.Config;
 using UnityEngine;
+
+[System.Serializable]
+public class UnitySecrets {
+    public string USERNAME;
+    public string ACCESS_TOKEN;
+    public string REFRESH_TOKEN;
+    public string CLIENT_ID;
+    public string CLIENT_SECRET;
+}
 
 public class TestTwitchLib : MonoBehaviour {
     public string m_userName;
-    public string m_accessToken; // Get this from https://twitchtokengenerator.com/ DONT SHOW TO ANYONE
+    string m_accessToken; // Get this from https://twitchtokengenerator.com/ DONT SHOW TO ANYONE
     public string m_channelName = ""; // normally your username with a # prefix
     public bool m_enableLogging = true;
+    
+    public bool m_usePathForConfig = false;
+    public string m_secretsPath = "Damon"; // only used if m_use
 
     [TextArea]
     public string m_testMessage = "Test Message";
@@ -15,6 +28,22 @@ public class TestTwitchLib : MonoBehaviour {
     TwitchUserBot m_bot;
 
     void Awake() {
+        //Assets/_Damon/Resources/Damon/secrets.json
+        
+        if (m_usePathForConfig) {
+            // just get the from the path no the factory
+            var load = Resources.Load("Damon/secrets") as TextAsset;
+            if (load == null) {
+                Debug.LogError("Failed to load secrets.json from Resources/Damon/");
+                return;
+            }
+            Debug.Log(load );
+            var secrets = JsonUtility.FromJson<UnitySecrets>(load.ToString());
+            m_userName = secrets.USERNAME;
+            m_accessToken = secrets.ACCESS_TOKEN;
+        }
+        
+        
         m_bot = TwitchBotFactory.CreateForUnity(
             m_userName,
             m_accessToken,
@@ -38,7 +67,9 @@ public class TestTwitchLib : MonoBehaviour {
     }
     
     void OnDestroy() {
-        m_bot.OnLog -= SendLogMessage;
+        if (m_bot != null) {
+            m_bot.OnLog -= SendLogMessage;
+        }
     }
     
     void SendLogMessage(object sender, OnLogArgs e) {

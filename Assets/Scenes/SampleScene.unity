@@ -474,7 +474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &608704197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,9 +488,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TestTwitchLib
   m_userName: 
-  m_accessToken: 
-  m_channelName: 
+  m_channelName: '#ddemon26'
   m_enableLogging: 1
+  m_usePathForConfig: 1
+  m_secretsPath: Damon
   m_testMessage: Test Message
 --- !u!4 &608704198
 Transform:
