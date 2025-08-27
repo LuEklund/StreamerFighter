@@ -6,7 +6,6 @@ namespace Stickman {
         public float targetRotation;
         Rigidbody2D rb;
         public float force;
-        public float targetMultiplier = 10;
 
         private void Start()
         {
@@ -15,7 +14,7 @@ namespace Stickman {
 
         void Update()
         {
-            rb.MoveRotation(Mathf.LerpAngle(rb.rotation, targetRotation * targetMultiplier, (force) * Time.deltaTime));
+            rb.MoveRotation(Mathf.LerpAngle(rb.rotation, targetRotation, force * Time.deltaTime));
         }
 
     }

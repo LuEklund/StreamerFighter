@@ -197,9 +197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5cf7ea499528db71b569f071b4ef622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Balance
-  targetRotation: 0
+  targetRotation: 15
   force: 1000
-  targetMultiplier: 1
 --- !u!1 &892491281383925517
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,7 +382,7 @@ HingeJoint2D:
   m_UseLimits: 1
   m_AngleLimits:
     m_LowerAngle: 0
-    m_UpperAngle: -359
+    m_UpperAngle: -180
 --- !u!1 &969680199829580149
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,7 +523,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1141291238414025741}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -814,8 +813,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 0
-    m_UpperAngle: 0
+    m_LowerAngle: -45
+    m_UpperAngle: 10
 --- !u!1 &3061197081149262562
 GameObject:
   m_ObjectHideFlags: 0
@@ -845,7 +844,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4908791282843188715}
+  - {fileID: 7753959952826742851}
   m_Father: {fileID: 2747627113175555588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3374003436392781914
@@ -1030,8 +1029,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 0
-    m_UpperAngle: 0
+    m_LowerAngle: 45
+    m_UpperAngle: -10
 --- !u!1 &3805808351316166394
 GameObject:
   m_ObjectHideFlags: 0
@@ -1338,7 +1337,7 @@ HingeJoint2D:
   m_UseLimits: 1
   m_AngleLimits:
     m_LowerAngle: 0
-    m_UpperAngle: 359
+    m_UpperAngle: 180
 --- !u!1 &4480627286959832736
 GameObject:
   m_ObjectHideFlags: 0
@@ -1501,94 +1500,117 @@ MonoBehaviour:
     m_leftKey: 97
     m_rightKey: 100
   m_movement:
-    m_leftLegRb: {fileID: 4188743918698960500}
+    m_rb: {fileID: 4257126135123602219}
+    m_speed: 2
+    m_jumpForce: 25
+    m_jumpCooldown: 1
+    m_isGrounded: 1
+    m_canJump: 1
+    m_groundLayer:
+      serializedVersion: 2
+      m_Bits: 8
+    m_groundCheckOffset: 1.3
+    m_groundCheckRadius: 0.4
+  m_proceduralWalker:
+    pelvis: {fileID: 4257126135123602219}
+    leftHip: {fileID: 1816578421764694898}
+    leftKnee: {fileID: 7935173758679970283}
+    rightHip: {fileID: 8742319004099141432}
+    rightKnee: {fileID: 7918139566467640188}
+    useFaceBool: 1
+    faceRight: 1
+    stepFrequency: 0.2
+    hipAmplitude: 12.5
+    kneeAmplitude: 17.5
+    neutralKnee: 2.5
+    kp: 9
+    kd: 1
+    maxMotorSpeed: 360
+    maxMotorTorque: 600
+    motorAccel: 1500
+    leftHipSign: 1
+    rightHipSign: 1
+    leftKneeSign: 1
+    rightKneeSign: 1
+  m_controlledKnees:
+    m_leftKnee: {fileID: 7935173758679970283}
+    m_rightKnee: {fileID: 7918139566467640188}
+    m_bendAngle: 45
+    m_bendGap: 30.45
+    m_reverseGap: 0
+  m_controlledLegs:
+    m_leftLegRb: {fileID: 8101533210616698672}
+    m_rightLegRb: {fileID: 4188743918698960500}
+    m_legForce: 50
+    m_kickDelay: 0.2
+    m_leftHip: {fileID: 1816578421764694898}
+    m_rightHip: {fileID: 8742319004099141432}
+    m_bendAngle: -45
+    m_bendGap: -15
+    m_reverseGap: 0
+  m_legMovements:
+    m_leftLegRb: {fileID: 8101533210616698672}
     m_lowerLeftLegRb: {fileID: 5389117666002120845}
     m_rightLegRb: {fileID: 4188743918698960500}
     m_lowerRightLegRb: {fileID: 6830205444234924346}
     m_anim: {fileID: 4385174660353553401}
     m_speed: 2
     m_lowerSpeed: 2
-    m_jumpHeight: 2
     m_legWait: 0.5
-    m_rb: {fileID: 4257126135123602219}
-    m_jumpForce: 10
-    m_isGrounded: 0
-    m_positionRadius: 1
-    m_groundLayer:
-      serializedVersion: 2
-      m_Bits: 8
-    m_playerPos: {fileID: 5115480647578509269}
   m_updateChanges: 0
   m_headSettings:
     m_balance: {fileID: 1275976289985504738}
     m_targetRotation: 0
-    m_force: 0
-    m_targetMultiplier: 10
+    m_force: 1000
     m_hingeJoint: {fileID: 8255059794675475876}
     m_useMotor: 0
-    m_motorSpeed: 1000
+    m_motorSpeed: 0
     m_motorForce: 1000
-    m_useLimits: 0
-    m_limitMin: -45
-    m_limitMax: 45
-  m_torsoSettings:
-    m_balance: {fileID: 164103871761236808}
-    m_targetRotation: 0
-    m_force: 0
-    m_targetMultiplier: 10
-    m_hingeJoint: {fileID: 657812654582391454}
-    m_useMotor: 0
-    m_motorSpeed: 1000
-    m_motorForce: 1000
-    m_useLimits: 0
-    m_limitMin: -45
-    m_limitMax: 45
+    m_useLimits: 1
+    m_limitMin: 0
+    m_limitMax: 0
   m_leftLegSettings:
     m_balance: {fileID: 6057587544231322016}
     m_targetRotation: 0
     m_force: 0
-    m_targetMultiplier: 10
     m_hingeJoint: {fileID: 1816578421764694898}
     m_useMotor: 0
-    m_motorSpeed: 1000
-    m_motorForce: 1000
-    m_useLimits: 0
-    m_limitMin: -45
-    m_limitMax: 45
+    m_motorSpeed: 0
+    m_motorForce: 10000
+    m_useLimits: 1
+    m_limitMin: -25
+    m_limitMax: 25
   m_lowerLeftLegSettings:
     m_balance: {fileID: 7301582200496374592}
     m_targetRotation: 0
     m_force: 0
-    m_targetMultiplier: 10
     m_hingeJoint: {fileID: 7935173758679970283}
     m_useMotor: 0
-    m_motorSpeed: 1000
+    m_motorSpeed: 0
     m_motorForce: 1000
-    m_useLimits: 0
+    m_useLimits: 1
     m_limitMin: -45
     m_limitMax: 45
   m_rightLegSettings:
     m_balance: {fileID: 6338173985218176015}
     m_targetRotation: 0
     m_force: 0
-    m_targetMultiplier: 10
     m_hingeJoint: {fileID: 8742319004099141432}
     m_useMotor: 0
-    m_motorSpeed: 1000
+    m_motorSpeed: 0
     m_motorForce: 1000
-    m_useLimits: 0
-    m_limitMin: -45
-    m_limitMax: 45
+    m_useLimits: 1
+    m_limitMin: -25
+    m_limitMax: 25
   m_lowerRightLegSettings:
     m_balance: {fileID: 4206525402220722040}
     m_targetRotation: 0
     m_force: 0
-    m_targetMultiplier: 10
     m_hingeJoint: {fileID: 7918139566467640188}
     m_useMotor: 0
-    m_motorSpeed: 1000
+    m_motorSpeed: 0
     m_motorForce: 1000
-    m_useLimits: 0
+    m_useLimits: 1
     m_limitMin: -45
     m_limitMax: 45
 --- !u!1 &5570368430999363226
@@ -1705,7 +1727,7 @@ PositionConstraint:
   serializedVersion: 2
   m_Weight: 1
   m_TranslationAtRest: {x: 0, y: 8, z: 0}
-  m_TranslationOffset: {x: 0, y: 3.5500002, z: 0}
+  m_TranslationOffset: {x: 0, y: 3.5000005, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -2046,8 +2068,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 0
-    m_UpperAngle: 0
+    m_LowerAngle: -45
+    m_UpperAngle: 45
 --- !u!114 &7301582200496374592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2062,67 +2084,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Balance
   targetRotation: 0
   force: 100
-  targetMultiplier: 10
---- !u!1 &7088101492518597171
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4908791282843188715}
-  - component: {fileID: 7561676960982007382}
-  m_Layer: 0
-  m_Name: root
-  m_TagString: Untagged
-  m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4908791282843188715
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7088101492518597171}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7753959952826742851}
-  m_Father: {fileID: 7367179219453107580}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &7561676960982007382
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7088101492518597171}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &7963114557442503310
 GameObject:
   m_ObjectHideFlags: 0
@@ -2320,9 +2281,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5cf7ea499528db71b569f071b4ef622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Balance
-  targetRotation: 0
+  targetRotation: -15
   force: 1000
-  targetMultiplier: 1
 --- !u!1 &8839611584959908871
 GameObject:
   m_ObjectHideFlags: 0
@@ -2579,8 +2539,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 0
-    m_UpperAngle: 0
+    m_LowerAngle: -5
+    m_UpperAngle: 5
 --- !u!114 &1275976289985504738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2595,7 +2555,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Balance
   targetRotation: 0
   force: 1000
-  targetMultiplier: 100
 --- !u!1 &9194017938738849359
 GameObject:
   m_ObjectHideFlags: 0
@@ -2778,8 +2737,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 0
-    m_UpperAngle: 0
+    m_LowerAngle: -45
+    m_UpperAngle: 45
 --- !u!114 &4206525402220722040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2794,7 +2753,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Balance
   targetRotation: 0
   force: 100
-  targetMultiplier: 10
 --- !u!1 &9205558410131631736
 GameObject:
   m_ObjectHideFlags: 0
@@ -2808,7 +2766,6 @@ GameObject:
   - component: {fileID: 4257126135123602219}
   - component: {fileID: 3596646573272260215}
   - component: {fileID: 4594826126457628004}
-  - component: {fileID: 503390680869776118}
   m_Layer: 0
   m_Name: LowerTorso
   m_TagString: Untagged
@@ -2825,15 +2782,15 @@ Transform:
   m_GameObject: {fileID: 9205558410131631736}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.45, z: 0}
+  m_LocalPosition: {x: 0, y: 4.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6918145342145753641}
-  - {fileID: 6843988933250831012}
   - {fileID: 6673741287327164043}
+  - {fileID: 6843988933250831012}
   - {fileID: 7505386577023701401}
-  m_Father: {fileID: 4908791282843188715}
+  m_Father: {fileID: 7367179219453107580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6078073334085677347
 SpriteRenderer:
@@ -2901,7 +2858,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9205558410131631736}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -2980,26 +2937,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Balance
   targetRotation: 0
   force: 1000
-  targetMultiplier: 1
---- !u!255 &503390680869776118
-FixedJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9205558410131631736}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 7561676960982007382}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_BreakAction: 3
-  m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: 0, y: -4.55}
-  m_ConnectedAnchor: {x: 0, y: 4.45}
-  m_DampingRatio: 0
-  m_Frequency: 0
 --- !u!1 &9222843970609545559
 GameObject:
   m_ObjectHideFlags: 0
@@ -3105,7 +3042,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9222843970609545559}
-  m_BodyType: 2
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -3210,4 +3147,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Balance
   targetRotation: 0
   force: 1000
-  targetMultiplier: 1

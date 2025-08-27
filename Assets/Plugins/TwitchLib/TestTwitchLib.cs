@@ -24,8 +24,8 @@ public class TestTwitchLib : MonoBehaviour {
     }
 
     void Start() {
-        SendChatMessage("Crack Cocaine");
         bot.OnLog += SendLogMessage;
+        SendChatMessage("Crack Cocaine");
     }
     void OnDestroy() {
         bot.OnLog -= SendLogMessage;
