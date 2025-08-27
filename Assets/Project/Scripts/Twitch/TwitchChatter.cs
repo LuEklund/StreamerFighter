@@ -13,13 +13,16 @@ public class UnitySecrets {
     public string CLIENT_SECRET;
 }
 
-public class TestTwitchLib : MonoBehaviour {
+[DefaultExecutionOrder(-99999)]
+public class TwitchChatter : MonoBehaviour {
+    public GameManager gameManager;
+    
+    public GameObject m_player;
     public string m_userName;
     string m_accessToken; // Get this from https://twitchtokengenerator.com/ DONT SHOW TO ANYONE
     public string m_channelName = ""; // normally your username with a # prefix
     public bool m_enableLogging = true;
     
-    public bool m_usePathForConfig = false;
     public string m_secretsPath = "Damon"; // only used if m_use
 
     [TextArea]
@@ -30,18 +33,16 @@ public class TestTwitchLib : MonoBehaviour {
     void Awake() {
         //Assets/_Damon/Resources/Damon/secrets.json
         
-        if (m_usePathForConfig) {
-            // just get the from the path no the factory
-            var load = Resources.Load("Lucas/secrets") as TextAsset;
-            if (load == null) {
-                Debug.LogError("Failed to load secrets.json from Resources/Damon/");
-                return;
-            }
-            Debug.Log(load );
-            var secrets = JsonUtility.FromJson<UnitySecrets>(load.ToString());
-            m_userName = secrets.USERNAME;
-            m_accessToken = secrets.ACCESS_TOKEN;
+        // just get the from the path no the factory
+        var load = Resources.Load("Lucas/secrets") as TextAsset;
+        if (load == null) {
+            Debug.LogError("Failed to load secrets.json from Resources/Damon/");
+            return;
         }
+        Debug.Log(load );
+        var secrets = JsonUtility.FromJson<UnitySecrets>(load.ToString());
+        m_userName = secrets.USERNAME;
+        m_accessToken = secrets.ACCESS_TOKEN;
         
         
         m_bot = TwitchBotFactory.CreateForUnity(
@@ -64,6 +65,9 @@ public class TestTwitchLib : MonoBehaviour {
     void LogMessageReceived(object sender, OnMessageReceivedArgs e) {
         if (sender == null) return;
         Debug.Log( $"[{e.ChatMessage.Channel}] {e.ChatMessage.Username}: {e.ChatMessage.Message}" );
+
+        gameManager.AddPlayer(e.ChatMessage.Username);
+        
     }
     
     void OnDestroy() {
