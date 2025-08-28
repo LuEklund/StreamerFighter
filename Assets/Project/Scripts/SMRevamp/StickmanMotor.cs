@@ -12,9 +12,6 @@ namespace SMRevamp {
         public ControlledKnees m_controlledKnees = new();
         public ControlledLegs m_controlledLegs = new();
         public ControlledLean m_controlledLean = new();
-        [Header( "Obsolete" )]
-        public ProceduralWalker2D m_proceduralWalker = new(); // gpt example
-        public LegMovements m_legMovements;
 
         [Header( "Limb Settings" )] // most likely going to remove this
         public bool m_updateChanges;
@@ -46,15 +43,6 @@ namespace SMRevamp {
         }
 
         void Update() {
-            //StartCoroutine( m_legMovements.Update() );
-
-            // if ( m_updateChanges ) {
-            //     LimbSettings[] settingsArray = LimbSettingsArray();
-            //     foreach (var balanceSetting in settingsArray) {
-            //         balanceSetting.Init();
-            //     }
-            // }
-
             m_movement.HandleMovement();
             m_controlledKnees.HandleKnees();
             m_controlledLegs.HandleLegs();
@@ -70,10 +58,6 @@ namespace SMRevamp {
                 m_controlledLean.LeanRight();
             }
         }
-
-        // void FixedUpdate() {
-        //     m_proceduralWalker.FixedUpdate();
-        // }
 
         // LimbSettings[] LimbSettingsArray() {
         //     LimbSettings[] settingsArray = {
@@ -336,7 +320,6 @@ namespace SMRevamp {
         }
     }
     
-    [Obsolete]
     [Serializable] public class LimbSettings {
         [Header( "Balance Component" )]
         public Balance m_balance;
@@ -387,211 +370,6 @@ namespace SMRevamp {
         public KeyCode m_jumpKey = KeyCode.Space;
         public KeyCode m_leftKey = KeyCode.A;
         public KeyCode m_rightKey = KeyCode.D;
-    }
-    
-    [Obsolete]
-    [Serializable] public class LegMovements {
-        [Header( "Rigidbody2D References" )]
-        public Rigidbody2D m_leftLegRb;
-        public Rigidbody2D m_lowerLeftLegRb;
-        public Rigidbody2D m_rightLegRb;
-        public Rigidbody2D m_lowerRightLegRb;
-        [Header( "LegMovements Settings" )]
-        [SerializeField] Animator m_anim;
-        [SerializeField] float m_speed = 2f;
-        [SerializeField] float m_lowerSpeed = 2f;
-        [SerializeField] float m_legWait = .5f;
-
-        MovementKeys m_movementKeys;
-
-        public bool Init(MovementKeys movementKeys) {
-            if ( AreRBsNull() ) {
-                Debug.LogError( "One or more required Rigidbody2D references are not set in the inspector." );
-                return false;
-            }
-
-            m_movementKeys = movementKeys;
-            return true;
-        }
-
-        public IEnumerator Update() {
-            if ( Input.GetKey( m_movementKeys.m_leftKey ) ) {
-                m_anim.Play( "WalkLeft" );
-                yield return MoveRight( m_legWait );
-            }
-            else if ( Input.GetKey( m_movementKeys.m_rightKey ) ) {
-                m_anim.Play( "WalkRight" );
-                yield return MoveLeft( m_legWait );
-            }
-            else {
-                m_anim.Play( "Idle" );
-            }
-
-            yield return null;
-        }
-
-        // TODO: Figure out foot movement.
-        IEnumerator MoveLeft(float seconds) {
-            m_leftLegRb.AddForce( Vector2.right * (m_speed * 1000 * Time.deltaTime) );
-            m_lowerLeftLegRb.AddForce( Vector2.right * (m_lowerSpeed * 1000 * Time.deltaTime) );
-            yield return new WaitForSeconds( seconds );
-            m_rightLegRb.AddForce( Vector2.right * (m_speed * 1000 * Time.deltaTime) );
-            m_lowerRightLegRb.AddForce( Vector2.right * (m_lowerSpeed * 1000 * Time.deltaTime) );
-        }
-
-        IEnumerator MoveRight(float seconds) {
-            m_rightLegRb.AddForce( Vector2.left * (m_speed * 1000 * Time.deltaTime) );
-            m_lowerRightLegRb.AddForce( Vector2.left * (m_lowerSpeed * 1000 * Time.deltaTime) );
-            yield return new WaitForSeconds( seconds );
-            m_lowerLeftLegRb.AddForce( Vector2.left * (m_lowerSpeed * 1000 * Time.deltaTime) );
-            m_leftLegRb.AddForce( Vector2.left * (m_speed * 1000 * Time.deltaTime) );
-        }
-
-        bool AreRBsNull() => !m_leftLegRb || !m_lowerLeftLegRb || !m_rightLegRb || !m_lowerRightLegRb;
-    }
-
-    // Procedural 2D Walker by ChatGPT, Ideas?
-    [Serializable] public class ProceduralWalker2D {
-        [Header( "Rigidbodies" )]
-        [SerializeField] Rigidbody2D pelvis;
-
-        [Header( "Joints (set limits in Inspector)" )]
-        [SerializeField] HingeJoint2D leftHip;
-        [SerializeField] HingeJoint2D leftKnee;
-        [SerializeField] HingeJoint2D rightHip;
-        [SerializeField] HingeJoint2D rightKnee;
-
-        [Header( "Facing / Input" )]
-        [Tooltip( "If false, script derives facing from input keys" )]
-        public bool useFaceBool = true;
-        [Tooltip( "True = facing right, False = facing left" )]
-        public bool faceRight = true;
-        MovementKeys movementKeys;
-
-        [Header( "Gait" )]
-        [SerializeField, Tooltip( "Steps per second at full input" )]
-        float stepFrequency = 2.2f;
-        [SerializeField, Tooltip( "Hip swing amplitude (deg)" )]
-        float hipAmplitude = 18f;
-        [SerializeField, Tooltip( "Extra knee bend during swing (deg)" )]
-        float kneeAmplitude = 25f;
-        [SerializeField, Tooltip( "Baseline knee bend (deg)" )]
-        float neutralKnee = 8f;
-
-        [Header( "Motor PD" )]
-        [SerializeField] float kp = 8f; // proportional gain (lowered)
-        [SerializeField] float kd = 1.0f; // damping gain
-        [SerializeField] float maxMotorSpeed = 420f; // deg/s clamp
-        [SerializeField] float maxMotorTorque = 600f; // tune to masses
-        [SerializeField, Tooltip( "How fast the commanded motor speed can change (deg/s^2)" )]
-        float motorAccel = 3000f;
-
-        [Header( "Per-joint orientation (flip if it moves the wrong way)" )]
-        [SerializeField] int leftHipSign = 1;
-        [SerializeField] int rightHipSign = 1;
-        [SerializeField] int leftKneeSign = 1;
-        [SerializeField] int rightKneeSign = 1;
-
-        float phase; // 0..2π
-        float lHipZero, rHipZero, lKneeZero, rKneeZero; // neutral angles (deg)
-        float spLHip, spRHip, spLKnee, spRKnee; // last motor speeds for smoothing
-
-        public void Init(MovementKeys movementKeys1) {
-            movementKeys = movementKeys1;
-            // Capture each joint's neutral angle at startup so targets are relative to YOUR rig.
-            lHipZero = leftHip.jointAngle;
-            rHipZero = rightHip.jointAngle;
-            lKneeZero = leftKnee.jointAngle;
-            rKneeZero = rightKnee.jointAngle;
-
-            // Ensure motors are enabled and torques set.
-            PrepareMotor( leftHip );
-            PrepareMotor( rightHip );
-            PrepareMotor( leftKnee );
-            PrepareMotor( rightKnee );
-        }
-
-        void PrepareMotor(HingeJoint2D j) {
-            j.useLimits = true; // set sensible limits in Inspector per joint
-            var m = j.motor;
-            m.maxMotorTorque = maxMotorTorque;
-            m.motorSpeed = 0f;
-            j.motor = m;
-            j.useMotor = true;
-        }
-
-        public void FixedUpdate() {
-            // input (-1..1)
-            float move = 0f;
-            if ( movementKeys != null ) {
-                if ( Input.GetKey( movementKeys.m_leftKey ) ) move -= 1f;
-                if ( Input.GetKey( movementKeys.m_rightKey ) ) move += 1f;
-            }
-
-            float absMove = Mathf.Abs( move );
-
-            // decide facing
-            if ( !useFaceBool )
-                faceRight = move >= 0f; // default if using input
-
-            int facingSign = faceRight ? 1 : -1;
-
-            if ( absMove > 0.01f ) {
-                // advance phase; scale with input so slow press = slow walk
-                float freq = Mathf.Lerp( 0.8f * stepFrequency, stepFrequency, absMove );
-                phase += freq * Time.fixedDeltaTime * Mathf.PI * 2f; // in radians
-                if ( phase > Mathf.PI * 2f ) phase -= Mathf.PI * 2f;
-
-                // Hip swing (legs 180° out of phase)
-                float hipL = facingSign * hipAmplitude * Mathf.Sin( phase );
-                float hipR = -hipL;
-
-                // Knee bend mostly on swing (half-wave rectified)
-                float swingL = Mathf.Max( 0f, Mathf.Sin( phase + Mathf.PI * 0.5f ) );
-                float swingR = Mathf.Max( 0f, Mathf.Sin( phase + Mathf.PI * 0.5f + Mathf.PI ) );
-                float kneeL = neutralKnee + kneeAmplitude * swingL;
-                float kneeR = neutralKnee + kneeAmplitude * swingR;
-
-                DriveRelative( leftHip, lHipZero, hipL, leftHipSign, ref spLHip );
-                DriveRelative( rightHip, rHipZero, hipR, rightHipSign, ref spRHip );
-                DriveRelative( leftKnee, lKneeZero, kneeL, leftKneeSign, ref spLKnee );
-                DriveRelative( rightKnee, rKneeZero, kneeR, rightKneeSign, ref spRKnee );
-            }
-            else {
-                // Idle: smoothly hold neutral pose
-                phase = 0f; // so the first step is consistent
-                HoldNeutral( leftHip, lHipZero, ref spLHip );
-                HoldNeutral( rightHip, rHipZero, ref spRHip );
-                HoldNeutral( leftKnee, lKneeZero + leftKneeSign * neutralKnee, ref spLKnee );
-                HoldNeutral( rightKnee, rKneeZero + rightKneeSign * neutralKnee, ref spRKnee );
-            }
-        }
-
-        void HoldNeutral(HingeJoint2D j, float targetAbsDeg, ref float lastSpd) {
-            DriveToAbsolute( j, targetAbsDeg, ref lastSpd, kp * 0.6f );
-        }
-
-        void DriveRelative(HingeJoint2D j, float zeroDeg, float targetRelDeg, int sign, ref float lastSpd) {
-            float targetAbs = zeroDeg + sign * targetRelDeg;
-            DriveToAbsolute( j, targetAbs, ref lastSpd, kp );
-        }
-
-        void DriveToAbsolute(HingeJoint2D j, float targetAbsDeg, ref float lastSpd, float Pgain) {
-            // error in degrees (-180..180)
-            float err = Mathf.DeltaAngle( j.jointAngle, targetAbsDeg );
-            // PD -> desired speed
-            float desired = Mathf.Clamp( err * Pgain - j.jointSpeed * kd, -maxMotorSpeed, maxMotorSpeed );
-            // ramp to avoid instant jolts
-            float maxStep = motorAccel * Time.fixedDeltaTime;
-            float cmd = Mathf.MoveTowards( lastSpd, desired, maxStep );
-            lastSpd = cmd;
-
-            var m = j.motor;
-            m.motorSpeed = cmd;
-            m.maxMotorTorque = maxMotorTorque;
-            j.motor = m;
-            j.useMotor = true;
-        }
     }
 
     [Serializable] public class Movement {
