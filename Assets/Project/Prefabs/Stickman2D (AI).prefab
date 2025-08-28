@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5563852331775489168}
   - component: {fileID: 1816578421764694898}
   - component: {fileID: 6057587544231322016}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Leg.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 345970145428942494}
   - component: {fileID: 6852343521118852474}
   - component: {fileID: 7065553686923569957}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Forearm.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394,7 +394,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3057448204158822929}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,7 +433,7 @@ GameObject:
   - component: {fileID: 9034081451410865661}
   - component: {fileID: 1832237149483576336}
   - component: {fileID: 6226606888494707484}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Weapon
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -554,7 +554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7325654622445261026}
   - component: {fileID: 5224165283786984738}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -643,7 +643,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7893116089422716890}
   - component: {fileID: 1562862013774390930}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Leg-Visual.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -736,7 +736,7 @@ GameObject:
   - component: {fileID: 557203677759469984}
   - component: {fileID: 6583572119893270927}
   - component: {fileID: 7793962307768806064}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Arm.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -918,7 +918,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2784251794174000076}
   - component: {fileID: 8804461557563846825}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Torso-Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1007,7 +1007,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7367179219453107580}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1043,7 +1043,7 @@ GameObject:
   - component: {fileID: 1358640661417398223}
   - component: {fileID: 8232596189549354457}
   - component: {fileID: 373790575493860881}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Arm.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1227,7 +1227,7 @@ GameObject:
   - component: {fileID: 6758584797121708485}
   - component: {fileID: 1674668611020371314}
   - component: {fileID: 1988678128930675495}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Weapon
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -1348,7 +1348,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6016511744317111464}
   - component: {fileID: 7592592358505815821}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Forearm-Visual.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1438,7 +1438,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2349803584651636389}
   - component: {fileID: 6322726705998217627}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Leg-Visual.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1528,7 +1528,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1669470146541260737}
   - component: {fileID: 4101399199390192126}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LegLower-Visual.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1621,7 +1621,7 @@ GameObject:
   - component: {fileID: 2468887660416594738}
   - component: {fileID: 8449298264717675650}
   - component: {fileID: 6712820574215873099}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Forearm.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1804,7 +1804,7 @@ GameObject:
   - component: {fileID: 420150464039671067}
   - component: {fileID: 3799253231496514598}
   - component: {fileID: 7713022973576338928}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1878,7 +1878,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8133776659340326347}
   - component: {fileID: 1920281367871007579}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LegLower-Visual.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1968,7 +1968,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8794494399410905172}
   - component: {fileID: 8755262676705780057}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Forearm-Visual.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2060,7 +2060,8 @@ GameObject:
   - component: {fileID: 4385174660353553401}
   - component: {fileID: 2207721325247079607}
   - component: {fileID: 8712163281674680890}
-  m_Layer: 0
+  - component: {fileID: 6492834447124123202}
+  m_Layer: 6
   m_Name: Stickman2D (AI)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2130,10 +2131,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a0906889f4ed9419ab248b654c991a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StickmanMotor
+  toroso: {fileID: 9205558410131631736}
   m_movementKeys:
     m_jumpKey: 32
     m_leftKey: 97
     m_rightKey: 100
+    m_jump: 0
+    m_left: 0
+    m_right: 0
+    m_isPlayerControlled: 1
   m_movement:
     m_rb: {fileID: 4257126135123602219}
     m_speed: 2
@@ -2226,6 +2232,20 @@ MonoBehaviour:
     m_useLimits: 1
     m_limitMin: -45
     m_limitMax: 45
+--- !u!114 &6492834447124123202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5329934197555083364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c50aa3b8cc45ab8e852f37d1b25e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SMRevamp.StickmanAiMotor
+  stickmanMotor: {fileID: 8712163281674680890}
+  target: {fileID: 0}
 --- !u!1 &5570368430999363226
 GameObject:
   m_ObjectHideFlags: 0
@@ -2239,7 +2259,7 @@ GameObject:
   - component: {fileID: 7412146130180791160}
   - component: {fileID: 2177564403511087690}
   - component: {fileID: 2729019304926809793}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2363,7 +2383,7 @@ GameObject:
   - component: {fileID: 2230678205921320681}
   - component: {fileID: 6002302539125408498}
   - component: {fileID: 3423706353590576070}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HealthBox
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -2511,7 +2531,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2651052932132772099}
   - component: {fileID: 8179630137537042258}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LT-Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2602,7 +2622,7 @@ GameObject:
   - component: {fileID: 1048503177881082936}
   - component: {fileID: 8474625180072003988}
   - component: {fileID: 31148034938285392}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2743,7 +2763,7 @@ GameObject:
   - component: {fileID: 5188729520135082145}
   - component: {fileID: 7935173758679970283}
   - component: {fileID: 7301582200496374592}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LegLower.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2939,7 +2959,7 @@ GameObject:
   - component: {fileID: 8329532677346300544}
   - component: {fileID: 5538825030759830094}
   - component: {fileID: 5754926006214273503}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3080,7 +3100,7 @@ GameObject:
   - component: {fileID: 1567335633121298414}
   - component: {fileID: 8742319004099141432}
   - component: {fileID: 6338173985218176015}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Leg.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3276,7 +3296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8499494179513057448}
   - component: {fileID: 7077496603456903956}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: arm-Visual.L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3366,7 +3386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6768664616415157641}
   - component: {fileID: 3242887476792970365}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Head-Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3456,7 +3476,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4895927698827179779}
   - component: {fileID: 9122427076828879910}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Arm-Visual.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3547,7 +3567,7 @@ GameObject:
   - component: {fileID: 2496311941706388059}
   - component: {fileID: 4293142834532281192}
   - component: {fileID: 8187540358425334705}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3625,7 +3645,7 @@ GameObject:
   - component: {fileID: 467882154589213900}
   - component: {fileID: 8255059794675475876}
   - component: {fileID: 1275976289985504738}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3823,7 +3843,7 @@ GameObject:
   - component: {fileID: 1602223676989022573}
   - component: {fileID: 7918139566467640188}
   - component: {fileID: 4206525402220722040}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LegLower.R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4021,7 +4041,7 @@ GameObject:
   - component: {fileID: 4257126135123602219}
   - component: {fileID: 3596646573272260215}
   - component: {fileID: 4594826126457628004}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LowerTorso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4207,7 +4227,7 @@ GameObject:
   - component: {fileID: 5147625893939057537}
   - component: {fileID: 657812654582391454}
   - component: {fileID: 164103871761236808}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Torso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
