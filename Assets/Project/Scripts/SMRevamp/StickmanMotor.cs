@@ -22,6 +22,9 @@ namespace SMRevamp {
         public LimbSettings m_rightLegSettings;
         public LimbSettings m_lowerRightLegSettings;
 
+        private bool _leftPressed = false;
+        private bool _rightPressed = false;
+
         public void Awake() {
             // if ( !m_legMovements.Init( m_movementKeys ) ) {
             //     Debug.LogError( "LegMovements initialization failed. Please check the Rigidbody2D references in the inspector." );
@@ -47,17 +50,32 @@ namespace SMRevamp {
             m_controlledKnees.HandleKnees();
             m_controlledLegs.HandleLegs();
             m_controlledLean.HandleLean();
+           
+            // Capture one-frame edges here (render loop)
+            if (Input.GetKeyDown(m_movementKeys.m_leftKey))  _leftPressed  = true;
+            if (Input.GetKeyDown(m_movementKeys.m_rightKey)) _rightPressed = true;
+
+            // If leaning is purely visual and not physics, you can do it here too:
+            if (Input.GetKeyDown(m_movementKeys.m_leftKey))  m_controlledLean.LeanLeft();
+            if (Input.GetKeyDown(m_movementKeys.m_rightKey)) m_controlledLean.LeanRight();
             
-            // TODO: Holding both left and right stops kick routines, until all keys are released
-            if ( Input.GetKeyDown( m_movementKeys.m_leftKey ) ) {
-                StartCoroutine( m_controlledLegs.MoveLeft() );
-                m_controlledLean.LeanLeft();
+        }
+        void FixedUpdate() {
+            // Consume the buffered intents on the physics loop
+            // if (_leftPressed && _rightPressed)
+            // {
+            //     m_movement. 
+            // }
+            if (_leftPressed) {
+                StartCoroutine(m_controlledLegs.MoveLeft());
+                _leftPressed = false;
             }
-            else if ( Input.GetKeyDown( m_movementKeys.m_rightKey ) ) {
-                StartCoroutine( m_controlledLegs.MoveRight() );
-                m_controlledLean.LeanRight();
+            if (_rightPressed) {
+                StartCoroutine(m_controlledLegs.MoveRight());
+                _rightPressed = false;
             }
         }
+
 
         // LimbSettings[] LimbSettingsArray() {
         //     LimbSettings[] settingsArray = {
@@ -212,12 +230,12 @@ namespace SMRevamp {
         public IEnumerator MoveRight() {
             while (Input.GetKey(m_movementKeys.m_rightKey)) {
                 if (Input.GetKey(m_movementKeys.m_leftKey)) yield break;
-                ZeroX(m_leftLegRb);
-                m_leftLegRb.AddForce(Vector2.right * (m_legForce * 1000 * Time.deltaTime));
+                // ZeroX(m_leftLegRb);
+                m_leftLegRb.AddForce(Vector2.right * (m_legForce * 1000 * Time.fixedDeltaTime ));
                 yield return m_waitForSeconds;
                 if (!Input.GetKey(m_movementKeys.m_rightKey)) yield break;
-                ZeroX(m_rightLegRb);
-                m_rightLegRb.AddForce(Vector2.right * (m_legForce * 1000 * Time.deltaTime));
+                // ZeroX(m_rightLegRb);
+                m_rightLegRb.AddForce(Vector2.right * (m_legForce * 1000 * Time.fixedDeltaTime));
                 yield return m_waitForSeconds;
             }
         }
@@ -225,12 +243,12 @@ namespace SMRevamp {
         public IEnumerator MoveLeft() {
             while (Input.GetKey(m_movementKeys.m_leftKey)) {
                 if (Input.GetKey(m_movementKeys.m_rightKey)) yield break;
-                ZeroX(m_rightLegRb);
-                m_rightLegRb.AddForce(Vector2.left * (m_legForce * 1000 * Time.deltaTime));
+                // ZeroX(m_rightLegRb);
+                m_rightLegRb.AddForce(Vector2.left * (m_legForce * 1000 * Time.fixedDeltaTime));
                 yield return m_waitForSeconds;
                 if (!Input.GetKey(m_movementKeys.m_leftKey)) yield break;
-                ZeroX(m_leftLegRb);
-                m_leftLegRb.AddForce(Vector2.left * (m_legForce * 1000 * Time.deltaTime));
+                // ZeroX(m_leftLegRb);
+                m_leftLegRb.AddForce(Vector2.left * (m_legForce * 1000 * Time.fixedDeltaTime));
                 yield return m_waitForSeconds;
             }
         }
@@ -423,13 +441,13 @@ namespace SMRevamp {
         }
 
         void HandleJump() {
-            if ( !Input.GetKeyDown( m_jumpKey ) && m_canJump ) return;
+            if ( Input.GetKeyDown( m_jumpKey ) == false || m_canJump == false ) return;
             m_isGrounded = Physics2D.OverlapCircle(
                 m_playerPos.position + Vector3.down * m_groundCheckOffset,
                 m_groundCheckRadius,
                 m_groundLayer
             );
-            if ( m_isGrounded && Input.GetKeyDown( m_jumpKey ) ) {
+            if ( m_isGrounded)  {
                 m_rb.bodyType = RigidbodyType2D.Dynamic;
                 m_rb.AddForce( Vector2.up * m_jumpForce );
             }

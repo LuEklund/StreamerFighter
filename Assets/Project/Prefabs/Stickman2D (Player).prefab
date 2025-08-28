@@ -2061,7 +2061,7 @@ GameObject:
   - component: {fileID: 2207721325247079607}
   - component: {fileID: 8712163281674680890}
   m_Layer: 0
-  m_Name: Stickman2D (rooted)
+  m_Name: Stickman2D (Player)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2137,7 +2137,7 @@ MonoBehaviour:
   m_movement:
     m_rb: {fileID: 4257126135123602219}
     m_speed: 2
-    m_jumpForce: 25
+    m_jumpForce: 3000
     m_jumpCooldown: 1
     m_isGrounded: 1
     m_canJump: 1
