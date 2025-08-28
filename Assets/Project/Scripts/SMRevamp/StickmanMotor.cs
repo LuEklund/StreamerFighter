@@ -5,6 +5,22 @@ using TCS.Utils;
 using UnityEngine;
 using UnityEngine.Serialization;
 namespace SMRevamp {
+    public class StickmanAiMotor : MonoBehaviour {
+        [SerializeField] StickmanMotor stickmanMotor;
+
+        void Awake() {
+            if ( stickmanMotor == null ) {
+                stickmanMotor = GetComponent<StickmanMotor>();
+            }
+            
+            stickmanMotor.m_movementKeys.m_isPlayerControlled = false;
+        }
+
+        void Update() {
+            stickmanMotor.m_movementKeys.m_left = UnityEngine.Random.value > 0.5f;
+        }
+    }
+    
     public class StickmanMotor : MonoBehaviour {
         [Header( "Components" )]
         public MovementKeys m_movementKeys = new();
@@ -22,42 +38,28 @@ namespace SMRevamp {
         public LimbSettings m_rightLegSettings;
         public LimbSettings m_lowerRightLegSettings;
 
-        private bool _leftPressed = false;
-        private bool _rightPressed = false;
-
         public void Awake() {
-            // if ( !m_legMovements.Init( m_movementKeys ) ) {
-            //     Debug.LogError( "LegMovements initialization failed. Please check the Rigidbody2D references in the inspector." );
-            //     enabled = false; // Disable this component if initialization fails
-            // }
-            //
-            // LimbSettings[] settingsArray = LimbSettingsArray();
-            // foreach (var balanceSetting in settingsArray) {
-            //     balanceSetting.Init();
-            // }
-
             m_movement.Init( m_movementKeys );
 
-            //m_proceduralWalker.Init( m_movementKeys );
-            
             m_controlledKnees.Init( m_movementKeys );
             m_controlledLegs.Init( m_movementKeys );
             m_controlledLean.Init();
         }
 
         void Update() {
+            m_movementKeys.HandleInput(); // input
             m_movement.HandleMovement();
             m_controlledKnees.HandleKnees();
             m_controlledLegs.HandleLegs();
             m_controlledLean.HandleLean();
            
-            // Capture one-frame edges here (render loop)
-            if (Input.GetKeyDown(m_movementKeys.m_leftKey))  _leftPressed  = true;
-            if (Input.GetKeyDown(m_movementKeys.m_rightKey)) _rightPressed = true;
+            // // Capture one-frame edges here (render loop)
+            // if (Input.GetKeyDown(m_movementKeys.m_leftKey))  _leftPressed  = true;
+            // if (Input.GetKeyDown(m_movementKeys.m_rightKey)) _rightPressed = true;
 
             // If leaning is purely visual and not physics, you can do it here too:
-            if (Input.GetKeyDown(m_movementKeys.m_leftKey))  m_controlledLean.LeanLeft();
-            if (Input.GetKeyDown(m_movementKeys.m_rightKey)) m_controlledLean.LeanRight();
+            if (m_movementKeys.m_left)  m_controlledLean.LeanLeft();
+            if (m_movementKeys.m_right) m_controlledLean.LeanRight();
             
         }
         void FixedUpdate() {
@@ -66,13 +68,13 @@ namespace SMRevamp {
             // {
             //     m_movement. 
             // }
-            if (_leftPressed) {
+            if (m_movementKeys.m_left) {
                 StartCoroutine(m_controlledLegs.MoveLeft());
-                _leftPressed = false;
+                m_movementKeys.m_left = false;
             }
-            if (_rightPressed) {
+            if (m_movementKeys.m_right) {
                 StartCoroutine(m_controlledLegs.MoveRight());
-                _rightPressed = false;
+                m_movementKeys.m_right = false;
             }
         }
 
@@ -202,11 +204,11 @@ namespace SMRevamp {
             if ( m_reverseGap ) m_currentGap = -m_bendGap;
             else m_currentGap = m_bendGap;
             
-            if ( Input.GetKey( m_movementKeys.m_leftKey ) ) {
+            if ( m_movementKeys.m_left ) {
                 SetHipLimits( m_leftHip, -m_bendAngle, m_currentGap );
                 SetHipLimits( m_rightHip, m_currentGap, -m_bendAngle);
             }
-            else if ( Input.GetKey( m_movementKeys.m_rightKey ) ) {
+            else if ( m_movementKeys.m_right ) {
                 SetHipLimits( m_leftHip, -m_bendAngle, m_currentGap );
                 SetHipLimits( m_rightHip, m_currentGap, -m_bendAngle);
             }
@@ -228,12 +230,12 @@ namespace SMRevamp {
         // }
 
         public IEnumerator MoveRight() {
-            while (Input.GetKey(m_movementKeys.m_rightKey)) {
-                if (Input.GetKey(m_movementKeys.m_leftKey)) yield break;
+            while (m_movementKeys.m_right) {
+                if (m_movementKeys.m_left) yield break;
                 // ZeroX(m_leftLegRb);
                 m_leftLegRb.AddForce(Vector2.right * (m_legForce * 1000 * Time.fixedDeltaTime ));
                 yield return m_waitForSeconds;
-                if (!Input.GetKey(m_movementKeys.m_rightKey)) yield break;
+                if (!m_movementKeys.m_right) yield break;
                 // ZeroX(m_rightLegRb);
                 m_rightLegRb.AddForce(Vector2.right * (m_legForce * 1000 * Time.fixedDeltaTime));
                 yield return m_waitForSeconds;
@@ -241,12 +243,12 @@ namespace SMRevamp {
         }
 
         public IEnumerator MoveLeft() {
-            while (Input.GetKey(m_movementKeys.m_leftKey)) {
-                if (Input.GetKey(m_movementKeys.m_rightKey)) yield break;
+            while (m_movementKeys.m_left) {
+                if (m_movementKeys.m_right) yield break;
                 // ZeroX(m_rightLegRb);
                 m_rightLegRb.AddForce(Vector2.left * (m_legForce * 1000 * Time.fixedDeltaTime));
                 yield return m_waitForSeconds;
-                if (!Input.GetKey(m_movementKeys.m_leftKey)) yield break;
+                if (!m_movementKeys.m_left) yield break;
                 // ZeroX(m_leftLegRb);
                 m_leftLegRb.AddForce(Vector2.left * (m_legForce * 1000 * Time.fixedDeltaTime));
                 yield return m_waitForSeconds;
@@ -306,13 +308,13 @@ namespace SMRevamp {
             if ( m_reverseGap ) m_currentGap = -m_bendGap;
             else m_currentGap = m_bendGap;
             
-            if ( Input.GetKey( m_movementKeys.m_leftKey ) ) {
+            if ( m_movementKeys.m_left ) {
                 SetKneeLimits( m_leftKnee, -m_bendAngle, m_currentGap );
                 SetKneeLimits( m_rightKnee, m_currentGap, -m_bendAngle);
             }
-            else if ( Input.GetKey( m_movementKeys.m_rightKey ) ) {
-                SetKneeLimits( m_leftKnee, -m_bendAngle, m_currentGap );
-                SetKneeLimits( m_rightKnee, m_currentGap, -m_bendAngle);
+            else if ( m_movementKeys.m_right ) {
+                SetKneeLimits( m_leftKnee, m_bendAngle, m_currentGap );
+                SetKneeLimits( m_rightKnee, m_currentGap, m_bendAngle);
             }
             else {
                 SetKneeLimits( m_leftKnee, -m_bendAngle, m_currentGap );
@@ -385,9 +387,22 @@ namespace SMRevamp {
     }
 
     [Serializable] public class MovementKeys {
-        public KeyCode m_jumpKey = KeyCode.Space;
-        public KeyCode m_leftKey = KeyCode.A;
-        public KeyCode m_rightKey = KeyCode.D;
+        [SerializeField] KeyCode m_jumpKey = KeyCode.Space;
+        [SerializeField] KeyCode m_leftKey = KeyCode.A;
+        [SerializeField] KeyCode m_rightKey = KeyCode.D;
+
+        public bool m_jump;
+        public bool m_left;
+        public bool m_right;
+        
+        public bool m_isPlayerControlled = true;
+        
+        public void HandleInput() {
+            if ( !m_isPlayerControlled ) return;
+            m_jump = Input.GetKey( m_jumpKey );
+            m_left = Input.GetKey( m_leftKey );
+            m_right = Input.GetKey( m_rightKey );
+        }
     }
 
     [Serializable] public class Movement {
@@ -401,15 +416,15 @@ namespace SMRevamp {
         public float m_groundCheckOffset = 0.1f;
         public float m_groundCheckRadius = 0.2f;
 
-        KeyCode m_jumpKey;
-        KeyCode m_leftKey;
-        KeyCode m_rightKey;
+        bool m_jump;
+        bool m_left;
+        bool m_right;
         Transform m_playerPos;
 
         public void Init(MovementKeys movementKeys) {
-            m_jumpKey = movementKeys.m_jumpKey;
-            m_leftKey = movementKeys.m_leftKey;
-            m_rightKey = movementKeys.m_rightKey;
+            m_jump = movementKeys.m_jump;
+            m_left = movementKeys.m_left;
+            m_right = movementKeys.m_right;
             if ( !m_rb ) {
                 Debug.LogError( "Rigidbody2D reference is not set in the inspector." );
                 return;
@@ -424,13 +439,10 @@ namespace SMRevamp {
         public void HandleMovement() {
             if ( !m_rb ) return;
 
-            bool left = Input.GetKey( m_leftKey );
-            bool right = Input.GetKey( m_rightKey );
-
-            if ( ( left && right ) || ( !left && !right ) ) {
+            if ( ( m_left && m_right ) || ( !m_left && !m_right ) ) {
                 m_rb.linearVelocity = new Vector2( 0, m_rb.linearVelocity.y );
             }
-            else if ( left ) {
+            else if ( m_left ) {
                 m_rb.linearVelocity = new Vector2( -m_speed, m_rb.linearVelocity.y );
             }
             else {
@@ -441,7 +453,7 @@ namespace SMRevamp {
         }
 
         void HandleJump() {
-            if ( Input.GetKeyDown( m_jumpKey ) == false || m_canJump == false ) return;
+            if ( m_jump== false || m_canJump == false ) return;
             m_isGrounded = Physics2D.OverlapCircle(
                 m_playerPos.position + Vector3.down * m_groundCheckOffset,
                 m_groundCheckRadius,
