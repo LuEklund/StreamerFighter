@@ -5,23 +5,8 @@ using TCS.Utils;
 using UnityEngine;
 using UnityEngine.Serialization;
 namespace SMRevamp {
-    public class StickmanAiMotor : MonoBehaviour {
-        [SerializeField] StickmanMotor stickmanMotor;
-
-        void Awake() {
-            if ( stickmanMotor == null ) {
-                stickmanMotor = GetComponent<StickmanMotor>();
-            }
-            
-            stickmanMotor.m_movementKeys.m_isPlayerControlled = false;
-        }
-
-        void Update() {
-            stickmanMotor.m_movementKeys.m_left = UnityEngine.Random.value > 0.5f;
-        }
-    }
-    
     public class StickmanMotor : MonoBehaviour {
+        public GameObject toroso;
         [Header( "Components" )]
         public MovementKeys m_movementKeys = new();
         public Movement m_movement = new();
@@ -37,7 +22,8 @@ namespace SMRevamp {
         public LimbSettings m_lowerLeftLegSettings;
         public LimbSettings m_rightLegSettings;
         public LimbSettings m_lowerRightLegSettings;
-
+        Coroutine _leftRoutine;
+        Coroutine _rightRoutine;
         public void Awake() {
             m_movement.Init( m_movementKeys );
 
@@ -62,23 +48,27 @@ namespace SMRevamp {
             if (m_movementKeys.m_right) m_controlledLean.LeanRight();
             
         }
+  
         void FixedUpdate() {
-            // Consume the buffered intents on the physics loop
-            // if (_leftPressed && _rightPressed)
-            // {
-            //     m_movement. 
-            // }
-            if (m_movementKeys.m_left) {
-                StartCoroutine(m_controlledLegs.MoveLeft());
-                m_movementKeys.m_left = false;
+            if (m_movementKeys.m_left && _leftRoutine == null) {
+                _leftRoutine = StartCoroutine(RunMoveLeft());
             }
-            if (m_movementKeys.m_right) {
-                StartCoroutine(m_controlledLegs.MoveRight());
-                m_movementKeys.m_right = false;
+            if (m_movementKeys.m_right && _rightRoutine == null) {
+                _rightRoutine = StartCoroutine(RunMoveRight());
             }
+            m_movementKeys.m_left = false;
+            m_movementKeys.m_right = false;
+        }
+        
+        IEnumerator RunMoveLeft() {
+            yield return StartCoroutine(m_controlledLegs.MoveLeft());
+            _leftRoutine = null;
         }
 
-
+        IEnumerator RunMoveRight() {
+            yield return StartCoroutine(m_controlledLegs.MoveRight());
+            _rightRoutine = null;
+        }
         // LimbSettings[] LimbSettingsArray() {
         //     LimbSettings[] settingsArray = {
         //         m_headSettings,
