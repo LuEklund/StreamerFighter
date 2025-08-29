@@ -1,5 +1,4 @@
 using UnityEngine;
-
 namespace Stickman {
     public class Balance : MonoBehaviour
     {

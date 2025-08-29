@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-
 namespace Stickman {
     public class Health : MonoBehaviour
     {

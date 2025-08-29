@@ -1,16 +1,21 @@
 using System;
 using System.Collections;
-using Stickman;
+using Game;
 using TCS.Utils;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utils;
-namespace SMRevamp {
+using Logger = TCS.Utils.Logger;
+namespace Stickman {
     public class StickmanMotor : MonoBehaviour {
-        // Stored in "N" format (32 hex chars, no dashes) for compactness and easy copy/paste.
         [ReadOnly] public string m_guid;
+        [SerializeField] Health m_health;
         public GameObject m_torso;
-        [Header( "Components" )]
+
+        [Header( "Weapon" )]
+        public WeaponManager m_weaponManager = new();
+
+        [Header( "Movement" )]
+        public bool m_canMove = true;
         public MovementKeys m_movementKeys = new();
         public Movement m_movement = new();
         public ControlledArms m_controlledArms = new();
@@ -20,23 +25,37 @@ namespace SMRevamp {
 
         Coroutine m_leftRoutine;
         Coroutine m_rightRoutine;
-
-        void OnValidate() {
-            if ( string.IsNullOrEmpty( m_guid ) ) {
-                m_guid = Guid.NewGuid().ToString( "N" );
-            }
+        
+        public HandSelection Direction {
+            get => m_weaponManager.m_direction;
+            set => m_weaponManager.m_direction = value;
         }
 
-        public void Awake() {
-            m_movement.Init( m_movementKeys );
-            m_controlledArms.Init( m_movementKeys );
+        public bool IsMe(string guid) => m_guid == guid; // answers one question, is this me?
 
+        public bool IsPlayerControlled {
+            get => m_movementKeys.m_isPlayerControlled;
+            set => m_movementKeys.m_isPlayerControlled = value;
+        }
+        
+        [Button] public void ToggleAttack() {
+            m_controlledArms.Attack( Direction );
+        }
+
+
+        public void Awake() {
+            m_guid = Guid.NewGuid().ToString( "N" ); // This gives us a personal ID.
+            m_weaponManager.Init( m_guid );
+
+            m_movement.Init( m_movementKeys );
             m_controlledKnees.Init( m_movementKeys );
             m_controlledLegs.Init( m_movementKeys );
             m_controlledLean.Init();
         }
 
         void Update() {
+            if ( !m_canMove ) return; // need this for testing.
+
             m_movementKeys.HandleInput(); // input
             m_movement.HandleMovement();
             m_controlledArms.HandleArms();
@@ -44,8 +63,15 @@ namespace SMRevamp {
             m_controlledLegs.HandleLegs();
             m_controlledLean.HandleLean();
 
-            if ( m_movementKeys.m_left ) m_controlledLean.LeanLeft();
-            if ( m_movementKeys.m_right ) m_controlledLean.LeanRight();
+            if ( m_movementKeys.m_left ) {
+                m_controlledLean.LeanLeft();
+                m_weaponManager.SetDirection( Direction );
+            }
+
+            if ( m_movementKeys.m_right ) {
+                m_controlledLean.LeanRight();
+                m_weaponManager.SetDirection( Direction );
+            }
         }
 
         void FixedUpdate() {
@@ -80,20 +106,144 @@ namespace SMRevamp {
                 m_movement.OnDrawGizmosSelected();
             }
         }
+        public void TakeDamage(int damage) {
+            if ( m_health != null ) {
+                m_health.TakeDamage( damage );
+            }
+        }
     }
 
+    public enum HandSelection { None = -1, Left = 0, Right = 1 }
+
+    [Serializable] public class WeaponManager {
+        [SerializeField] Weapon[] m_leftWeapons;
+        [SerializeField] Weapon[] m_rightWeapons;
+
+        [Min( 0 )] public int m_currentWeaponIndex;
+        public HandSelection m_direction = HandSelection.None; // 0=Left, 1=Right, else hide all
+
+        public void Init(string guid) {
+            if ( (m_leftWeapons == null || m_leftWeapons.Length == 0) &&
+                 (m_rightWeapons == null || m_rightWeapons.Length == 0) ) {
+                Logger.LogWarning( "WeaponManager: No weapons assigned in the inspector." );
+                return;
+            }
+
+            AssignGuid( m_leftWeapons, guid );
+            AssignGuid( m_rightWeapons, guid );
+
+            UpdateActiveWeapons();
+        }
+
+        public void EnableWeapon(int index) {
+            m_currentWeaponIndex = index;
+            UpdateActiveWeapons();
+        }
+
+        public void SetDirection(HandSelection direction) {
+            m_direction = direction;
+            UpdateActiveWeapons();
+        }
+
+        void UpdateActiveWeapons() {
+            switch (m_direction) {
+                case HandSelection.Left:
+                    SetOnlyIndexActive( m_rightWeapons, m_currentWeaponIndex );
+                    SetAllInactive( m_leftWeapons );
+                    break;
+
+                case HandSelection.Right:
+                    SetOnlyIndexActive( m_leftWeapons, m_currentWeaponIndex );
+                    SetAllInactive( m_rightWeapons );
+                    break;
+                case HandSelection.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
+        static void AssignGuid(Weapon[] arr, string guid) {
+            if ( arr == null ) return;
+            foreach (var t in arr) {
+                if ( t != null ) t.GUID = guid;
+            }
+        }
+
+        static void SetOnlyIndexActive(Weapon[] arr, int index) {
+            if ( arr == null || arr.Length == 0 )
+                return;
+
+            if ( index < 0 || index >= arr.Length ) {
+                SetAllInactive( arr );
+                return;
+            }
+
+            for (var i = 0; i < arr.Length; i++) {
+                if ( arr[i] != null )
+                    arr[i].gameObject.SetActive( i == index );
+            }
+        }
+
+        static void SetAllInactive(Weapon[] arr) {
+            if ( arr == null ) return;
+            foreach (var t in arr) {
+                if ( t != null ) t.gameObject.SetActive( false );
+            }
+        }
+    }
+
+
     [Serializable] public class ControlledArms {
-        [SerializeField] LimbSettings m_leftArmLimbSettings;
-        [SerializeField] LimbSettings m_rightArmLimbSettings;
-        
-        MovementKeys m_movementKeys;
-        public void Init(MovementKeys movementKeys) {
-            m_movementKeys = movementKeys;
-            m_leftArmLimbSettings.Init();
-            m_rightArmLimbSettings.Init();
+        [SerializeField] HingeJoint2D m_leftLowerArm;
+        [SerializeField] HingeJoint2D m_rightLowerArm;
+
+        public float m_speed = 1000f;
+        public float m_torque = 10000f;
+
+        public void HandleArms() {
+            // NO-OP for now
         }
         
-        public void HandleArms() {
+        public void Attack(HandSelection handSelection) {
+            if ( m_leftLowerArm == null || m_rightLowerArm == null ) return;
+            
+            switch (handSelection) {
+                case HandSelection.Left:
+                    if ( m_leftLowerArm != null ) {
+                        var motor = m_leftLowerArm.motor;
+                        motor.motorSpeed = m_speed; // positive for left arm
+                        motor.maxMotorTorque = m_torque;
+                        m_leftLowerArm.motor = motor;
+                        m_leftLowerArm.useLimits = false;
+                        m_leftLowerArm.useMotor = true;
+                    }
+                    break;
+
+                case HandSelection.Right:
+                    if ( m_rightLowerArm != null ) {
+                        var motor = m_rightLowerArm.motor;
+                        motor.motorSpeed = -m_speed; // negative for right arm
+                        motor.maxMotorTorque = m_torque;
+                        m_rightLowerArm.motor = motor;
+                        m_rightLowerArm.useLimits = false;
+                        m_rightLowerArm.useMotor = true;
+                    }
+                    break;
+                case HandSelection.None:
+                    m_leftLowerArm.useLimits = true;
+                    m_leftLowerArm.useMotor = false;
+                    
+                    m_rightLowerArm.useLimits = true;
+                    m_rightLowerArm.useMotor = false;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        public bool IsAttacking() {
+            return m_leftLowerArm.useMotor || m_rightLowerArm.useMotor;
         }
     }
 
@@ -160,12 +310,12 @@ namespace SMRevamp {
         public void Init(MovementKeys movementKeys) {
             m_movementKeys = movementKeys;
             if ( !m_leftHip || !m_rightHip ) {
-                Debug.LogError( "One or more required HingeJoint2D references are not set in the inspector." );
+                Logger.LogError( "One or more required HingeJoint2D references are not set in the inspector." );
                 return;
             }
 
             if ( !m_leftLegRb || !m_rightLegRb ) {
-                Debug.LogError( "One or more required Rigidbody2D references are not set in the inspector." );
+                Logger.LogError( "One or more required Rigidbody2D references are not set in the inspector." );
                 return;
             }
 
@@ -260,7 +410,7 @@ namespace SMRevamp {
         public void Init(MovementKeys movementKeys) {
             m_movementKeys = movementKeys;
             if ( !m_leftKnee || !m_rightKnee ) {
-                Debug.LogError( "One or more required HingeJoint2D references are not set in the inspector." );
+                Logger.LogError( "One or more required HingeJoint2D references are not set in the inspector." );
                 return;
             }
 
@@ -357,7 +507,7 @@ namespace SMRevamp {
         public bool m_right;
 
         public bool m_isPlayerControlled = true;
-
+        
         public void HandleInput() {
             if ( !m_isPlayerControlled ) return;
             m_jump = Input.GetKey( m_jumpKey );
@@ -383,7 +533,7 @@ namespace SMRevamp {
         public void Init(MovementKeys movementKeys) {
             m_movementKeys = movementKeys;
             if ( !m_rb ) {
-                Debug.LogError( "Rigidbody2D reference is not set in the inspector." );
+                Logger.LogError( "Rigidbody2D reference is not set in the inspector." );
                 return;
             }
 
@@ -392,7 +542,6 @@ namespace SMRevamp {
             m_canJump = true;
         }
 
-        // TODO: Spamming left and right builds momentum
         public void HandleMovement() {
             if ( !m_rb ) return;
 

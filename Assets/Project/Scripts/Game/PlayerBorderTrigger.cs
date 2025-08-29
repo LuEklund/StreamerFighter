@@ -1,4 +1,4 @@
-﻿using SMRevamp;
+﻿using Stickman;
 using UnityEngine;
 namespace Game {
     public class PlayerBorderTrigger : MonoBehaviour {
