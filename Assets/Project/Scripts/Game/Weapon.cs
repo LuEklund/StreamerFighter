@@ -10,6 +10,9 @@ namespace Game {
         public float m_attackRange = 1f;
         public float m_attackRate = 1f;
         
+        [Header("Weapon Sounds")]
+        public AudioClip m_sound;
+        
         [Header("Weapon Special Effects")]
         public SpecialEffect m_specialEffect = SpecialEffect.None;
         public float m_knockbackForce = 0f;
@@ -31,7 +34,10 @@ namespace Game {
 
             var damageable = other.GetComponent<Damageable>();
             if ( damageable != null ) {
-                damageable.TakeDamage( m_damage, GUID );
+                var damage = damageable.TryDealDamage( m_damage, GUID );
+                if ( m_sound != null && damage ) {
+                    AudioSource.PlayClipAtPoint( m_sound, transform.position, 0.5f );
+                }
             }
         }
     }

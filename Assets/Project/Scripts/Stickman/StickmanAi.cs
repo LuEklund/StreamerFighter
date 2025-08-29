@@ -4,7 +4,6 @@ using UnityEngine.Serialization;
 namespace Stickman {
     public class StickmanAi : MonoBehaviour {
         [SerializeField] Stickman m_stickman;
-        [FormerlySerializedAs( "target" )] 
         public Stickman m_target;
 
         ControlledArms m_controlledArms;
@@ -12,7 +11,6 @@ namespace Stickman {
         [Header("AI Ranges")]
         public float m_detectionRange = 100f;
         public float m_attackRange = 2f;
-        public float m_stopBuffer = 0.2f;
 
         [Header("Combat")]
         public float m_attackCooldown = 1f;
@@ -30,14 +28,19 @@ namespace Stickman {
         }
 
         void Update() {
-            // Refresh/validate target if none or too far
+            if (m_stickman.m_movement.m_isGrounded == false) {
+                StopMoving();
+                m_stickman.m_movementKeys.m_attack = false;
+                return;
+            }
+            
             if (m_target == null || Vector2.Distance(m_target.m_torso.transform.position, m_stickman.m_torso.transform.position) > m_detectionRange) {
                 FindTarget();
             }
 
             if (m_target == null) {
-                // No target -> don't move, don't attack
                 StopMoving();
+                m_stickman.m_movementKeys.m_attack = false;
                 return;
             }
 
@@ -49,32 +52,23 @@ namespace Stickman {
             // Decide whether to move
             m_attackRange = m_stickman.m_weaponManager.AttackRange;
             bool withinAttackRange = distanceToTarget <= m_attackRange;
-            bool shouldChase       = distanceToTarget > m_attackRange + m_stopBuffer;
+            bool shouldChase       = distanceToTarget > m_attackRange;
 
             // Clear previous inputs
             StopMoving();
 
             if (shouldChase) {
-                // Move horizontally toward target until we hit the stop band
                 if (dx < -0.05f) m_stickman.m_movementKeys.m_left  = true;
                 else if (dx > 0.05f) m_stickman.m_movementKeys.m_right = true;
             }
-            // --- Attack gating ---
-            // 1) Do not attack if we're moving toward the target.
-            // 2) Only attack if in range AND off cooldown.
-            // 3) Stop attacking if target moves out of range.
+            
             bool isMoving = m_stickman.m_movementKeys.m_left || m_stickman.m_movementKeys.m_right;
             
             if (!withinAttackRange && m_controlledArms.IsAttacking()) {
-                // Target moved out of range - stop attacking
-                //m_controlledArms.Attack(HandSelection.None);
                 m_stickman.m_movementKeys.m_attack = false;
             }
             else if (!isMoving && withinAttackRange && Time.time - m_lastAttackTime > m_attackCooldown) {
-                // Choose hand based on target's horizontal relation, not movement keys
-                //var direction = dx < 0f ? HandSelection.Left : HandSelection.Right;
                 m_stickman.m_movementKeys.m_attack = true;
-                // m_controlledArms.Attack(direction);
                 m_lastAttackTime = Time.time;
             }
         }

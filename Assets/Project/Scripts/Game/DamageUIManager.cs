@@ -1,9 +1,7 @@
 using DamageNumbersPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 namespace Game {
     public class DamageUIManager : MonoBehaviour {
-        [FormerlySerializedAs( "numberPrefab" )] 
         public DamageNumberMesh regularDamage;
         public DamageNumberMesh poisonDamage;
         

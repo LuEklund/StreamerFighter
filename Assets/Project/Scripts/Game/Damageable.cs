@@ -12,10 +12,12 @@ namespace Game {
             }
         }
 
-        public void TakeDamage(int damage, string id) {
+        public bool TryDealDamage(int damage, string id) {
             if ( m_player != null  && m_player.IsMe(id) == false) {
-                m_player.TakeDamage( damage, transform.position );
+                return m_player.TryTakeDamage( damage, transform.position );
             }
+            
+            return false;
         }
     }
 }

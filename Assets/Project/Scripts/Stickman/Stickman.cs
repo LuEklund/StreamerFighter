@@ -129,13 +129,14 @@ namespace Stickman {
                 m_movement.OnDrawGizmosSelected();
             }
         }
-        public void TakeDamage(int damage, Vector2 hitPoint = default) {
-            if ( m_health == null ) return;
+        public bool TryTakeDamage(int damage, Vector2 hitPoint = default) {
+            if ( m_health == null ) return false;
             
             if (hitPoint != default && m_health.CanTakeDamage){
                 m_damageUIManager?.SpawnDamage( damage, hitPoint );
             }
-            m_health.TakeDamage( damage );
+            
+            return m_health.TryTakeDamage( damage );
         }
     }
 
@@ -596,6 +597,8 @@ namespace Stickman {
         public void HandleMovement() {
             if ( !m_rb ) return;
 
+            UpdateGroundCheck();
+
             if ( m_movementKeys.m_left && m_movementKeys.m_right
                  || !m_movementKeys.m_left && !m_movementKeys.m_right ) {
                 m_rb.linearVelocity = new Vector2( 0, m_rb.linearVelocity.y );
@@ -610,14 +613,16 @@ namespace Stickman {
             HandleJump();
         }
 
-        void HandleJump() {
-            if ( m_movementKeys.m_jump == false || m_canJump == false ) return;
+        void UpdateGroundCheck() {
             m_isGrounded = Physics2D.OverlapCircle(
                 m_playerPos.position + Vector3.down * m_groundCheckOffset,
                 m_groundCheckRadius,
                 m_groundLayer
             );
+        }
 
+        void HandleJump() {
+            if ( m_movementKeys.m_jump == false || m_canJump == false ) return;
             if ( !m_isGrounded ) return;
             m_rb.bodyType = RigidbodyType2D.Dynamic;
             m_rb.AddForce( Vector2.up * m_jumpForce );

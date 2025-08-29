@@ -27,8 +27,8 @@ namespace Stickman {
             }
         }
 
-        public void TakeDamage(float inDamage) {
-            if (!m_canTakeDamage) return;
+        public bool TryTakeDamage(float inDamage) {
+            if ( m_canTakeDamage == false ) return false;
             
             m_currentHealth -= inDamage;
             m_healthSlider.value = m_currentHealth;
@@ -38,6 +38,8 @@ namespace Stickman {
             if ( m_currentHealth <= 0 ) {
                 Destroy( gameObject );
             }
+            
+            return m_currentHealth > 0;
         }
     }
 }
