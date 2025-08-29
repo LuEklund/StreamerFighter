@@ -7,7 +7,7 @@ namespace OverlayCore.Window {
     public class RegisterClicksOffscreen : MonoBehaviour {
         const int WH_MOUSE_LL = 14;
         const int WM_LBUTTONDOWN = 0x0201;
-        readonly IntPtr m_hookID = IntPtr.Zero;
+        private IntPtr m_hookID = IntPtr.Zero;
 
         LowLevelMouseProc m_proc;
 

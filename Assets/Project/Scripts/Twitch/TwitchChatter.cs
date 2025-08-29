@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using Game;
 using TCS.Utils;
+using Game;
 using TwitchLib.Client.Events;
 using TwitchSharp;
 using UnityEngine;
@@ -15,9 +15,8 @@ namespace Twitch {
         public string CLIENT_SECRET;
     }
 
-    [DefaultExecutionOrder(-99999)]
     public class TwitchChatter : MonoBehaviour {
-        public GameManager gameManager;
+        public Game.GameManager gameManager;
     
         public GameObject m_player;
         public string m_userName;
@@ -68,7 +67,7 @@ namespace Twitch {
             if (sender == null) return;
             Debug.Log( $"[{e.ChatMessage.Channel}] {e.ChatMessage.Username}: {e.ChatMessage.Message}" );
 
-            gameManager.AddPlayer(e.ChatMessage.Username);
+            gameManager.AddPlayer(e.ChatMessage.Username, e.ChatMessage.Message);
         
         }
     

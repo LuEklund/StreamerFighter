@@ -1,7 +1,6 @@
 using TCS.Utils;
 using TwitchLib.Client.Events;
 using TwitchSharp;
-using TwitchSharp.Config;
 using UnityEngine;
 
 [System.Serializable]

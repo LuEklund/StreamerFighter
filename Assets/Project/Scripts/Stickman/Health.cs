@@ -13,6 +13,9 @@ namespace Stickman {
         bool m_canTakeDamage = true;
         public bool CanTakeDamage => m_canTakeDamage;
         float m_lastDamageTime;
+        
+        
+        public static event System.Action<string> OnDeath;
 
         void Awake() {
             m_healthSlider.maxValue = m_maxHealth;
@@ -35,8 +38,10 @@ namespace Stickman {
             m_canTakeDamage = false;
             m_lastDamageTime = Time.time;
 
-            if ( m_currentHealth <= 0 ) {
-                Destroy( gameObject );
+            if ( m_currentHealth <= 0 )
+            {
+                OnDeath.Invoke( gameObject.GetComponent<StickmanAi>().m_nameText.text);
+                
             }
             
             return m_currentHealth > 0;
