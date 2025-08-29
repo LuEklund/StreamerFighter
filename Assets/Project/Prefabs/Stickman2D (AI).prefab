@@ -85,8 +85,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c50aa3b8cc45ab8e852f37d1b25e83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SMRevamp.StickmanAiMotor
-  stickmanMotor: {fileID: 7607219490838386590}
-  target: {fileID: 0}
+  m_stickman: {fileID: 7607219490838386590}
+  m_target: {fileID: 0}
+  m_detectionRange: 100
+  m_attackRange: 2
+  m_stopBuffer: 0.2
+  m_attackCooldown: 1
 --- !u!114 &7607219490838386590 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8712163281674680890, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}

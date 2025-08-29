@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 using Utils;
 using Logger = TCS.Utils.Logger;
 namespace Stickman {
-    public class StickmanMotor : MonoBehaviour {
+    public class Stickman : MonoBehaviour {
         [ReadOnly] public string m_guid;
         [SerializeField] Health m_health;
         public GameObject m_torso;
@@ -26,6 +26,7 @@ namespace Stickman {
 
         Coroutine m_leftRoutine;
         Coroutine m_rightRoutine;
+        DamageUIManager m_damageUIManager;
         
         public HandSelection Direction {
             get => m_weaponManager.m_direction;
@@ -56,6 +57,11 @@ namespace Stickman {
 
         public void Awake() {
             m_guid = Guid.NewGuid().ToString( "N" ); // This gives us a personal ID.
+            m_damageUIManager = FindFirstObjectByType<DamageUIManager>( FindObjectsInactive.Include );
+            if ( m_damageUIManager == null ) {
+                Logger.LogError( "Stickman: No DamageUIManager found in the scene.", this );
+            }
+            
             m_weaponManager.Init( m_guid );
 
             m_movement.Init( m_movementKeys );
@@ -87,6 +93,8 @@ namespace Stickman {
             }
             
             m_direction = Direction;
+
+            m_controlledArms.Attack( m_movementKeys.m_attack ? Direction : HandSelection.None );
         }
 
         void FixedUpdate() {
@@ -121,9 +129,12 @@ namespace Stickman {
                 m_movement.OnDrawGizmosSelected();
             }
         }
-        public void TakeDamage(int damage) {
+        public void TakeDamage(int damage, Vector2 hitPoint = default) {
             if ( m_health != null ) {
                 m_health.TakeDamage( damage );
+                if (hitPoint != default){
+                    m_damageUIManager?.SpawnDamageNumber( damage, hitPoint );
+                }
             }
         }
     }
@@ -135,7 +146,9 @@ namespace Stickman {
         [SerializeField] Weapon[] m_rightWeapons;
 
         [Min( 0 )] public int m_currentWeaponIndex;
-        public HandSelection m_direction = HandSelection.None; // 0=Left, 1=Right, else hide all
+        public HandSelection m_direction = HandSelection.None; // 0=Left, 1=Right,
+        public float AttackRange => GetCurrentWeapon()?.m_attackRange ?? 1f;
+        public float AttackRate  => GetCurrentWeapon()?.m_attackRate  ?? 0.6f;
 
         public void Init(string guid) {
             if ( (m_leftWeapons == null || m_leftWeapons.Length == 0) &&
@@ -178,7 +191,6 @@ namespace Stickman {
             }
         }
 
-
         static void AssignGuid(Weapon[] arr, string guid) {
             if ( arr == null ) return;
             foreach (var t in arr) {
@@ -207,9 +219,29 @@ namespace Stickman {
                 if ( t != null ) t.gameObject.SetActive( false );
             }
         }
+        
+        Weapon GetCurrentWeapon() {
+            switch (m_direction) {
+                case HandSelection.Left:
+                    if ( m_leftWeapons != null && m_currentWeaponIndex < m_leftWeapons.Length ) {
+                        return m_leftWeapons[m_currentWeaponIndex];
+                    }
+                    break;
+                case HandSelection.Right:
+                    if ( m_rightWeapons != null && m_currentWeaponIndex < m_rightWeapons.Length ) {
+                        return m_rightWeapons[m_currentWeaponIndex];
+                    }
+                    break;
+                case HandSelection.None:
+                    return null;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return null;
+        }
     }
-
-
+    
     [Serializable] public class ControlledArms {
         [SerializeField] HingeJoint2D m_leftArm;
         [SerializeField] HingeJoint2D m_rightArm;
@@ -275,25 +307,25 @@ namespace Stickman {
 
         public void Init() {
             if ( m_lowerTorso ) {
-                m_lowerTorso.targetRotation = m_lowerTargetRotation;
-                m_lowerTorso.force = m_lowerForce;
+                m_lowerTorso.m_targetRotation = m_lowerTargetRotation;
+                m_lowerTorso.m_force = m_lowerForce;
             }
 
             if ( m_upperTorso ) {
-                m_upperTorso.targetRotation = m_upperTargetRotation;
-                m_upperTorso.force = m_upperForce;
+                m_upperTorso.m_targetRotation = m_upperTargetRotation;
+                m_upperTorso.m_force = m_upperForce;
             }
         }
 
         public void HandleLean() {
             if ( m_lowerTorso ) {
-                m_lowerTorso.targetRotation = Mathf.Lerp( m_lowerTorso.targetRotation, m_lowerTargetRotation, Time.deltaTime * m_lerpSpeed );
-                m_lowerTorso.force = Mathf.Lerp( m_lowerTorso.force, m_lowerForce, Time.deltaTime * m_lerpSpeed );
+                m_lowerTorso.m_targetRotation = Mathf.Lerp( m_lowerTorso.m_targetRotation, m_lowerTargetRotation, Time.deltaTime * m_lerpSpeed );
+                m_lowerTorso.m_force = Mathf.Lerp( m_lowerTorso.m_force, m_lowerForce, Time.deltaTime * m_lerpSpeed );
             }
 
             if ( m_upperTorso ) {
-                m_upperTorso.targetRotation = Mathf.Lerp( m_upperTorso.targetRotation, m_upperTargetRotation, Time.deltaTime * m_lerpSpeed );
-                m_upperTorso.force = Mathf.Lerp( m_upperTorso.force, m_upperForce, Time.deltaTime * m_lerpSpeed );
+                m_upperTorso.m_targetRotation = Mathf.Lerp( m_upperTorso.m_targetRotation, m_upperTargetRotation, Time.deltaTime * m_lerpSpeed );
+                m_upperTorso.m_force = Mathf.Lerp( m_upperTorso.m_force, m_upperForce, Time.deltaTime * m_lerpSpeed );
             }
         }
 
@@ -517,10 +549,12 @@ namespace Stickman {
         [SerializeField] KeyCode m_jumpKey = KeyCode.Space;
         [SerializeField] KeyCode m_leftKey = KeyCode.A;
         [SerializeField] KeyCode m_rightKey = KeyCode.D;
+        [SerializeField] KeyCode m_attackKey = KeyCode.E;
 
         public bool m_jump;
         public bool m_left;
         public bool m_right;
+        public bool m_attack;
 
         public bool m_isPlayerControlled = true;
         
@@ -529,6 +563,7 @@ namespace Stickman {
             m_jump = Input.GetKey( m_jumpKey );
             m_left = Input.GetKey( m_leftKey );
             m_right = Input.GetKey( m_rightKey );
+            m_attack = Input.GetKey( m_attackKey );
         }
     }
 
