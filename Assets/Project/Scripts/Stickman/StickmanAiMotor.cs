@@ -31,22 +31,23 @@ namespace Stickman {
         void Update() {
             // Refresh/validate target if none or too far
             if (target == null || Vector2.Distance(target.transform.position, stickmanMotor.m_torso.transform.position) > m_detectionRange) {
-                FindTarget(); // allow retargeting even if we had one
+                FindTarget();
             }
 
             if (target == null) {
+                // No target -> don't move, don't attack
                 StopMoving();
                 return;
             }
 
-            Vector2 myPos = stickmanMotor.m_torso.transform.position;
+            Vector2 myPos  = stickmanMotor.m_torso.transform.position;
             Vector2 tgtPos = target.transform.position;
             float distanceToTarget = Vector2.Distance(tgtPos, myPos);
             float dx = tgtPos.x - myPos.x;
 
             // Decide whether to move
             bool withinAttackRange = distanceToTarget <= m_attackRange;
-            bool shouldChase      = distanceToTarget > (m_attackRange + m_stopBuffer);
+            bool shouldChase       = distanceToTarget > (m_attackRange + m_stopBuffer);
 
             // Clear previous inputs
             StopMoving();
@@ -61,9 +62,13 @@ namespace Stickman {
                 m_isAtTarget = true;
             }
 
-            // Attack if in range & off cooldown
-            if (withinAttackRange && Time.time - m_lastAttackTime > m_attackCooldown) {
-                var direction = stickmanMotor.m_movementKeys.m_left ? HandSelection.Left : HandSelection.Right;
+            // --- Attack gating ---
+            // 1) Do not attack if we're moving toward the target.
+            // 2) Only attack if in range AND off cooldown.
+            bool isMoving = stickmanMotor.m_movementKeys.m_left || stickmanMotor.m_movementKeys.m_right;
+            if (!isMoving && withinAttackRange && (Time.time - m_lastAttackTime) > m_attackCooldown) {
+                // Choose hand based on target's horizontal relation, not movement keys
+                var direction = (dx < 0f) ? HandSelection.Left : HandSelection.Right;
                 m_controlledArms.Attack(direction);
                 m_lastAttackTime = Time.time;
             }
@@ -82,7 +87,7 @@ namespace Stickman {
             Vector2 myPos = stickmanMotor.m_torso.transform.position;
 
             foreach (var m in motors) {
-                if (m == stickmanMotor) continue; // don't target self, because continue gets us right lucas?
+                if (m == stickmanMotor) continue; // don't target self
                 float d = Vector2.Distance(m.transform.position, myPos);
                 if (d < closest && d <= m_detectionRange) {
                     closest = d;

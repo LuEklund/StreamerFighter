@@ -3,6 +3,7 @@ using System.Collections;
 using Game;
 using TCS.Utils;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
 using Logger = TCS.Utils.Logger;
 namespace Stickman {
@@ -30,6 +31,8 @@ namespace Stickman {
             get => m_weaponManager.m_direction;
             set => m_weaponManager.m_direction = value;
         }
+        
+        public HandSelection m_direction = HandSelection.None; // 0=Left, 1=Right, else hide all
 
         public bool IsMe(string guid) => m_guid == guid; // answers one question, is this me?
 
@@ -38,8 +41,16 @@ namespace Stickman {
             set => m_movementKeys.m_isPlayerControlled = value;
         }
         
+        bool m_isAttacking;
         [Button] public void ToggleAttack() {
-            m_controlledArms.Attack( Direction );
+            if ( m_isAttacking != true ) {
+                m_controlledArms.Attack( Direction );
+                m_isAttacking = true;
+                return;
+            }
+            
+            m_controlledArms.Attack( HandSelection.None );
+            m_isAttacking = false;
         }
 
 
@@ -65,13 +76,17 @@ namespace Stickman {
 
             if ( m_movementKeys.m_left ) {
                 m_controlledLean.LeanLeft();
+                Direction = HandSelection.Left;
                 m_weaponManager.SetDirection( Direction );
             }
 
             if ( m_movementKeys.m_right ) {
                 m_controlledLean.LeanRight();
+                Direction = HandSelection.Right;
                 m_weaponManager.SetDirection( Direction );
             }
+            
+            m_direction = Direction;
         }
 
         void FixedUpdate() {
@@ -196,8 +211,8 @@ namespace Stickman {
 
 
     [Serializable] public class ControlledArms {
-        [SerializeField] HingeJoint2D m_leftLowerArm;
-        [SerializeField] HingeJoint2D m_rightLowerArm;
+        [SerializeField] HingeJoint2D m_leftArm;
+        [SerializeField] HingeJoint2D m_rightArm;
 
         public float m_speed = 1000f;
         public float m_torque = 10000f;
@@ -207,43 +222,44 @@ namespace Stickman {
         }
         
         public void Attack(HandSelection handSelection) {
-            if ( m_leftLowerArm == null || m_rightLowerArm == null ) return;
+            if ( m_leftArm == null || m_rightArm == null ) return;
             
+            // TODO: find out why the arms are reversed here, im might be stoned or something. right now its correct lol.
             switch (handSelection) {
-                case HandSelection.Left:
-                    if ( m_leftLowerArm != null ) {
-                        var motor = m_leftLowerArm.motor;
+                case HandSelection.Right:
+                    if ( m_leftArm != null ) {
+                        var motor = m_leftArm.motor;
                         motor.motorSpeed = m_speed; // positive for left arm
                         motor.maxMotorTorque = m_torque;
-                        m_leftLowerArm.motor = motor;
-                        m_leftLowerArm.useLimits = false;
-                        m_leftLowerArm.useMotor = true;
+                        m_leftArm.motor = motor;
+                        m_leftArm.useLimits = false;
+                        m_leftArm.useMotor = true;
                     }
                     break;
 
-                case HandSelection.Right:
-                    if ( m_rightLowerArm != null ) {
-                        var motor = m_rightLowerArm.motor;
+                case HandSelection.Left:
+                    if ( m_rightArm != null ) {
+                        var motor = m_rightArm.motor;
                         motor.motorSpeed = -m_speed; // negative for right arm
                         motor.maxMotorTorque = m_torque;
-                        m_rightLowerArm.motor = motor;
-                        m_rightLowerArm.useLimits = false;
-                        m_rightLowerArm.useMotor = true;
+                        m_rightArm.motor = motor;
+                        m_rightArm.useLimits = false;
+                        m_rightArm.useMotor = true;
                     }
                     break;
                 case HandSelection.None:
-                    m_leftLowerArm.useLimits = true;
-                    m_leftLowerArm.useMotor = false;
+                    m_leftArm.useLimits = true;
+                    m_leftArm.useMotor = false;
                     
-                    m_rightLowerArm.useLimits = true;
-                    m_rightLowerArm.useMotor = false;
+                    m_rightArm.useLimits = true;
+                    m_rightArm.useMotor = false;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
         public bool IsAttacking() {
-            return m_leftLowerArm.useMotor || m_rightLowerArm.useMotor;
+            return m_leftArm.useMotor || m_rightArm.useMotor;
         }
     }
 

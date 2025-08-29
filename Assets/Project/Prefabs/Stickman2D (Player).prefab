@@ -2703,8 +2703,8 @@ MonoBehaviour:
     m_groundCheckOffset: 1.3
     m_groundCheckRadius: 0.4
   m_controlledArms:
-    m_leftLowerArm: {fileID: 373790575493860881}
-    m_rightLowerArm: {fileID: 7793962307768806064}
+    m_leftArm: {fileID: 373790575493860881}
+    m_rightArm: {fileID: 7793962307768806064}
     m_speed: 650
     m_torque: 10000
   m_controlledKnees:
@@ -2731,6 +2731,7 @@ MonoBehaviour:
     m_upperTargetRotation: 0
     m_upperForce: 25000
     m_lerpSpeed: 5
+  m_direction: -1
 --- !u!1 &5570368430999363226
 GameObject:
   m_ObjectHideFlags: 0

@@ -713,6 +713,71 @@ Transform:
   - {fileID: 2032252241}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &839352255
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3733829295585083391, guid: 8893dd0f4137fdf4ca9022e0276f8b35, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733829295585083391, guid: 8893dd0f4137fdf4ca9022e0276f8b35, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986846510808413088, guid: 8893dd0f4137fdf4ca9022e0276f8b35, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986846510808413088, guid: 8893dd0f4137fdf4ca9022e0276f8b35, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986846510808413088, guid: 8893dd0f4137fdf4ca9022e0276f8b35, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986846510808413088, guid: 8893dd0f4137fdf4ca9022e0276f8b35, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986846510808413088, guid: 8893dd0f4137fdf4ca9022e0276f8b35, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986846510808413088, guid: 8893dd0f4137fdf4ca9022e0276f8b35, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986846510808413088, guid: 8893dd0f4137fdf4ca9022e0276f8b35, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986846510808413088, guid: 8893dd0f4137fdf4ca9022e0276f8b35, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986846510808413088, guid: 8893dd0f4137fdf4ca9022e0276f8b35, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3986846510808413088, guid: 8893dd0f4137fdf4ca9022e0276f8b35, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6377709929088161216, guid: 8893dd0f4137fdf4ca9022e0276f8b35, type: 3}
+      propertyPath: m_Name
+      value: Stickman2D (AI)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8893dd0f4137fdf4ca9022e0276f8b35, type: 3}
 --- !u!4 &845106226 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7753959952826742851, guid: 66396fe2c711ba542a12a95e7079ec6b, type: 3}
@@ -2025,3 +2090,4 @@ SceneRoots:
   - {fileID: 35274996}
   - {fileID: 1328322233}
   - {fileID: 1862133477}
+  - {fileID: 839352255}
