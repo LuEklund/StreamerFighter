@@ -14,7 +14,7 @@ namespace Game {
 
         public void TakeDamage(int damage, string id) {
             if ( m_player != null  && m_player.IsMe(id) == false) {
-                m_player.TakeDamage( damage, transform.TransformPoint( transform.position ) );
+                m_player.TakeDamage( damage, transform.position );
             }
         }
     }

@@ -11,6 +11,7 @@ namespace Stickman {
         public float m_damageCooldown = 1f;
         
         bool m_canTakeDamage = true;
+        public bool CanTakeDamage => m_canTakeDamage;
         float m_lastDamageTime;
 
         void Awake() {

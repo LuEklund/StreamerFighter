@@ -153,6 +153,11 @@ MonoBehaviour:
   m_layerMask:
     serializedVersion: 2
     m_Bits: 64
-  m_damage: 1
-  m_attackRange: 2
+  m_damage: 2
+  m_attackRange: 1.2
   m_attackRate: 1
+  m_specialEffect: 0
+  m_knockbackForce: 0
+  m_poisonDamage: 0
+  m_lifestealPercent: 0
+  m_fireDamage: 0

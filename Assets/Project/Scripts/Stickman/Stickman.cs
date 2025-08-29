@@ -130,12 +130,12 @@ namespace Stickman {
             }
         }
         public void TakeDamage(int damage, Vector2 hitPoint = default) {
-            if ( m_health != null ) {
-                m_health.TakeDamage( damage );
-                if (hitPoint != default){
-                    m_damageUIManager?.SpawnDamageNumber( damage, hitPoint );
-                }
+            if ( m_health == null ) return;
+            
+            if (hitPoint != default && m_health.CanTakeDamage){
+                m_damageUIManager?.SpawnDamage( damage, hitPoint );
             }
+            m_health.TakeDamage( damage );
         }
     }
 
