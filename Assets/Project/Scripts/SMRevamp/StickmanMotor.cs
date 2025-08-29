@@ -4,28 +4,32 @@ using Stickman;
 using TCS.Utils;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Utils;
 namespace SMRevamp {
     public class StickmanMotor : MonoBehaviour {
-        public GameObject toroso;
+        // Stored in "N" format (32 hex chars, no dashes) for compactness and easy copy/paste.
+        [ReadOnly] public string m_guid;
+        public GameObject m_torso;
         [Header( "Components" )]
         public MovementKeys m_movementKeys = new();
         public Movement m_movement = new();
+        public ControlledArms m_controlledArms = new();
         public ControlledKnees m_controlledKnees = new();
         public ControlledLegs m_controlledLegs = new();
         public ControlledLean m_controlledLean = new();
 
-        [Header( "Limb Settings" )] // most likely going to remove this
-        public bool m_updateChanges;
-        public LimbSettings m_headSettings;
-        //public LimbSettings m_torsoSettings;
-        public LimbSettings m_leftLegSettings;
-        public LimbSettings m_lowerLeftLegSettings;
-        public LimbSettings m_rightLegSettings;
-        public LimbSettings m_lowerRightLegSettings;
-        Coroutine _leftRoutine;
-        Coroutine _rightRoutine;
+        Coroutine m_leftRoutine;
+        Coroutine m_rightRoutine;
+
+        void OnValidate() {
+            if ( string.IsNullOrEmpty( m_guid ) ) {
+                m_guid = Guid.NewGuid().ToString( "N" );
+            }
+        }
+
         public void Awake() {
             m_movement.Init( m_movementKeys );
+            m_controlledArms.Init( m_movementKeys );
 
             m_controlledKnees.Init( m_movementKeys );
             m_controlledLegs.Init( m_movementKeys );
@@ -35,57 +39,39 @@ namespace SMRevamp {
         void Update() {
             m_movementKeys.HandleInput(); // input
             m_movement.HandleMovement();
+            m_controlledArms.HandleArms();
             m_controlledKnees.HandleKnees();
             m_controlledLegs.HandleLegs();
             m_controlledLean.HandleLean();
-           
-            // // Capture one-frame edges here (render loop)
-            // if (Input.GetKeyDown(m_movementKeys.m_leftKey))  _leftPressed  = true;
-            // if (Input.GetKeyDown(m_movementKeys.m_rightKey)) _rightPressed = true;
 
-            // If leaning is purely visual and not physics, you can do it here too:
-            if (m_movementKeys.m_left)  m_controlledLean.LeanLeft();
-            if (m_movementKeys.m_right) m_controlledLean.LeanRight();
-            
+            if ( m_movementKeys.m_left ) m_controlledLean.LeanLeft();
+            if ( m_movementKeys.m_right ) m_controlledLean.LeanRight();
         }
-  
+
         void FixedUpdate() {
-            if (m_movementKeys.m_left && _leftRoutine == null) {
-                _leftRoutine = StartCoroutine(RunMoveLeft());
+            if ( m_movementKeys.m_left && m_leftRoutine == null ) {
+                m_leftRoutine = StartCoroutine( RunMoveLeft() );
             }
-            if (m_movementKeys.m_right && _rightRoutine == null) {
-                _rightRoutine = StartCoroutine(RunMoveRight());
+
+            if ( m_movementKeys.m_right && m_rightRoutine == null ) {
+                m_rightRoutine = StartCoroutine( RunMoveRight() );
             }
+
             m_movementKeys.m_left = false;
             m_movementKeys.m_right = false;
         }
-        
+
         IEnumerator RunMoveLeft() {
-            yield return StartCoroutine(m_controlledLegs.MoveLeft());
-            _leftRoutine = null;
+            yield return StartCoroutine( m_controlledLegs.MoveLeft() );
+            m_leftRoutine = null;
         }
 
         IEnumerator RunMoveRight() {
-            yield return StartCoroutine(m_controlledLegs.MoveRight());
-            _rightRoutine = null;
+            yield return StartCoroutine( m_controlledLegs.MoveRight() );
+            m_rightRoutine = null;
         }
-        // LimbSettings[] LimbSettingsArray() {
-        //     LimbSettings[] settingsArray = {
-        //         m_headSettings,
-        //         //m_torsoSettings,
-        //         m_leftLegSettings,
-        //         m_lowerLeftLegSettings,
-        //         m_rightLegSettings,
-        //         m_lowerRightLegSettings
-        //     };
-        //     return settingsArray;
-        // }
-        
-        // [Button] public void TestLegForce() {
-        //     m_controlledLegs.AddWalkForce();
-        // }
-        
-        [Button] public void ToggleKinematic( ) {
+
+        [Button] public void ToggleKinematic() {
             m_movement.ToggleKinematic();
         }
 
@@ -96,16 +82,31 @@ namespace SMRevamp {
         }
     }
 
+    [Serializable] public class ControlledArms {
+        [SerializeField] LimbSettings m_leftArmLimbSettings;
+        [SerializeField] LimbSettings m_rightArmLimbSettings;
+        
+        MovementKeys m_movementKeys;
+        public void Init(MovementKeys movementKeys) {
+            m_movementKeys = movementKeys;
+            m_leftArmLimbSettings.Init();
+            m_rightArmLimbSettings.Init();
+        }
+        
+        public void HandleArms() {
+        }
+    }
+
     [Serializable] public class ControlledLean {
         [SerializeField] Balance m_lowerTorso;
         [SerializeField] Balance m_upperTorso;
-        
+
         public float m_lowerTargetRotation;
         public float m_lowerForce = 25000f;
         public float m_upperTargetRotation;
         public float m_upperForce = 25000f;
         public float m_lerpSpeed = 5f;
-        
+
         public void Init() {
             if ( m_lowerTorso ) {
                 m_lowerTorso.targetRotation = m_lowerTargetRotation;
@@ -117,19 +118,7 @@ namespace SMRevamp {
                 m_upperTorso.force = m_upperForce;
             }
         }
-        
-        // public void HandleLean() {
-        //     if ( m_lowerTorso ) {
-        //         m_lowerTorso.targetRotation = m_lowerTargetRotation;
-        //         m_lowerTorso.force = m_lowerForce;
-        //     }
-        //
-        //     if ( m_upperTorso ) {
-        //         m_upperTorso.targetRotation = m_upperTargetRotation;
-        //         m_upperTorso.force = m_upperForce;
-        //     }
-        // }
-        
+
         public void HandleLean() {
             if ( m_lowerTorso ) {
                 m_lowerTorso.targetRotation = Mathf.Lerp( m_lowerTorso.targetRotation, m_lowerTargetRotation, Time.deltaTime * m_lerpSpeed );
@@ -146,7 +135,7 @@ namespace SMRevamp {
             m_lowerTargetRotation = 20f;
             m_upperTargetRotation = 10f;
         }
-        
+
         public void LeanRight() {
             m_lowerTargetRotation = -20f;
             m_upperTargetRotation = -10f;
@@ -159,7 +148,7 @@ namespace SMRevamp {
         [SerializeField] Rigidbody2D m_rightLegRb;
         public float m_legForce = 1f;
         public float m_kickDelay = .5f;
-        [Header("Leg Bend Settings")]
+        [Header( "Leg Bend Settings" )]
         [SerializeField] HingeJoint2D m_leftHip;
         [SerializeField] HingeJoint2D m_rightHip;
         public float m_bendAngle = 45f;
@@ -174,73 +163,62 @@ namespace SMRevamp {
                 Debug.LogError( "One or more required HingeJoint2D references are not set in the inspector." );
                 return;
             }
-            
+
             if ( !m_leftLegRb || !m_rightLegRb ) {
                 Debug.LogError( "One or more required Rigidbody2D references are not set in the inspector." );
                 return;
             }
-            
+
             if ( m_reverseGap ) m_currentGap = -m_bendGap;
-            
+
             SetHipLimits( m_leftHip, -m_bendAngle, m_currentGap );
-            SetHipLimits( m_rightHip, m_currentGap, -m_bendAngle);
-            
-            m_waitForSeconds = new WaitForSeconds(m_kickDelay);
+            SetHipLimits( m_rightHip, m_currentGap, -m_bendAngle );
+
+            m_waitForSeconds = new WaitForSeconds( m_kickDelay );
         }
-        
+
         public void HandleLegs() {
             if ( !m_leftHip || !m_rightHip ) return;
-            
+
             if ( m_reverseGap ) m_currentGap = -m_bendGap;
             else m_currentGap = m_bendGap;
-            
+
             if ( m_movementKeys.m_left ) {
                 SetHipLimits( m_leftHip, -m_bendAngle, m_currentGap );
-                SetHipLimits( m_rightHip, m_currentGap, -m_bendAngle);
+                SetHipLimits( m_rightHip, m_currentGap, -m_bendAngle );
             }
             else if ( m_movementKeys.m_right ) {
                 SetHipLimits( m_leftHip, -m_bendAngle, m_currentGap );
-                SetHipLimits( m_rightHip, m_currentGap, -m_bendAngle);
+                SetHipLimits( m_rightHip, m_currentGap, -m_bendAngle );
             }
             else {
                 SetHipLimits( m_leftHip, -m_bendAngle, m_currentGap );
-                SetHipLimits( m_rightHip, m_currentGap, -m_bendAngle);
+                SetHipLimits( m_rightHip, m_currentGap, -m_bendAngle );
             }
         }
 
-        // public void AddWalkForce(bool flip = false) {
-        //     if ( !flip ) {
-        //         m_leftLegRb.AddForce( Vector2.left * (1000 * Time.deltaTime) );
-        //         m_rightLegRb.AddForce( Vector2.left * (1000 * Time.deltaTime) );
-        //     }
-        //     else {
-        //         m_leftLegRb.AddForce( Vector2.right * (1000 * Time.deltaTime) );
-        //         m_rightLegRb.AddForce( Vector2.right * (1000 * Time.deltaTime) );
-        //     }
-        // }
-
         public IEnumerator MoveRight() {
             while (m_movementKeys.m_right) {
-                if (m_movementKeys.m_left) yield break;
-                // ZeroX(m_leftLegRb);
-                m_leftLegRb.AddForce(Vector2.right * (m_legForce * 1000 * Time.fixedDeltaTime ));
+                if ( m_movementKeys.m_left ) yield break;
+                ZeroX( m_leftLegRb );
+                m_leftLegRb.AddForce( Vector2.right * (m_legForce * 1000 * Time.fixedDeltaTime) );
                 yield return m_waitForSeconds;
-                if (!m_movementKeys.m_right) yield break;
-                // ZeroX(m_rightLegRb);
-                m_rightLegRb.AddForce(Vector2.right * (m_legForce * 1000 * Time.fixedDeltaTime));
+                if ( !m_movementKeys.m_right ) yield break;
+                ZeroX( m_rightLegRb );
+                m_rightLegRb.AddForce( Vector2.right * (m_legForce * 1000 * Time.fixedDeltaTime) );
                 yield return m_waitForSeconds;
             }
         }
 
         public IEnumerator MoveLeft() {
             while (m_movementKeys.m_left) {
-                if (m_movementKeys.m_right) yield break;
-                // ZeroX(m_rightLegRb);
-                m_rightLegRb.AddForce(Vector2.left * (m_legForce * 1000 * Time.fixedDeltaTime));
+                if ( m_movementKeys.m_right ) yield break;
+                ZeroX( m_rightLegRb );
+                m_rightLegRb.AddForce( Vector2.left * (m_legForce * 1000 * Time.fixedDeltaTime) );
                 yield return m_waitForSeconds;
-                if (!m_movementKeys.m_left) yield break;
-                // ZeroX(m_leftLegRb);
-                m_leftLegRb.AddForce(Vector2.left * (m_legForce * 1000 * Time.fixedDeltaTime));
+                if ( !m_movementKeys.m_left ) yield break;
+                ZeroX( m_leftLegRb );
+                m_leftLegRb.AddForce( Vector2.left * (m_legForce * 1000 * Time.fixedDeltaTime) );
                 yield return m_waitForSeconds;
             }
         }
@@ -250,8 +228,8 @@ namespace SMRevamp {
             v.x = 0f;
             rb.linearVelocity = v;
         }
-        
-        
+
+
         void SetHipLimits(HingeJoint2D leftHip, float p1, float currentOffset, bool flip = false) {
             if ( !flip ) {
                 var limits = leftHip.limits;
@@ -285,33 +263,33 @@ namespace SMRevamp {
                 Debug.LogError( "One or more required HingeJoint2D references are not set in the inspector." );
                 return;
             }
-            
+
             if ( m_reverseGap ) m_currentGap = -m_bendGap;
-            
+
             SetKneeLimits( m_leftKnee, -m_bendAngle, m_currentGap );
-            SetKneeLimits( m_rightKnee, m_currentGap, -m_bendAngle);
+            SetKneeLimits( m_rightKnee, m_currentGap, -m_bendAngle );
         }
-        
+
         public void HandleKnees() {
             if ( !m_leftKnee || !m_rightKnee ) return;
-            
+
             if ( m_reverseGap ) m_currentGap = -m_bendGap;
             else m_currentGap = m_bendGap;
-            
+
             if ( m_movementKeys.m_left ) {
                 SetKneeLimits( m_leftKnee, -m_bendAngle, m_currentGap );
-                SetKneeLimits( m_rightKnee, m_currentGap, -m_bendAngle);
+                SetKneeLimits( m_rightKnee, m_currentGap, -m_bendAngle );
             }
             else if ( m_movementKeys.m_right ) {
                 SetKneeLimits( m_leftKnee, m_bendAngle, m_currentGap );
-                SetKneeLimits( m_rightKnee, m_currentGap, m_bendAngle);
+                SetKneeLimits( m_rightKnee, m_currentGap, m_bendAngle );
             }
             else {
                 SetKneeLimits( m_leftKnee, -m_bendAngle, m_currentGap );
-                SetKneeLimits( m_rightKnee, m_currentGap, -m_bendAngle);
+                SetKneeLimits( m_rightKnee, m_currentGap, -m_bendAngle );
             }
         }
-        
+
         void SetKneeLimits(HingeJoint2D rightKnee, float p1, float p2, bool flip = false) {
             if ( !flip ) {
                 var limits = rightKnee.limits;
@@ -329,12 +307,8 @@ namespace SMRevamp {
             rightKnee.useLimits = true;
         }
     }
-    
+
     [Serializable] public class LimbSettings {
-        [Header( "Balance Component" )]
-        public Balance m_balance;
-        public float m_targetRotation;
-        public float m_force;
         [Header( "Hinge Joint Settings" )]
         public HingeJoint2D m_hingeJoint;
         public bool m_useMotor;
@@ -346,9 +320,6 @@ namespace SMRevamp {
         JointAngleLimits2D m_limits;
 
         public void Init() {
-            m_balance.targetRotation = m_targetRotation;
-            m_balance.force = m_force;
-
             if ( m_hingeJoint ) {
                 if ( m_useMotor ) {
                     var motor = m_hingeJoint.motor;
@@ -384,9 +355,9 @@ namespace SMRevamp {
         public bool m_jump;
         public bool m_left;
         public bool m_right;
-        
+
         public bool m_isPlayerControlled = true;
-        
+
         public void HandleInput() {
             if ( !m_isPlayerControlled ) return;
             m_jump = Input.GetKey( m_jumpKey );
@@ -406,15 +377,11 @@ namespace SMRevamp {
         public float m_groundCheckOffset = 0.1f;
         public float m_groundCheckRadius = 0.2f;
 
-        bool m_jump;
-        bool m_left;
-        bool m_right;
         Transform m_playerPos;
+        MovementKeys m_movementKeys;
 
         public void Init(MovementKeys movementKeys) {
-            m_jump = movementKeys.m_jump;
-            m_left = movementKeys.m_left;
-            m_right = movementKeys.m_right;
+            m_movementKeys = movementKeys;
             if ( !m_rb ) {
                 Debug.LogError( "Rigidbody2D reference is not set in the inspector." );
                 return;
@@ -429,10 +396,11 @@ namespace SMRevamp {
         public void HandleMovement() {
             if ( !m_rb ) return;
 
-            if ( ( m_left && m_right ) || ( !m_left && !m_right ) ) {
+            if ( m_movementKeys.m_left && m_movementKeys.m_right
+                 || !m_movementKeys.m_left && !m_movementKeys.m_right ) {
                 m_rb.linearVelocity = new Vector2( 0, m_rb.linearVelocity.y );
             }
-            else if ( m_left ) {
+            else if ( m_movementKeys.m_left ) {
                 m_rb.linearVelocity = new Vector2( -m_speed, m_rb.linearVelocity.y );
             }
             else {
@@ -443,18 +411,18 @@ namespace SMRevamp {
         }
 
         void HandleJump() {
-            if ( m_jump== false || m_canJump == false ) return;
+            if ( m_movementKeys.m_jump == false || m_canJump == false ) return;
             m_isGrounded = Physics2D.OverlapCircle(
                 m_playerPos.position + Vector3.down * m_groundCheckOffset,
                 m_groundCheckRadius,
                 m_groundLayer
             );
-            if ( m_isGrounded)  {
-                m_rb.bodyType = RigidbodyType2D.Dynamic;
-                m_rb.AddForce( Vector2.up * m_jumpForce );
-            }
+
+            if ( !m_isGrounded ) return;
+            m_rb.bodyType = RigidbodyType2D.Dynamic;
+            m_rb.AddForce( Vector2.up * m_jumpForce );
         }
-        
+
         public void ToggleKinematic() {
             if ( !m_rb ) return;
             if ( m_rb.bodyType == RigidbodyType2D.Kinematic ) {
@@ -465,7 +433,7 @@ namespace SMRevamp {
                 m_rb.linearVelocity = Vector2.zero;
             }
         }
-        
+
         void ZeroX(Rigidbody2D rb) {
             var v = rb.linearVelocity;
             v.x = 0f;

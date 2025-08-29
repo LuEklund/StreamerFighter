@@ -998,38 +998,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &3061197081149262562
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7367179219453107580}
-  m_Layer: 6
-  m_Name: Model
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7367179219453107580
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3061197081149262562}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7753959952826742851}
-  m_Father: {fileID: 2747627113175555588}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3374003436392781914
 GameObject:
   m_ObjectHideFlags: 0
@@ -1043,6 +1011,7 @@ GameObject:
   - component: {fileID: 1358640661417398223}
   - component: {fileID: 8232596189549354457}
   - component: {fileID: 373790575493860881}
+  - component: {fileID: 2942220952773925506}
   m_Layer: 6
   m_Name: Arm.L
   m_TagString: Untagged
@@ -1215,6 +1184,20 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 45
     m_UpperAngle: -10
+--- !u!114 &2942220952773925506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3374003436392781914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5cf7ea499528db71b569f071b4ef622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Stickman.Balance
+  targetRotation: 90
+  force: 10000
 --- !u!1 &3805808351316166394
 GameObject:
   m_ObjectHideFlags: 0
@@ -1228,7 +1211,7 @@ GameObject:
   - component: {fileID: 1674668611020371314}
   - component: {fileID: 1988678128930675495}
   m_Layer: 6
-  m_Name: Weapon
+  m_Name: Weapons
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1246,7 +1229,8 @@ Transform:
   m_LocalPosition: {x: 0.03, y: -0.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2432763115289964185}
   m_Father: {fileID: 1661623037237023343}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &6758584797121708485
@@ -1793,6 +1777,84 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 0
     m_UpperAngle: 180
+--- !u!1 &4458636079400674484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2432763115289964185}
+  - component: {fileID: 4816458704194927622}
+  m_Layer: 6
+  m_Name: Fist
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2432763115289964185
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4458636079400674484}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.65, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1914502669997488893}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &4816458704194927622
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4458636079400674484}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &4480627286959832736
 GameObject:
   m_ObjectHideFlags: 0
@@ -2059,10 +2121,11 @@ GameObject:
   - component: {fileID: 2747627113175555588}
   - component: {fileID: 4385174660353553401}
   - component: {fileID: 2207721325247079607}
+  - component: {fileID: 8065042063655868998}
   - component: {fileID: 8712163281674680890}
   m_Layer: 6
   m_Name: Stickman2D (Player)
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2080,7 +2143,7 @@ Transform:
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 7367179219453107580}
+  - {fileID: 7753959952826742851}
   - {fileID: 1829997266633025960}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2118,6 +2181,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 932b9773bb43338a6b59e6599b5181b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IgnoreCollision
+--- !u!114 &8065042063655868998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5329934197555083364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cc10ad2c05907853b00224ebc1f8d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  currentHealth: 10
+  maxHealth: 10
+  healthSlider: {fileID: 5224165283786984738}
 --- !u!114 &8712163281674680890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2130,7 +2208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a0906889f4ed9419ab248b654c991a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StickmanMotor
-  toroso: {fileID: 9205558410131631736}
+  m_torso: {fileID: 9205558410131631736}
   m_movementKeys:
     m_jumpKey: 32
     m_leftKey: 97
@@ -2141,8 +2219,8 @@ MonoBehaviour:
     m_isPlayerControlled: 1
   m_movement:
     m_rb: {fileID: 4257126135123602219}
-    m_speed: 2
-    m_jumpForce: 3000
+    m_speed: 1
+    m_jumpForce: 450
     m_jumpCooldown: 1
     m_isGrounded: 1
     m_canJump: 1
@@ -2151,6 +2229,23 @@ MonoBehaviour:
       m_Bits: 8
     m_groundCheckOffset: 1.3
     m_groundCheckRadius: 0.4
+  m_controlledArms:
+    m_leftArmLimbSettings:
+      m_hingeJoint: {fileID: 373790575493860881}
+      m_useMotor: 0
+      m_motorSpeed: 1000
+      m_motorForce: 10000
+      m_useLimits: 1
+      m_limitMin: 45
+      m_limitMax: -10
+    m_rightArmLimbSettings:
+      m_hingeJoint: {fileID: 7793962307768806064}
+      m_useMotor: 0
+      m_motorSpeed: 1000
+      m_motorForce: 10000
+      m_useLimits: 1
+      m_limitMin: -45
+      m_limitMax: 10
   m_controlledKnees:
     m_leftKnee: {fileID: 7935173758679970283}
     m_rightKnee: {fileID: 7918139566467640188}
@@ -2175,62 +2270,6 @@ MonoBehaviour:
     m_upperTargetRotation: 0
     m_upperForce: 25000
     m_lerpSpeed: 5
-  m_updateChanges: 0
-  m_headSettings:
-    m_balance: {fileID: 1275976289985504738}
-    m_targetRotation: 0
-    m_force: 1000
-    m_hingeJoint: {fileID: 8255059794675475876}
-    m_useMotor: 0
-    m_motorSpeed: 0
-    m_motorForce: 1000
-    m_useLimits: 1
-    m_limitMin: 0
-    m_limitMax: 0
-  m_leftLegSettings:
-    m_balance: {fileID: 6057587544231322016}
-    m_targetRotation: 0
-    m_force: 0
-    m_hingeJoint: {fileID: 1816578421764694898}
-    m_useMotor: 0
-    m_motorSpeed: 0
-    m_motorForce: 10000
-    m_useLimits: 1
-    m_limitMin: -25
-    m_limitMax: 25
-  m_lowerLeftLegSettings:
-    m_balance: {fileID: 7301582200496374592}
-    m_targetRotation: 0
-    m_force: 0
-    m_hingeJoint: {fileID: 7935173758679970283}
-    m_useMotor: 0
-    m_motorSpeed: 0
-    m_motorForce: 1000
-    m_useLimits: 1
-    m_limitMin: -45
-    m_limitMax: 45
-  m_rightLegSettings:
-    m_balance: {fileID: 6338173985218176015}
-    m_targetRotation: 0
-    m_force: 0
-    m_hingeJoint: {fileID: 8742319004099141432}
-    m_useMotor: 0
-    m_motorSpeed: 0
-    m_motorForce: 1000
-    m_useLimits: 1
-    m_limitMin: -25
-    m_limitMax: 25
-  m_lowerRightLegSettings:
-    m_balance: {fileID: 4206525402220722040}
-    m_targetRotation: 0
-    m_force: 0
-    m_hingeJoint: {fileID: 7918139566467640188}
-    m_useMotor: 0
-    m_motorSpeed: 0
-    m_motorForce: 1000
-    m_useLimits: 1
-    m_limitMin: -45
-    m_limitMax: 45
 --- !u!1 &5570368430999363226
 GameObject:
   m_ObjectHideFlags: 0
@@ -2365,8 +2404,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7505386577023701401}
-  - component: {fileID: 2230678205921320681}
-  - component: {fileID: 6002302539125408498}
   - component: {fileID: 3423706353590576070}
   m_Layer: 6
   m_Name: HealthBox
@@ -2394,67 +2431,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!61 &2230678205921320681
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5938766078012441785}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1.97, y: 5.26}
-  m_EdgeRadius: 0
---- !u!114 &6002302539125408498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5938766078012441785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc10ad2c05907853b00224ebc1f8d87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Health
-  currentHealth: 10
-  maxHealth: 10
-  healthSlider: {fileID: 5224165283786984738}
 --- !u!114 &3423706353590576070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4051,7 +4027,7 @@ Transform:
   - {fileID: 6843988933250831012}
   - {fileID: 7505386577023701401}
   - {fileID: 2651052932132772099}
-  m_Father: {fileID: 7367179219453107580}
+  m_Father: {fileID: 2747627113175555588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6078073334085677347
 SpriteRenderer:
@@ -4232,8 +4208,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8582739255355939913}
   - {fileID: 4917458111694722936}
+  - {fileID: 8582739255355939913}
   - {fileID: 1336813293265430779}
   - {fileID: 2784251794174000076}
   m_Father: {fileID: 7753959952826742851}

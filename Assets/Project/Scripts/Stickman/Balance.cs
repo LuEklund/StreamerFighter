@@ -14,7 +14,7 @@ namespace Stickman {
 
         void Update()
         {
-            rb.MoveRotation(Mathf.LerpAngle(rb.rotation, targetRotation, force * Time.deltaTime));
+            rb.MoveRotation(Mathf.LerpAngle(rb.rotation, targetRotation, force * 10000 * Time.deltaTime));
         }
 
     }
