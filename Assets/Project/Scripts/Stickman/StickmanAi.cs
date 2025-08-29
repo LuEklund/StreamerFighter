@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -5,6 +6,9 @@ namespace Stickman {
     public class StickmanAi : MonoBehaviour {
         [SerializeField] Stickman m_stickman;
         public Stickman m_target;
+
+        public TextMeshProUGUI m_nameText;
+        public TextMeshProUGUI m_chatText;
 
         ControlledArms m_controlledArms;
 

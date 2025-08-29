@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 namespace OverlayCore.Window {
@@ -44,8 +45,13 @@ namespace OverlayCore.Window {
         // =============================
         #if UNITY_STANDALONE_LINUX && !UNITY_EDITOR
         // libX11
-        [DllImport("libX11")]
-        static extern IntPtr XOpenDisplay(IntPtr display_name);
+        #if UNITY_STANDALONE_LINUX && !UNITY_EDITOR
+            [DllImport("libX11")]
+            static extern IntPtr XOpenDisplay(IntPtr display_name);
+        #endif
+
+        // [DllImport("libX11")]
+        // static extern IntPtr XOpenDisplay(IntPtr display_name);
 
         [DllImport("libX11")]
         static extern int XCloseDisplay(IntPtr display);
