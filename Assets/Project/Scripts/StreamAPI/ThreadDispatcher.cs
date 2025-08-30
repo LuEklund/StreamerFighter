@@ -13,8 +13,9 @@ namespace StreamAPI {
                 s_instance = this;
 
                 // If we're a child, unparent before making us persistent
-                if ( transform.parent != null )
+                if ( transform.parent != null ) {
                     transform.SetParent( null, true );
+                }
 
                 DontDestroyOnLoad( gameObject );
             }
@@ -28,7 +29,9 @@ namespace StreamAPI {
         /// Ensures a thread dispatcher is created if there is none.
         /// </summary>
         public static void EnsureCreated([CallerMemberName] string callerMemberName = null) {
-            if ( !Application.isPlaying ) return;
+            if ( !Application.isPlaying ) {
+                return;
+            }
 
 
             if ( s_instance == null || s_instance.gameObject == null ) {

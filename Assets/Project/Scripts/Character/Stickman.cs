@@ -99,7 +99,9 @@ namespace Character {
         }
 
         void Update() {
-            if ( !m_canMove ) return; // need this for testing.
+            if ( !m_canMove ) {
+                return; // need this for testing.
+            }
 
             m_movementKeys.HandleInput(); // input
             m_movement.HandleMovement();
@@ -158,8 +160,10 @@ namespace Character {
             }
         }
         public bool TryTakeDamage(int damage, Vector2 hitPoint = default) {
-            if ( m_health == null ) return false;
-            
+            if ( m_health == null ) {
+                return false;
+            }
+
             if (hitPoint != default && m_health.CanTakeDamage){
                 m_damageUIManager?.SpawnDamage( damage, hitPoint );
             }
@@ -173,7 +177,10 @@ namespace Character {
         }
         
         public void SendChatMessage(string message) {
-            if ( m_chatText == null ) return;
+            if ( m_chatText == null ) {
+                return;
+            }
+
             m_chatText.text = message;
         }
     }
@@ -231,15 +238,21 @@ namespace Character {
         }
 
         static void AssignGuid(Weapon[] arr, string guid) {
-            if ( arr == null ) return;
+            if ( arr == null ) {
+                return;
+            }
+
             foreach (var t in arr) {
-                if ( t != null ) t.GUID = guid;
+                if ( t != null ) {
+                    t.GUID = guid;
+                }
             }
         }
 
         static void SetOnlyIndexActive(Weapon[] arr, int index) {
-            if ( arr == null || arr.Length == 0 )
+            if ( arr == null || arr.Length == 0 ) {
                 return;
+            }
 
             if ( index < 0 || index >= arr.Length ) {
                 SetAllInactive( arr );
@@ -247,15 +260,21 @@ namespace Character {
             }
 
             for (var i = 0; i < arr.Length; i++) {
-                if ( arr[i] != null )
+                if ( arr[i] != null ) {
                     arr[i].gameObject.SetActive( i == index );
+                }
             }
         }
 
         static void SetAllInactive(Weapon[] arr) {
-            if ( arr == null ) return;
+            if ( arr == null ) {
+                return;
+            }
+
             foreach (var t in arr) {
-                if ( t != null ) t.gameObject.SetActive( false );
+                if ( t != null ) {
+                    t.gameObject.SetActive( false );
+                }
             }
         }
         
@@ -293,8 +312,10 @@ namespace Character {
         }
         
         public void Attack(HandSelection handSelection) {
-            if ( m_leftArm == null || m_rightArm == null ) return;
-            
+            if ( m_leftArm == null || m_rightArm == null ) {
+                return;
+            }
+
             // TODO: find out why the arms are reversed here, im might be stoned or something. right now its correct lol.
             switch (handSelection) {
                 case HandSelection.Right:
@@ -406,7 +427,9 @@ namespace Character {
                 return;
             }
 
-            if ( m_reverseGap ) m_currentGap = -m_bendGap;
+            if ( m_reverseGap ) {
+                m_currentGap = -m_bendGap;
+            }
 
             SetHipLimits( m_leftHip, -m_bendAngle, m_currentGap );
             SetHipLimits( m_rightHip, m_currentGap, -m_bendAngle );
@@ -415,10 +438,16 @@ namespace Character {
         }
 
         public void HandleLegs() {
-            if ( !m_leftHip || !m_rightHip ) return;
+            if ( !m_leftHip || !m_rightHip ) {
+                return;
+            }
 
-            if ( m_reverseGap ) m_currentGap = -m_bendGap;
-            else m_currentGap = m_bendGap;
+            if ( m_reverseGap ) {
+                m_currentGap = -m_bendGap;
+            }
+            else {
+                m_currentGap = m_bendGap;
+            }
 
             if ( m_movementKeys.m_left ) {
                 SetHipLimits( m_leftHip, -m_bendAngle, m_currentGap );
@@ -436,12 +465,18 @@ namespace Character {
 
         public IEnumerator MoveRight() {
             while (m_movementKeys.m_right) {
-                if ( m_movementKeys.m_left ) yield break;
+                if ( m_movementKeys.m_left ) {
+                    yield break;
+                }
+
                 //ZeroX( m_leftLegRb );
                 m_leftLegRb.ZeroX();
                 m_leftLegRb.AddForce( Vector2.right * (m_legForce * 1000 * Time.fixedDeltaTime) );
                 yield return m_waitForSeconds;
-                if ( !m_movementKeys.m_right ) yield break;
+                if ( !m_movementKeys.m_right ) {
+                    yield break;
+                }
+
                 //ZeroX( m_rightLegRb );
                 m_rightLegRb.ZeroX();
                 m_rightLegRb.AddForce( Vector2.right * (m_legForce * 1000 * Time.fixedDeltaTime) );
@@ -451,12 +486,18 @@ namespace Character {
 
         public IEnumerator MoveLeft() {
             while (m_movementKeys.m_left) {
-                if ( m_movementKeys.m_right ) yield break;
+                if ( m_movementKeys.m_right ) {
+                    yield break;
+                }
+
                 //ZeroX( m_rightLegRb );
                 m_rightLegRb.ZeroX();
                 m_rightLegRb.AddForce( Vector2.left * (m_legForce * 1000 * Time.fixedDeltaTime) );
                 yield return m_waitForSeconds;
-                if ( !m_movementKeys.m_left ) yield break;
+                if ( !m_movementKeys.m_left ) {
+                    yield break;
+                }
+
                 //ZeroX( m_leftLegRb );
                 m_leftLegRb.ZeroX();
                 m_leftLegRb.AddForce( Vector2.left * (m_legForce * 1000 * Time.fixedDeltaTime) );
@@ -498,17 +539,25 @@ namespace Character {
                 return;
             }
 
-            if ( m_reverseGap ) m_currentGap = -m_bendGap;
+            if ( m_reverseGap ) {
+                m_currentGap = -m_bendGap;
+            }
 
             SetKneeLimits( m_leftKnee, -m_bendAngle, m_currentGap );
             SetKneeLimits( m_rightKnee, m_currentGap, -m_bendAngle );
         }
 
         public void HandleKnees() {
-            if ( !m_leftKnee || !m_rightKnee ) return;
+            if ( !m_leftKnee || !m_rightKnee ) {
+                return;
+            }
 
-            if ( m_reverseGap ) m_currentGap = -m_bendGap;
-            else m_currentGap = m_bendGap;
+            if ( m_reverseGap ) {
+                m_currentGap = -m_bendGap;
+            }
+            else {
+                m_currentGap = m_bendGap;
+            }
 
             if ( m_movementKeys.m_left ) {
                 SetKneeLimits( m_leftKnee, -m_bendAngle, m_currentGap );
@@ -595,7 +644,10 @@ namespace Character {
         public bool m_isPlayerControlled = true;
         
         public void HandleInput() {
-            if ( !m_isPlayerControlled ) return;
+            if ( !m_isPlayerControlled ) {
+                return;
+            }
+
             m_jump = Input.GetKey( m_jumpKey );
             m_left = Input.GetKey( m_leftKey );
             m_right = Input.GetKey( m_rightKey );
@@ -630,7 +682,9 @@ namespace Character {
         }
 
         public void HandleMovement() {
-            if ( !m_rb ) return;
+            if ( !m_rb ) {
+                return;
+            }
 
             UpdateGroundCheck();
 
@@ -657,14 +711,23 @@ namespace Character {
         }
 
         void HandleJump() {
-            if ( m_movementKeys.m_jump == false || m_canJump == false ) return;
-            if ( !m_isGrounded ) return;
+            if ( m_movementKeys.m_jump == false || m_canJump == false ) {
+                return;
+            }
+
+            if ( !m_isGrounded ) {
+                return;
+            }
+
             m_rb.bodyType = RigidbodyType2D.Dynamic;
             m_rb.AddForce( Vector2.up * m_jumpForce );
         }
 
         public void ToggleKinematic() {
-            if ( !m_rb ) return;
+            if ( !m_rb ) {
+                return;
+            }
+
             if ( m_rb.bodyType == RigidbodyType2D.Kinematic ) {
                 m_rb.bodyType = RigidbodyType2D.Dynamic;
             }
@@ -675,7 +738,10 @@ namespace Character {
         }
 
         public void OnDrawGizmosSelected() {
-            if ( m_playerPos == null ) return;
+            if ( m_playerPos == null ) {
+                return;
+            }
+
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(
                 m_playerPos.position + Vector3.down * m_groundCheckOffset,

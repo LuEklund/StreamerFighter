@@ -61,8 +61,12 @@ namespace Character {
             StopMoving();
 
             if (shouldChase) {
-                if (dx < -0.05f) m_stickman.m_movementKeys.m_left  = true;
-                else if (dx > 0.05f) m_stickman.m_movementKeys.m_right = true;
+                if (dx < -0.05f) {
+                    m_stickman.m_movementKeys.m_left  = true;
+                }
+                else if (dx > 0.05f) {
+                    m_stickman.m_movementKeys.m_right = true;
+                }
             }
             
             bool isMoving = m_stickman.m_movementKeys.m_left || m_stickman.m_movementKeys.m_right;
@@ -89,7 +93,10 @@ namespace Character {
             Vector2 myPos = m_stickman.m_torso.transform.position;
 
             foreach (var m in motors) {
-                if (m == m_stickman) continue; // don't target self
+                if (m == m_stickman) {
+                    continue; // don't target self
+                }
+
                 float d = Vector2.Distance(m.m_torso.transform.position, myPos);
                 if (d < closest && d <= m_detectionRange) {
                     closest = d;

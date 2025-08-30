@@ -23,16 +23,6 @@ namespace StreamAPI {
 
         #region Class Construction
         void Awake() {
-            // var load = Resources.Load("Lucas/secrets") as TextAsset;
-            // if (load == null) {
-            //     Logger.LogError("Failed to load secrets.json from Resources/Damon/");
-            //     return;
-            // }
-            // Logger.Log(load );
-            // var secrets = JsonUtility.FromJson<UnitySecrets>(load.ToString());
-            // m_twitchStreamInfo.m_userName = secrets.USERNAME;
-            // m_twitchStreamInfo.m_accessToken = secrets.ACCESS_TOKEN;
-            
             if ( m_gameManager == null ) {
                 m_gameManager = FindFirstObjectByType<GameManager>( FindObjectsInactive.Exclude );
             }
@@ -42,16 +32,12 @@ namespace StreamAPI {
             }
         }
 
-        // void Start() {
-        //     if ( m_gameManager == null ) {
-        //         m_gameManager = FindFirstObjectByType<GameManager>( FindObjectsInactive.Exclude );
-        //     }
-        //
-        //     if ( m_gameManager == null ) {
-        //         Logger.LogError( "TwitchChatter: No GameManager assigned!", this );
-        //     }
-        // }
-
+        // UI Construction
+        public void Init(TwitchStreamInfo twitchStreamInfo) {
+            m_twitchStreamInfo = twitchStreamInfo;
+            Init();
+        }
+        
         void Init() {
             m_bot = TwitchBotFactory.CreateForUnity(
                 m_twitchStreamInfo.m_userName,
@@ -61,11 +47,6 @@ namespace StreamAPI {
             );
             m_bot.OnLog += SendLogMessage;
             m_bot.OnMessageReceived += LogMessageReceived;
-        }
-
-        public void Init(TwitchStreamInfo twitchStreamInfo) {
-            m_twitchStreamInfo = twitchStreamInfo;
-            Init();
         }
         
         void OnDestroy() {
@@ -77,7 +58,10 @@ namespace StreamAPI {
         #endregion
     
         void LogMessageReceived(object sender, OnMessageReceivedArgs e) {
-            if (sender == null) return;
+            if (sender == null) {
+                return;
+            }
+
             if ( m_logChatterInfo ) {
                 Logger.Log( $"[{e.ChatMessage.Channel}] {e.ChatMessage.Username}: {e.ChatMessage.Message}" );
             }
@@ -96,7 +80,10 @@ namespace StreamAPI {
         }
     
         void SendLogMessage(object sender, OnLogArgs e) {
-            if (sender == null) return;
+            if (sender == null) {
+                return;
+            }
+
             if ( m_logChatterInfo ) {
                 Logger.Log( e.Data );
             }
