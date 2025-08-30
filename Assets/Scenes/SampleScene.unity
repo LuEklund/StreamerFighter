@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 24144307}
   - component: {fileID: 24144305}
   m_Layer: 0
-  m_Name: LMSS
+  m_Name: LMSS (Damons Object)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,12 +159,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 24144304}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 35274996}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &35274995
 GameObject:
@@ -200,6 +200,7 @@ Transform:
   - {fileID: 1540088153}
   - {fileID: 837385754}
   - {fileID: 884995220}
+  - {fileID: 24144307}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &454217106
@@ -1290,7 +1291,7 @@ MonoBehaviour:
   m_leftSpawnPoint: {fileID: 729229746}
   m_rightSpawnPoint: {fileID: 2104342740}
   m_spamPlayers: 1
-  m_addTestDamons: 1
+  m_addTestDamons: 0
 --- !u!1 &1178122873
 GameObject:
   m_ObjectHideFlags: 0
@@ -2446,4 +2447,3 @@ SceneRoots:
   - {fileID: 718932584}
   - {fileID: 35274996}
   - {fileID: 1328322233}
-  - {fileID: 24144307}

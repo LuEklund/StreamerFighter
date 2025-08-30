@@ -11,11 +11,6 @@ namespace Character {
         public float m_detectionRange = 100f;
         public float m_attackRange = 2f;
 
-        [Header("Combat")]
-        public float m_attackCooldown = 1f;
-
-        float m_lastAttackTime = 0f;
-
         void Awake() {
             if (m_stickman == null) {
                 m_stickman = GetComponent<Stickman>();
@@ -74,9 +69,8 @@ namespace Character {
             if (!withinAttackRange && m_controlledArms.IsAttacking()) {
                 m_stickman.m_movementKeys.m_attack = false;
             }
-            else if (!isMoving && withinAttackRange && Time.time - m_lastAttackTime > m_attackCooldown) {
+            else if (!isMoving && withinAttackRange) {
                 m_stickman.m_movementKeys.m_attack = true;
-                m_lastAttackTime = Time.time;
             }
         }
 

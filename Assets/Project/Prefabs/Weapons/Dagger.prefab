@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3400095151570327813}
   - component: {fileID: 9071936748242099271}
+  - component: {fileID: 1798032204253196540}
   m_Layer: 0
   m_Name: Dagger
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.38268366, w: 0.9238794}
   m_LocalPosition: {x: -0.54, y: 8.67, z: 0}
-  m_LocalScale: {x: 7.6923075, y: 7.6923075, z: 7.6923075}
+  m_LocalScale: {x: 7.6923075, y: 7.6923075, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -90,3 +91,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1798032204253196540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2212166992122033662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15dcb4f621fe46f684174ca981e2dc5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StreamerFighter.Weapon
+  m_layerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  m_damage: 1
+  m_attackRange: 0.5
+  m_attackRate: 1
+  m_sound: {fileID: 0}
+  m_specialEffect: 0
+  m_knockbackForce: 0
+  m_poisonDamage: 0
+  m_lifestealPercent: 0
+  m_fireDamage: 0

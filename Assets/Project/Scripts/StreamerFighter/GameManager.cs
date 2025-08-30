@@ -16,6 +16,7 @@ namespace StreamerFighter {
         [SerializeField] Transform m_rightSpawnPoint;
         
         public bool m_spamPlayers = false;
+        public float m_spawnInterval = 5f;
         public bool m_addTestDamons = false;
 
         void Awake() {
@@ -47,7 +48,7 @@ namespace StreamerFighter {
 
             // every 10 seconds spawn a new player.
             if ( m_spamPlayers ) {
-                InvokeRepeating( nameof( SpawnRandomPlayer ), 10f, 2f );
+                InvokeRepeating( nameof( SpawnRandomPlayer ), 10f, m_spawnInterval );
             }
         }
         
