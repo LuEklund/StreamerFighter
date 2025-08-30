@@ -13,10 +13,13 @@
     -unity-font-style: bold;
 }
 
-.login-panel-element_start-twitch-button {
+.twitchlogin-element_start-twitch-button {
     background-color: rgb(80, 80, 80);
     -unity-font-style: bold;
     margin-right: 80px;
     margin-left: 80px;
     margin-top: 20px;
+}
+
+.twitchlogin-inputfield {
 }
