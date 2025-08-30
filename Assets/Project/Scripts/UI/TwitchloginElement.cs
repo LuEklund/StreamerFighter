@@ -46,6 +46,7 @@ namespace UI {
             // Set Text Fields
             m_twitchHeaderLabel.text = "Twitch Login";
             m_authKey.label = "Auth Key";
+            m_authKey.isPasswordField = true;
             m_userName.label = "User Name";
             m_channelName.label = "Channel Name";
             m_enableLogging.label = "EnableLogging";
