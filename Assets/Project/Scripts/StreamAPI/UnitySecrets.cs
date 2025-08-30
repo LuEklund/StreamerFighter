@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿/*using System.Diagnostics.CodeAnalysis;
 namespace StreamAPI {
     [SuppressMessage( "ReSharper", "InconsistentNaming" )]
     [System.Serializable] 
@@ -9,4 +9,4 @@ namespace StreamAPI {
         public string CLIENT_ID;
         public string CLIENT_SECRET;
     }
-}
+}*/

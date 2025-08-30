@@ -26,6 +26,16 @@ namespace StreamerFighter {
             
             if(TryAddPlayer( "NotDamon" ) == false) Logger.LogError( "i didnt spawn, NotDamon" );
             if(TryAddChat( "NotDamon", "Hello World!" ) == false) Logger.LogError( "i didnt chat, NotDamon" );
+            
+            // every 10 seconds spawn a new player.
+            InvokeRepeating( nameof( SpawnRandomPlayer ), 10f, 2f );
+        }
+        
+        void SpawnRandomPlayer() {
+            var id = $"User{Random.Range(1000, 9999)}";
+            if ( TryAddPlayer( id ) ) {
+                Logger.Log( $"Spawned {id}" );
+            }
         }
 
         // networking methods should be a bool so we can try/catch and log errors.

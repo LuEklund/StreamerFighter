@@ -1,0 +1,25 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="login-panel" src="project://database/Assets/Project/Scripts/UI/Toolkit/UXML/login-panel.uxml?fileID=9197481963319205126&amp;guid=2711ac1ee5b09944eb8016073941b3fd&amp;type=3#login-panel" />
+    <Style src="project://database/Assets/Project/Scripts/UI/Toolkit/StreamerHUD.uss?fileID=7433441132597879392&amp;guid=8a108c191b9bb494bbccb53fe2e97639&amp;type=3#StreamerHUD" />
+    <ui:VisualElement style="flex-direction: row; flex-grow: 1; flex-shrink: 1;">
+        <ui:VisualElement style="flex-grow: 1; flex-shrink: 0; max-width: 33%;">
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:Instance template="login-panel" name="Login-info-container" />
+                <ui:VisualElement name="Login-info-container" style="flex-grow: 1; display: none;">
+                    <ui:VisualElement name="login-panel" style="background-color: rgba(60, 60, 60, 0.9); margin-top: 9px; margin-right: 100px; margin-bottom: 9px; margin-left: 9px;">
+                        <ui:VisualElement name="TwitchHeader">
+                            <ui:Label text="Twitch Login" name="TwitchHeader_label" style="-unity-text-align: middle-center; font-size: 24px; -unity-font-style: bold;" />
+                        </ui:VisualElement>
+                        <ui:TextField label="Auth Key" password="true" name="AuthO" />
+                        <ui:TextField label="User Name" name="AuthO" />
+                        <ui:TextField label="Channel Name" name="AuthO" />
+                        <ui:Toggle label="EnableLogging" name="EnableLogging" />
+                        <ui:Button text="Start Twitch" name="StartTwitch" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; flex-shrink: 0; max-width: 33%;" />
+        <ui:VisualElement style="flex-grow: 1; flex-shrink: 0; max-width: 33%;" />
+    </ui:VisualElement>
+</ui:UXML>
