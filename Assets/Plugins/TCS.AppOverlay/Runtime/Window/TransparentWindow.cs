@@ -3,19 +3,48 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
-namespace OverlayCore.Window {
+
+namespace TCS {
     public class TransparentWindow : MonoBehaviour {
+        [DllImport("user32.dll")]
+        public static extern int MessageBox(IntPtr hWnd, string text, string caption, uint type);
+
+        [DllImport("user32.dll")]
+        static extern IntPtr GetActiveWindow();
+
+        [DllImport("user32.dll")]
+        static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+        [DllImport("user32.dll")]
+        static extern int SetLayeredWindowAttributes(IntPtr hWnd, uint crKey, byte bAlpha, uint dwFlags);
+
+        struct MARGINS {
+            public int cxLeftWidth;
+            public int cxRightWidth;
+            public int cyTopHeight;
+            public int cyBottomHeight;
+        }
+
+        [DllImport("Dwmapi.dll")]
+        static extern uint DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS margins);
+
         const int GWL_EXSTYLE = -20;
         const uint WS_EX_LAYERED = 0x00080000;
         const uint WS_EX_TRANSPARENT = 0x00000020;
+
+        static readonly IntPtr HWND_TOPMOST = new(-1);
         const uint LWA_COLORKEY = 0x00000001;
 
-        static readonly IntPtr HwndTopmost = new(-1);
-
-        IntPtr m_hWnd;
-        Camera m_camera;
-
         bool m_clickthrough;
+
+        void ForceNotClickthrough() => m_clickthrough = false;
+        void ForceClickthrough() => m_clickthrough = true;
+
+        IntPtr hWnd;
+        Camera m_camera;
 
         void Awake() {
             m_camera = Camera.main;
@@ -40,65 +69,44 @@ namespace OverlayCore.Window {
         }
 
         void Update() {
-            SetClickthrough( !IsPointerOverUIOr3DObject() );
+            SetClickThrough(!IsPointerOverUIOr3DObject());
         }
 
         void OnDestroy() {
             TransparentWindowEvents.OnForceClickThrough -= ForceClickthrough;
             TransparentWindowEvents.OnForceNotClickThrough -= ForceNotClickthrough;
         }
-        // TODO: This currently only works on Windows. Implement for other OSes as needed.
-        [DllImport( "user32.dll" )]
-        public static extern int MessageBox(IntPtr hWnd, string text, string caption, uint type);
-
-        [DllImport( "user32.dll" )]
-        static extern IntPtr GetActiveWindow();
-
-        [DllImport( "user32.dll" )]
-        static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
-
-        [DllImport( "user32.dll", SetLastError = true )]
-        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
-
-        [DllImport( "user32.dll" )]
-        static extern int SetLayeredWindowAttributes(IntPtr hWnd, uint crKey, byte bAlpha, uint dwFlags);
-
-        [DllImport( "Dwmapi.dll" )]
-        static extern uint DwmExtendFrameIntoClientArea(IntPtr hWnd, ref Margins margins);
-
-        void ForceNotClickthrough() => m_clickthrough = false;
-        void ForceClickthrough() => m_clickthrough = true;
 
         public bool IsPointerOverUIOr3DObject() {
-            if ( !m_clickthrough ) {
+            if (!m_clickthrough) {
                 return false;
             }
 
             // Check if the pointer is over a UI element
-            if ( EventSystem.current.IsPointerOverGameObject() ) {
+            if (EventSystem.current.IsPointerOverGameObject()) {
                 return true;
             }
 
-            var pe = new PointerEventData( EventSystem.current ) {
-                position = Input.mousePosition,
+            var pe = new PointerEventData(EventSystem.current) {
+                position = Input.mousePosition
             };
             List<RaycastResult> hits = new();
-            EventSystem.current.RaycastAll( pe, hits );
-            if ( hits.Count > 0 ) {
+            EventSystem.current.RaycastAll(pe, hits);
+            if (hits.Count > 0) {
                 return true;
             }
 
             // Check if the pointer is over a 3D object
-            var ray = m_camera.ScreenPointToRay( Input.mousePosition );
-            return Physics.Raycast( ray, out _ );
+            var ray = m_camera.ScreenPointToRay(Input.mousePosition);
+            return Physics.Raycast(ray, out _);
         }
 
-        void SetClickthrough(bool clickthrough) {
-            if ( clickthrough ) {
-                SetWindowLong( m_hWnd, GWL_EXSTYLE, WS_EX_LAYERED | WS_EX_TRANSPARENT );
+        void SetClickThrough(bool click) {
+            if (click) {
+                SetWindowLong(hWnd, GWL_EXSTYLE, WS_EX_LAYERED | WS_EX_TRANSPARENT);
             }
             else {
-                SetWindowLong( m_hWnd, GWL_EXSTYLE, WS_EX_LAYERED );
+                SetWindowLong(hWnd, GWL_EXSTYLE, WS_EX_LAYERED);
             }
         }
 
@@ -124,13 +132,6 @@ namespace OverlayCore.Window {
             // Set the window position
             SetWindowPos(hWnd, HWND_TOPMOST, posX, posY, 0, 0, 0);
             #endif
-        }
-
-        struct Margins {
-            public int CxLeftWidth;
-            public int CxRightWidth;
-            public int CyTopHeight;
-            public int CyBottomHeight;
         }
     }
 }

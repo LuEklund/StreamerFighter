@@ -80,7 +80,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: a0281062d46245747985607f2e4a956f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -166,7 +166,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   m_damage: 3
-  m_attackRange: 1.8
+  m_attackRange: 0.75
   m_attackRate: 1
   m_sound: {fileID: 8300000, guid: 21420c958a5ac1f4ab358b32615cd127, type: 3}
   m_specialEffect: 1

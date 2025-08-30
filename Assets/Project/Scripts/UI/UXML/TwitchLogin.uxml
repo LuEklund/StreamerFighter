@@ -1,0 +1,12 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="login-panel" style="background-color: rgba(60, 60, 60, 0.9); margin-top: 9px; margin-right: 100px; margin-bottom: 9px; margin-left: 9px; color: rgb(255, 255, 255);">
+        <ui:VisualElement name="TwitchHeader">
+            <ui:Label text="Twitch Login" name="TwitchHeader_label" style="-unity-text-align: middle-center; font-size: 24px; -unity-font-style: bold;" />
+        </ui:VisualElement>
+        <ui:TextField label="Auth Key" password="true" name="AuthKey" />
+        <ui:TextField label="User Name" name="UserName" />
+        <ui:TextField label="Channel Name" name="ChannelName" />
+        <ui:Toggle label="EnableLogging" name="EnableLogging" />
+        <ui:Button text="Start Twitch" name="StartTwitchButton" style="background-color: rgb(80, 80, 80); -unity-font-style: bold; margin-right: 80px; margin-left: 80px; margin-top: 20px;" />
+    </ui:VisualElement>
+</ui:UXML>
