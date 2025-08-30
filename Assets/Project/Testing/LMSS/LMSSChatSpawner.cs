@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using StreamAPI;
 using UnityEngine;
@@ -8,11 +9,13 @@ public class LMSSChatSpawner : MonoBehaviour {
     #if LMSS
     LMSharp.LMSSClient m_lmssClient;
     #endif
-    
+
     [SerializeField] ChatBubble m_chatBubble;
     public float m_minTime = 25f;
     public float m_maxTime = 100f;
     float m_timer;
+
+    CancellationTokenSource m_cts = new();
 
     void Awake() {
         #if LMSS
@@ -25,38 +28,51 @@ public class LMSSChatSpawner : MonoBehaviour {
         #endif
     }
 
-    // randomly send a chat message every m_minTime to m_maxTime seconds
     void Start() => ResetTimer();
 
     void Update() {
         m_timer -= Time.deltaTime;
         if ( m_timer <= 0f ) {
-            SendChatMessage();
+            // fire-and-forget is okay; cancellation is handled below
+            _ = SendChatMessageAsync( m_cts.Token );
             ResetTimer();
         }
     }
+
     void ResetTimer() {
         m_timer = Random.Range( m_minTime, m_maxTime );
     }
-    async void SendChatMessage() {
+
+    // IMPORTANT: cancel the token when this object is destroyed
+    void OnDestroy() {
         try {
-            string message = await GetChatMessage( "Say something funny" );
-            if ( string.IsNullOrEmpty( message ) ) {
-                return;
-            }
-        
-            m_chatBubble.ShowMessage( message );
+            m_cts.Cancel();
         }
-        catch (Exception e) {
-            // NOOP
+        catch {
+            /* ignore */
+        }
+        finally {
+            m_cts.Dispose();
         }
     }
-    
-    
-    
-    public Task<string> GetChatMessage(string message) {
+
+    // Prefer async Task over async void so exceptions/cancellation can flow
+    async Task SendChatMessageAsync(CancellationToken token) {
+        try {
+            string message = await GetChatMessage("Hello", token);
+
+            if (token.IsCancellationRequested || this == null || m_chatBubble == null) return;
+
+            m_chatBubble.ShowMessage(message);
+        }
+        catch (OperationCanceledException) { /* expected on destroy */ }
+        catch (Exception e) { /*Debug.LogException(e, this);*/ }
+    }
+
+
+    public Task<string> GetChatMessage(string message, CancellationToken token) {
         #if LMSS
-        return m_lmssClient.SendChatMessage( message );
+        return m_lmssClient.GetChatMessage( message, token );
         #else
         return Task.FromResult( "Hello World" );
         #endif

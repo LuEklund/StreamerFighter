@@ -35,7 +35,7 @@ namespace StreamerFighter {
             if ( damageable != null ) {
                 var damage = damageable.TryDealDamage( m_damage, GUID );
                 if ( m_sound != null && damage ) {
-                    AudioSource.PlayClipAtPoint( m_sound, transform.position, 0.2f );
+                    AudioSource.PlayClipAtPoint( m_sound, transform.position, Random.Range( 0.01f, 0.015f ));
                 }
             }
         }

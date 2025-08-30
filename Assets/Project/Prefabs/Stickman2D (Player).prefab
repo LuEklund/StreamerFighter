@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Balance
   m_targetRotation: 15
-  m_force: 1000
+  m_force: 2500
 --- !u!114 &1570612108711396015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1029,7 +1029,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChatBubble
   m_playerChatText: {fileID: 8635941358794472953}
   m_canvasGroup: {fileID: 2176441056347269249}
-  m_lifeTime: 20
+  m_lifeTime: 10
 --- !u!1 &2211451746312980454
 GameObject:
   m_ObjectHideFlags: 0
@@ -2638,8 +2638,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   m_healthSlider: {fileID: 5224165283786984738}
-  m_currentHealth: 10
-  m_maxHealth: 10
+  m_currentHealth: 15
+  m_maxHealth: 15
   m_damageCooldown: 1.5
 --- !u!114 &8712163281674680890
 MonoBehaviour:
@@ -2703,8 +2703,8 @@ MonoBehaviour:
     m_groundLayer:
       serializedVersion: 2
       m_Bits: 8
-    m_groundCheckOffset: 1.3
-    m_groundCheckRadius: 0.4
+    m_groundCheckOffset: 0.6
+    m_groundCheckRadius: 0.15
   m_controlledArms:
     m_leftArm: {fileID: 373790575493860881}
     m_rightArm: {fileID: 7793962307768806064}
@@ -2723,17 +2723,9 @@ MonoBehaviour:
     m_kickDelay: 0.2
     m_leftHip: {fileID: 1816578421764694898}
     m_rightHip: {fileID: 8742319004099141432}
-    m_bendAngle: -45
-    m_bendGap: -15
+    m_bendAngle: -35
+    m_bendGap: -5
     m_reverseGap: 0
-  m_controlledLean:
-    m_lowerTorso: {fileID: 4594826126457628004}
-    m_upperTorso: {fileID: 164103871761236808}
-    m_lowerTargetRotation: 0
-    m_lowerForce: 25000
-    m_upperTargetRotation: 0
-    m_upperForce: 25000
-    m_lerpSpeed: 5
   m_direction: -1
 --- !u!114 &1674179410191650185
 MonoBehaviour:
@@ -3255,7 +3247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Balance
   m_targetRotation: 0
-  m_force: 100
+  m_force: 500
 --- !u!114 &1973609151869829630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3618,7 +3610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Balance
   m_targetRotation: -15
-  m_force: 1000
+  m_force: 2500
 --- !u!114 &7841675699810362191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4611,7 +4603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Balance
   m_targetRotation: 0
-  m_force: 100
+  m_force: 500
 --- !u!114 &414167464808905957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5220,7 +5212,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2328772379297605872, guid: 46119c5605c695f4f87d4bf6ae843a38, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

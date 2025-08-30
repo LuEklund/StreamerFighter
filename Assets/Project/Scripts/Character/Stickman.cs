@@ -25,7 +25,7 @@ namespace Character {
         public ControlledArms m_controlledArms = new();
         public ControlledKnees m_controlledKnees = new();
         public ControlledLegs m_controlledLegs = new();
-        public ControlledLean m_controlledLean = new();
+        //public ControlledLean m_controlledLean = new();
 
         Coroutine m_leftRoutine;
         Coroutine m_rightRoutine;
@@ -85,7 +85,7 @@ namespace Character {
             m_movement.Init( m_movementKeys );
             m_controlledKnees.Init( m_movementKeys );
             m_controlledLegs.Init( m_movementKeys );
-            m_controlledLean.Init();
+            //m_controlledLean.Init();
 
             m_health.OnDeath += PlayerDeath;
         }
@@ -108,16 +108,16 @@ namespace Character {
             m_controlledArms.HandleArms();
             m_controlledKnees.HandleKnees();
             m_controlledLegs.HandleLegs();
-            m_controlledLean.HandleLean();
+            //m_controlledLean.HandleLean();
 
             if ( m_movementKeys.m_left ) {
-                m_controlledLean.LeanLeft();
+                //m_controlledLean.LeanLeft();
                 Direction = HandSelection.Left;
                 m_loadoutManager.SetDirection( Direction );
             }
 
             if ( m_movementKeys.m_right ) {
-                m_controlledLean.LeanRight();
+                //m_controlledLean.LeanRight();
                 Direction = HandSelection.Right;
                 m_loadoutManager.SetDirection( Direction );
             }
@@ -454,22 +454,16 @@ namespace Character {
         }
     }
 
-    [Serializable] public class ControlledLean {
-        [SerializeField] Balance m_lowerTorso;
+    /*[Serializable] public class ControlledLean {
         [SerializeField] Balance m_upperTorso;
 
-        public float m_lowerTargetRotation;
-        public float m_lowerForce = 25000f;
-        public float m_upperTargetRotation;
-        public float m_upperForce = 25000f;
-        public float m_lerpSpeed = 5f;
+        public float m_initialUpperRotation = 10f;
+        
+        float m_upperTargetRotation;
+        float m_upperForce = 25000f;
+        float m_lerpSpeed = 1f;
 
         public void Init() {
-            if ( m_lowerTorso ) {
-                m_lowerTorso.m_targetRotation = m_lowerTargetRotation;
-                m_lowerTorso.m_force = m_lowerForce;
-            }
-
             if ( m_upperTorso ) {
                 m_upperTorso.m_targetRotation = m_upperTargetRotation;
                 m_upperTorso.m_force = m_upperForce;
@@ -477,11 +471,6 @@ namespace Character {
         }
 
         public void HandleLean() {
-            if ( m_lowerTorso ) {
-                m_lowerTorso.m_targetRotation = Mathf.Lerp( m_lowerTorso.m_targetRotation, m_lowerTargetRotation, Time.deltaTime * m_lerpSpeed );
-                m_lowerTorso.m_force = Mathf.Lerp( m_lowerTorso.m_force, m_lowerForce, Time.deltaTime * m_lerpSpeed );
-            }
-
             if ( m_upperTorso ) {
                 m_upperTorso.m_targetRotation = Mathf.Lerp( m_upperTorso.m_targetRotation, m_upperTargetRotation, Time.deltaTime * m_lerpSpeed );
                 m_upperTorso.m_force = Mathf.Lerp( m_upperTorso.m_force, m_upperForce, Time.deltaTime * m_lerpSpeed );
@@ -489,15 +478,13 @@ namespace Character {
         }
 
         public void LeanLeft() {
-            m_lowerTargetRotation = 20f;
-            m_upperTargetRotation = 10f;
+            m_upperTargetRotation = -m_initialUpperRotation;
         }
 
         public void LeanRight() {
-            m_lowerTargetRotation = -20f;
-            m_upperTargetRotation = -10f;
+            m_upperTargetRotation = m_initialUpperRotation;
         }
-    }
+    }*/
 
     [Serializable] public class ControlledLegs {
         [Header( "Rigidbody2D References" )]
@@ -658,11 +645,11 @@ namespace Character {
                 m_currentGap = m_bendGap;
             }
 
-            if ( m_movementKeys.m_left ) {
+            if ( m_movementKeys.m_right ) {
                 SetKneeLimits( m_leftKnee, -m_bendAngle, m_currentGap );
                 SetKneeLimits( m_rightKnee, m_currentGap, -m_bendAngle );
             }
-            else if ( m_movementKeys.m_right ) {
+            else if ( m_movementKeys.m_left ) {
                 SetKneeLimits( m_leftKnee, m_bendAngle, m_currentGap );
                 SetKneeLimits( m_rightKnee, m_currentGap, m_bendAngle );
             }

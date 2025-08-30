@@ -57,7 +57,7 @@ public class TestTwitchLib : MonoBehaviour {
     [Button] public void Init() {
         m_bot.OnLog += SendLogMessage;
         m_bot.OnMessageReceived += LogMessageReceived;
-        // SendChatMessage("Crack Cocaine");
+        // GetChatMessage("Crack Cocaine");
     }
     
     void LogMessageReceived(object sender, OnMessageReceivedArgs e) {
