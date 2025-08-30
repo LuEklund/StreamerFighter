@@ -7,6 +7,7 @@ namespace UI {
         [SerializeField] TwitchChatter m_twitchChatter;
     
         TwitchStreamInfo m_twitchStreamInfo;
+        TwitchloginElement m_twitchLoginElement;
 
         public void Awake() {
             if ( m_doc == null ) {
@@ -24,6 +25,21 @@ namespace UI {
                 enabled = false;
                 return;
             }
+            
+            var root = m_doc.rootVisualElement;
+            m_twitchLoginElement = root.Q<TwitchloginElement>();
+            
+            if ( m_twitchLoginElement == null ) {
+                Debug.LogError( "StreamerHUD: No TwitchloginElement found in UIDocument!", this );
+                enabled = false;
+                return;
+            }
+            
+            m_twitchLoginElement.OnStartTwitchButtonClicked += AttemptTwitchLogin;
+        }
+        void AttemptTwitchLogin() {
+            var accessInfo = m_twitchLoginElement.GetTwitchStreamInfo();
+            SetTwitchInfo( accessInfo.m_userName, accessInfo.m_accessToken, accessInfo.m_channelName, accessInfo.m_enableLogging );
         }
 
         void SetTwitchInfo(string username, string accessToken, string channelName, bool enableLogging) {

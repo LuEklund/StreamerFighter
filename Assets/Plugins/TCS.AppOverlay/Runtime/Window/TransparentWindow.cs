@@ -69,7 +69,7 @@ namespace TCS {
         }
 
         void Update() {
-            SetClickthrough(!IsPointerOverUIOr3DObject());
+            SetClickThrough(!IsPointerOverUIOr3DObject());
         }
 
         void OnDestroy() {
@@ -101,8 +101,8 @@ namespace TCS {
             return Physics.Raycast(ray, out _);
         }
 
-        void SetClickthrough(bool clickthrough) {
-            if (clickthrough) {
+        void SetClickThrough(bool click) {
+            if (click) {
                 SetWindowLong(hWnd, GWL_EXSTYLE, WS_EX_LAYERED | WS_EX_TRANSPARENT);
             }
             else {

@@ -8,7 +8,7 @@ using Logger = TCS.Utils.Logger;
 namespace StreamAPI {
     [Serializable] public class TwitchStreamInfo {
         public string m_userName;
-        public string m_accessToken; // Get this from https://twitchtokengenerator.com/ DONT SHOW TO ANYONE
+        public string m_accessToken; // Get this from https://twitchtokengenerator.com/quick/jX8swSi9rN DONT SHOW TO ANYONE
         public string m_channelName = ""; // normally your username with a # prefix
         public bool m_enableLogging = true;
     }

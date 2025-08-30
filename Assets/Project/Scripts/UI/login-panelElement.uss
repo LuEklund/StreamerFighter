@@ -1,0 +1,22 @@
+.twitchlogin-element_login-panel {
+    background-color: rgba(60, 60, 60, 0.9);
+    margin-top: 9px;
+    margin-right: 100px;
+    margin-bottom: 9px;
+    margin-left: 9px;
+    color: rgb(255, 255, 255);
+}
+
+.twitchlogin-element_twitch-header-label {
+    -unity-text-align: middle-center;
+    font-size: 24px;
+    -unity-font-style: bold;
+}
+
+.login-panel-element_start-twitch-button {
+    background-color: rgb(80, 80, 80);
+    -unity-font-style: bold;
+    margin-right: 80px;
+    margin-left: 80px;
+    margin-top: 20px;
+}

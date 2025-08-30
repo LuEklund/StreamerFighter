@@ -20,7 +20,8 @@ MonoBehaviour:
     rid: 2348129808857956899
   m_OverrideGlobalSceneList: 0
   m_Scenes: []
-  m_ScriptingDefines: []
+  m_ScriptingDefines:
+  - TCS_WIN
   m_PlayerSettingsYaml:
     m_Settings: []
   references:

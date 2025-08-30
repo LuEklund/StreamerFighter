@@ -11,6 +11,9 @@ namespace StreamerFighter {
         // so we just have direct access to all its API.
         public readonly Dictionary<string, Stickman> Players = new(); 
         public Stickman m_player;
+        
+        public bool m_spamPlayers = false;
+        public bool m_addTestDamons = false;
 
         void Awake() {
             if ( m_player == null ) {
@@ -21,24 +24,28 @@ namespace StreamerFighter {
         }
 
         void Start() {
-            if(TryAddPlayer("Damon") == false) {
-                Logger.LogError( "i didnt spawn, Damon" );
-            }
+            if ( m_addTestDamons ) {
+                if(TryAddPlayer("Damon") == false) {
+                    Logger.LogError( "i didnt spawn, Damon" );
+                }
 
-            if(TryAddChat( "Damon", "Hello World!" ) == false) {
-                Logger.LogError( "i didnt chat, Damon" );
-            }
+                if(TryAddChat( "Damon", "Hello World!" ) == false) {
+                    Logger.LogError( "i didnt chat, Damon" );
+                }
 
-            if(TryAddPlayer( "NotDamon" ) == false) {
-                Logger.LogError( "i didnt spawn, NotDamon" );
-            }
+                if(TryAddPlayer( "NotDamon" ) == false) {
+                    Logger.LogError( "i didnt spawn, NotDamon" );
+                }
 
-            if(TryAddChat( "NotDamon", "Hello World!" ) == false) {
-                Logger.LogError( "i didnt chat, NotDamon" );
+                if(TryAddChat( "NotDamon", "Hello World!" ) == false) {
+                    Logger.LogError( "i didnt chat, NotDamon" );
+                }
             }
 
             // every 10 seconds spawn a new player.
-            InvokeRepeating( nameof( SpawnRandomPlayer ), 10f, 2f );
+            if ( m_spamPlayers ) {
+                InvokeRepeating( nameof( SpawnRandomPlayer ), 10f, 2f );
+            }
         }
         
         void SpawnRandomPlayer() {

@@ -166,7 +166,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   m_damage: 3
-  m_attackRange: 1.8
+  m_attackRange: 1
   m_attackRate: 1
   m_sound: {fileID: 8300000, guid: 21420c958a5ac1f4ab358b32615cd127, type: 3}
   m_specialEffect: 1
