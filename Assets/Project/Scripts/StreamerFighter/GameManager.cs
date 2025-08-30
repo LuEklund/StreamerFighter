@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
@@ -5,15 +6,23 @@ using Character;
 using StreamAPI;
 using UnityEngine;
 using Logger = TCS.Utils.Logger;
+using Random = UnityEngine.Random;
 namespace StreamerFighter {
     public class GameManager : MonoBehaviour {
         // Instead of storing just a GameObject, lets have the Stickman component.
         // so we just have direct access to all its API.
         public readonly Dictionary<string, Stickman> Players = new(); 
         public Stickman m_player;
-        
-        
+
         void Awake() {
+            if ( m_player == null ) {
+                Logger.LogError( "GameManager: No Player Prefab assigned!", this );
+                enabled = false;
+                return;
+            }
+        }
+
+        void Start() {
             if(TryAddPlayer("Damon") == false) Logger.LogError( "i didnt spawn, Damon" );
             if(TryAddChat( "Damon", "Hello World!" ) == false) Logger.LogError( "i didnt chat, Damon" );
             
@@ -25,16 +34,15 @@ namespace StreamerFighter {
         // if we return false, we can log it.
         public bool TryAddPlayer(string id) {
             if (Players.ContainsKey(id) == false) {
-                InvokeOnMainThread(() => SpawnPlayer(id));
+                InvokeOnMainThread(() => SpawnPlayer(id)); // cleaner lambda call for network or unity thread safety.
                 return true;
             }
             return false;
         }
 
         public bool TryAddChat(string id, string message) {
-            if ( Players.ContainsKey( id ) ) {
-                var player = Players[id];
-                InvokeOnMainThread(() => player.SendChatMessage(message));
+            if ( Players.TryGetValue( id, out var player ) ) {
+                InvokeOnMainThread(() => player.SendChatMessage(message)); 
                 return true;
             }
             return false;
@@ -72,7 +80,7 @@ namespace StreamerFighter {
         /// If true, the action will be enqueued to the main thread if called from a background thread.
         /// If false, the action will be executed immediately regardless of the thread.
         /// </param>
-        static void InvokeOnMainThread(System.Action action, bool enqueueIfBackground = true) {
+        static void InvokeOnMainThread(Action action, bool enqueueIfBackground = true) {
             if (UnityThread.CurrentIsMainThread) {
                 action();
             }

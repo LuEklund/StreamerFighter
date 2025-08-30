@@ -19,7 +19,7 @@ namespace Character {
             return;
             if (coll.gameObject.tag == "Player")
             {
-                Physics2D.IgnoreCollision(this.gameObject.GetComponent<Collider2D>(), coll.gameObject.GetComponent<Collider2D>());
+                Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), coll.gameObject.GetComponent<Collider2D>());
             }
         }
     }

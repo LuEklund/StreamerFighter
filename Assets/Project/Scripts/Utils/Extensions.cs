@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 namespace Utils {
     public static class Extensions {
         public static Rigidbody2D ZeroX(this Rigidbody2D rb) {
@@ -28,6 +29,9 @@ namespace Utils {
             return rightKnee;
         }
         
-        
+        public static TextMeshProUGUI SetText(this TextMeshProUGUI textMesh, string text) {
+            textMesh.text = text;
+            return textMesh;
+        }
     }
 }
