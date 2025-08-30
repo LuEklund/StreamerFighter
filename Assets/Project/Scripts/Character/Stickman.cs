@@ -16,7 +16,7 @@ namespace Character {
         public GameObject m_torso;
 
         [Header( "Weapon" )]
-        public WeaponManager m_weaponManager = new();
+        public LoadoutManager m_loadoutManager = new();
 
         [Header( "Movement" )]
         public bool m_canMove = true;
@@ -31,12 +31,12 @@ namespace Character {
         Coroutine m_rightRoutine;
         GameManager m_gameManager;
         DamageUIManager m_damageUIManager;
-        
+
         public HandSelection Direction {
-            get => m_weaponManager.m_direction;
-            set => m_weaponManager.m_direction = value;
+            get => m_loadoutManager.m_direction;
+            set => m_loadoutManager.m_direction = value;
         }
-        
+
         public HandSelection m_direction = HandSelection.None; // 0=Left, 1=Right, else hide all
 
         public bool IsMe(string guid) => m_guid == guid; // answers one question, is this me?
@@ -45,7 +45,7 @@ namespace Character {
             get => m_movementKeys.m_isPlayerControlled;
             set => m_movementKeys.m_isPlayerControlled = value;
         }
-        
+
         bool m_isAttacking;
         [Button] public void ToggleAttack() {
             if ( m_isAttacking != true ) {
@@ -53,7 +53,7 @@ namespace Character {
                 m_isAttacking = true;
                 return;
             }
-            
+
             m_controlledArms.Attack( HandSelection.None );
             m_isAttacking = false;
         }
@@ -68,19 +68,19 @@ namespace Character {
                 enabled = false;
                 return;
             }
-            
+
             m_damageUIManager = FindFirstObjectByType<DamageUIManager>( FindObjectsInactive.Include );
             if ( m_damageUIManager == null ) {
                 Logger.LogError( "Stickman: No DamageUIManager found in the scene.", this );
             }
 
             // this is for testing stuff. just adds us to the dict if we are not spawned in properly.
-            if ( string.IsNullOrEmpty( m_nameText.text )) {
+            if ( string.IsNullOrEmpty( m_nameText.text ) ) {
                 m_nameText.text = m_guid;
                 m_gameManager.JustAddMeToDict( m_nameText.text, this );
             }
-            
-            m_weaponManager.Init( m_guid );
+
+            m_loadoutManager.Init( m_guid );
 
             m_movement.Init( m_movementKeys );
             m_controlledKnees.Init( m_movementKeys );
@@ -113,15 +113,15 @@ namespace Character {
             if ( m_movementKeys.m_left ) {
                 m_controlledLean.LeanLeft();
                 Direction = HandSelection.Left;
-                m_weaponManager.SetDirection( Direction );
+                m_loadoutManager.SetDirection( Direction );
             }
 
             if ( m_movementKeys.m_right ) {
                 m_controlledLean.LeanRight();
                 Direction = HandSelection.Right;
-                m_weaponManager.SetDirection( Direction );
+                m_loadoutManager.SetDirection( Direction );
             }
-            
+
             m_direction = Direction;
 
             m_controlledArms.Attack( m_movementKeys.m_attack ? Direction : HandSelection.None );
@@ -159,23 +159,32 @@ namespace Character {
                 m_movement.OnDrawGizmosSelected();
             }
         }
+
         public bool TryTakeDamage(int damage, Vector2 hitPoint = default) {
             if ( m_health == null ) {
                 return false;
             }
 
-            if (hitPoint != default && m_health.CanTakeDamage){
+            if ( hitPoint != default && m_health.CanTakeDamage ) {
                 m_damageUIManager?.SpawnDamage( damage, hitPoint );
             }
-            
+
             return m_health.TryTakeDamage( damage );
+        }
+
+        public void SetRandomLoadout() {
+            var randWeaponIndex = UnityEngine.Random.Range( 0, m_loadoutManager.WeaponsLength );
+            var randShieldIndex = UnityEngine.Random.Range( -1, m_loadoutManager.ShieldsLength ); // -1 means no shield
+            m_loadoutManager.EnableWeapon( randWeaponIndex );
+            m_loadoutManager.m_currentShieldIndex = randShieldIndex;
+            m_loadoutManager.SetDirection( HandSelection.Right ); // right hand by default
         }
 
         [Button] public void TestMessage() {
             const string msg = "Hello, this is a test message!";
             SendChatMessage( msg );
         }
-        
+
         public void SendChatMessage(string message) {
             if ( m_chatText == null ) {
                 return;
@@ -187,19 +196,27 @@ namespace Character {
 
     public enum HandSelection { None = -1, Left = 0, Right = 1 }
 
-    [Serializable] public class WeaponManager {
+    [Serializable] public class LoadoutManager {
+        [Header( "Left Side" )]
         [SerializeField] Weapon[] m_leftWeapons;
+        [SerializeField] Shield[] m_leftShields;
+        [Header( "Right Side" )]
         [SerializeField] Weapon[] m_rightWeapons;
+        [SerializeField] Shield[] m_rightShields;
 
         [Min( 0 )] public int m_currentWeaponIndex;
+        [Min( -1 )] public int m_currentShieldIndex;
         public HandSelection m_direction = HandSelection.None; // 0=Left, 1=Right,
         public float AttackRange => GetCurrentWeapon()?.m_attackRange ?? 1f;
-        public float AttackRate  => GetCurrentWeapon()?.m_attackRate  ?? 0.6f;
+        public float AttackRate => GetCurrentWeapon()?.m_attackRate ?? 0.6f;
+
+        public int WeaponsLength => m_leftWeapons.Length;
+        public int ShieldsLength => m_leftShields.Length;
 
         public void Init(string guid) {
             if ( (m_leftWeapons == null || m_leftWeapons.Length == 0) &&
                  (m_rightWeapons == null || m_rightWeapons.Length == 0) ) {
-                Logger.LogWarning( "WeaponManager: No weapons assigned in the inspector." );
+                Logger.LogWarning( "LoadoutManager: No weapons assigned in the inspector." );
                 return;
             }
 
@@ -207,6 +224,7 @@ namespace Character {
             AssignGuid( m_rightWeapons, guid );
 
             UpdateActiveWeapons();
+            UpdateActiveShields();
         }
 
         public void EnableWeapon(int index) {
@@ -214,9 +232,16 @@ namespace Character {
             UpdateActiveWeapons();
         }
 
+        public void EnableShield(int index) {
+            // if -1, disable all shields.
+            m_currentShieldIndex = index;
+            UpdateActiveShields();
+        }
+
         public void SetDirection(HandSelection direction) {
             m_direction = direction;
             UpdateActiveWeapons();
+            UpdateActiveShields();
         }
 
         void UpdateActiveWeapons() {
@@ -229,6 +254,25 @@ namespace Character {
                 case HandSelection.Right:
                     SetOnlyIndexActive( m_leftWeapons, m_currentWeaponIndex );
                     SetAllInactive( m_rightWeapons );
+                    break;
+                case HandSelection.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        void UpdateActiveShields() {
+            // if -1, disable all shields.
+            switch (m_direction) {
+                case HandSelection.Left:
+                    SetOnlyIndexActive( m_leftShields, m_currentShieldIndex );
+                    SetAllInactive( m_rightShields );
+                    break;
+
+                case HandSelection.Right:
+                    SetOnlyIndexActive( m_rightShields, m_currentShieldIndex );
+                    SetAllInactive( m_leftShields );
                     break;
                 case HandSelection.None:
                     break;
@@ -266,6 +310,24 @@ namespace Character {
             }
         }
 
+        static void SetOnlyIndexActive(Shield[] arr, int index) {
+            // if -1, disable all shields.
+            if ( arr == null || arr.Length == 0 ) {
+                return;
+            }
+
+            if ( index < 0 || index >= arr.Length ) {
+                SetAllInactive( arr );
+                return;
+            }
+
+            for (var i = 0; i < arr.Length; i++) {
+                if ( arr[i] != null ) {
+                    arr[i].gameObject.SetActive( i == index );
+                }
+            }
+        }
+
         static void SetAllInactive(Weapon[] arr) {
             if ( arr == null ) {
                 return;
@@ -277,21 +339,56 @@ namespace Character {
                 }
             }
         }
-        
+
+        static void SetAllInactive(Shield[] arr) {
+            if ( arr == null ) {
+                return;
+            }
+
+            foreach (var t in arr) {
+                if ( t != null ) {
+                    t.gameObject.SetActive( false );
+                }
+            }
+        }
+
         Weapon GetCurrentWeapon() {
             switch (m_direction) {
                 case HandSelection.Left:
                     if ( m_leftWeapons != null && m_currentWeaponIndex < m_leftWeapons.Length ) {
                         return m_leftWeapons[m_currentWeaponIndex];
                     }
+
                     break;
                 case HandSelection.Right:
                     if ( m_rightWeapons != null && m_currentWeaponIndex < m_rightWeapons.Length ) {
                         return m_rightWeapons[m_currentWeaponIndex];
                     }
+
                     break;
                 case HandSelection.None:
-                    return null;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return null;
+        }
+
+        Shield GetCurrentShield() {
+            switch (m_direction) {
+                case HandSelection.Right:
+                    if ( m_leftShields != null && m_currentShieldIndex < m_leftShields.Length ) {
+                        return m_leftShields[m_currentShieldIndex];
+                    }
+
+                    break;
+                case HandSelection.Left:
+                    if ( m_rightShields != null && m_currentShieldIndex < m_rightShields.Length ) {
+                        return m_rightShields[m_currentShieldIndex];
+                    }
+
+                    break;
+                case HandSelection.None:
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -299,7 +396,7 @@ namespace Character {
             return null;
         }
     }
-    
+
     [Serializable] public class ControlledArms {
         [SerializeField] HingeJoint2D m_leftArm;
         [SerializeField] HingeJoint2D m_rightArm;
@@ -310,7 +407,7 @@ namespace Character {
         public void HandleArms() {
             // NO-OP for now
         }
-        
+
         public void Attack(HandSelection handSelection) {
             if ( m_leftArm == null || m_rightArm == null ) {
                 return;
@@ -327,6 +424,7 @@ namespace Character {
                         m_leftArm.useLimits = false;
                         m_leftArm.useMotor = true;
                     }
+
                     break;
 
                 case HandSelection.Left:
@@ -338,11 +436,12 @@ namespace Character {
                         m_rightArm.useLimits = false;
                         m_rightArm.useMotor = true;
                     }
+
                     break;
                 case HandSelection.None:
                     m_leftArm.useLimits = true;
                     m_leftArm.useMotor = false;
-                    
+
                     m_rightArm.useLimits = true;
                     m_rightArm.useMotor = false;
                     break;
@@ -642,7 +741,7 @@ namespace Character {
         public bool m_attack;
 
         public bool m_isPlayerControlled = true;
-        
+
         public void HandleInput() {
             if ( !m_isPlayerControlled ) {
                 return;

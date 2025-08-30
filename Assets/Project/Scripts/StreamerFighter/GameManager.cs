@@ -9,8 +9,11 @@ namespace StreamerFighter {
     public class GameManager : MonoBehaviour {
         // Instead of storing just a GameObject, lets have the Stickman component.
         // so we just have direct access to all its API.
-        public readonly Dictionary<string, Stickman> Players = new(); 
+        readonly Dictionary<string, Stickman> m_players = new(); 
         public Stickman m_player;
+        [SerializeField] float m_spawnHeight = 5f;
+        [SerializeField] Transform m_leftSpawnPoint;
+        [SerializeField] Transform m_rightSpawnPoint;
         
         public bool m_spamPlayers = false;
         public bool m_addTestDamons = false;
@@ -58,7 +61,7 @@ namespace StreamerFighter {
         // networking methods should be a bool so we can try/catch and log errors.
         // if we return false, we can log it.
         public bool TryAddPlayer(string id) {
-            if (Players.ContainsKey(id) == false) {
+            if (m_players.ContainsKey(id) == false) {
                 InvokeOnMainThread(() => SpawnPlayer(id)); // cleaner lambda call for network or unity thread safety.
                 return true;
             }
@@ -66,7 +69,7 @@ namespace StreamerFighter {
         }
 
         public bool TryAddChat(string id, string message) {
-            if ( Players.TryGetValue( id, out var player ) ) {
+            if ( m_players.TryGetValue( id, out var player ) ) {
                 InvokeOnMainThread(() => player.SendChatMessage(message)); 
                 return true;
             }
@@ -75,7 +78,7 @@ namespace StreamerFighter {
         
         // this is only used by the Stickman when it spawns itself. aka dragged into the scene.
         public void JustAddMeToDict(string id, Stickman player) {
-            if ( !Players.TryAdd( id, player ) ) {
+            if ( !m_players.TryAdd( id, player ) ) {
                 Logger.LogError( "WTF" );
             }
         }
@@ -83,16 +86,17 @@ namespace StreamerFighter {
         // Helpers
         void SpawnPlayer(string id) {
             var player = Instantiate(m_player);
-            Players.Add(id, player);
+            m_players.Add(id, player);
                         
             player.m_nameText.text = id;
-            player.transform.position = new Vector3(Random.Range(-8f, 8f), 5f, 0f);
+            player.SetRandomLoadout();
+            player.transform.position = new Vector3(Random.Range(m_leftSpawnPoint.position.x, m_rightSpawnPoint.position.x), m_spawnHeight, 0f);
         }
         
         public void RemoveAndDestroy(string id) {
-            if ( Players.ContainsKey( id ) ) {
-                Destroy( Players[id].gameObject );
-                Players.Remove( id );
+            if ( m_players.ContainsKey( id ) ) {
+                Destroy( m_players[id].gameObject );
+                m_players.Remove( id );
                 Logger.Log( $"Removed {id} from players" );
             }
         }

@@ -53,7 +53,7 @@ namespace Character {
             float dx = tgtPos.x - myPos.x;
 
             // Decide whether to move
-            m_attackRange = m_stickman.m_weaponManager.AttackRange;
+            m_attackRange = m_stickman.m_loadoutManager.AttackRange;
             bool withinAttackRange = distanceToTarget <= m_attackRange;
             bool shouldChase       = distanceToTarget > m_attackRange;
 
