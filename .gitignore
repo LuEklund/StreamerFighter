@@ -44,6 +44,10 @@ ExportedObj/
 *.unityproj
 *.sln
 *.suo
+
+# Ignore Builds
+./Builds
+
 *.tmp
 *.user
 *.userprefs
