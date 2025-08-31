@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using StreamAPI;
 using StreamerFighter;
 using TCS.Utils;
 using TMPro;
@@ -10,7 +11,7 @@ namespace Character {
     public class Stickman : MonoBehaviour {
         [ReadOnly] public string m_guid;
         public TextMeshProUGUI m_nameText;
-        public TextMeshProUGUI m_chatText;
+        public ChatBubble m_chatText;
 
         [SerializeField] Health m_health;
         public GameObject m_torso;
@@ -189,8 +190,7 @@ namespace Character {
             if ( m_chatText == null ) {
                 return;
             }
-
-            m_chatText.text = message;
+            m_chatText.ShowMessage(message);
         }
     }
 
