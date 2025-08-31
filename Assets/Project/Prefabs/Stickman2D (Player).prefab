@@ -2599,7 +2599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ColorPicker
   colors:
   - {r: 0.4792453, g: 0.12568882, b: 0.4098499, a: 1}
-  - {r: 0.13401476, g: 0.381132, b: 0.09708075, a: 1}
+  - {r: 0.0980392, g: 0.13814099, b: 0.38039216, a: 1}
   - {r: 0.3509434, g: 0.16625014, b: 0.084093966, a: 1}
   - {r: 0.735849, g: 0.60061294, b: 0.2707368, a: 1}
   - {r: 0.6301887, g: 0.6263418, b: 0.61710936, a: 1}
@@ -2659,7 +2659,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StickmanMotor
   m_guid: 173825924e9b492eada691d34ffaca1f
   m_nameText: {fileID: 5754926006214273503}
-  m_chatText: {fileID: 8635941358794472953}
+  m_chatText: {fileID: 6719185431897517574}
   m_health: {fileID: 8065042063655868998}
   m_torso: {fileID: 9205558410131631736}
   m_loadoutManager:
