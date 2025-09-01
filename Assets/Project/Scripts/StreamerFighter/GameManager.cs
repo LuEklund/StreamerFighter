@@ -95,10 +95,14 @@ namespace StreamerFighter {
         }
         
         public void RemoveAndDestroy(string id) {
-            if ( m_players.ContainsKey( id ) ) {
-                Destroy( m_players[id].gameObject );
-                m_players.Remove( id );
-                Logger.Log( $"Removed {id} from players" );
+            if ( m_players.ContainsKey( id ) )
+            {
+                InvokeOnMainThread(() =>
+                {
+                    Destroy(m_players[id].gameObject);
+                    m_players.Remove(id);
+                    Logger.Log($"Removed {id} from players");
+                });
             }
         }
         
